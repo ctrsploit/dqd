@@ -9,7 +9,7 @@ ARG VERSION_IMAGE_UBUNTU=0.4.0
 # ================================
 # Internal Variables
 # ================================
-ARG IMAGE_UBUNTU=ghcr.io/ctrsploit/ubuntu-${VERSION_UBUNTU}:ctr_${VERSION_IMAGE_UBUNTU}
+ARG IMAGE_UBUNTU=ghcr.io/ctrsploit/ubuntu-${VERSION_UBUNTU}:ctr_v${VERSION_IMAGE_UBUNTU}
 ARG URL_ARTIFACT_RUNC=https://github.com/opencontainers/runc/releases/download/v${VERSION_RUNC}/runc.amd64
 
 # ================================
