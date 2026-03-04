@@ -4,7 +4,7 @@
 ARG HOSTNAME=runc-1-2-5
 ARG VERSION_RUNC=1.2.5
 ARG VERSION_UBUNTU=24.04
-ARG VERSION_IMAGE_UBUNTU=0.3.0
+ARG VERSION_IMAGE_UBUNTU=0.4.0
 
 # ================================
 # Internal Variables
