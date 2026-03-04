@@ -1,4 +1,4 @@
-.PHONY: help env ci ctr vm dqd push clean all dbg
+.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean all dbg
 
 # ------------------------------------------------------------------------------
 # Config
@@ -53,7 +53,9 @@ help:
 	  '  ctr    - build container image (uses build.sh when present)' \
 	  '  vm     - convert container image to vm.qcow2 and sparsify it' \
 	  '  dqd    - build DQD image with vm.qcow2' \
-	  '  push   - push versioned and latest tags' \
+	  '  push-ctr - push ctr tag only' \
+	  '  push-dqd - push DQD versioned and latest tags' \
+	  '  push   - push ctr and DQD tags' \
 	  '  clean  - remove generated vm.qcow2' \
 	  '  all    - run clean, ctr, vm, dqd' \
 	  '  dbg    - build debug DQD image'
@@ -86,11 +88,15 @@ dqd: env
 	cp $(ENV)/vm.qcow2 $$TMP_DIR; \
 	docker build -t $(DQD_VERSION) $$TMP_DIR
 
-push: env
+push-ctr: env
 	docker push $(CTR)
+
+push-dqd: env
 	docker tag $(DQD_VERSION) $(DQD_LATEST)
 	docker push $(DQD_VERSION)
 	docker push $(DQD_LATEST)
+
+push: push-ctr push-dqd
 
 clean:
 	$(call require_env,clean)
