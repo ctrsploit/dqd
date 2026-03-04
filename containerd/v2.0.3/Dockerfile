@@ -13,7 +13,7 @@ ARG VERSION_IMAGE=0.4.0
 # ================================
 ARG URL_ARTIFACT_CONTAINERD=https://github.com/containerd/containerd/releases/download/v${VERSION_CONTAINERD}/containerd-${VERSION_CONTAINERD}-linux-amd64.tar.gz
 ARG URL_ARTIFACT_SYSTEMD=https://raw.githubusercontent.com/containerd/containerd/refs/tags/v${VERSION_CONTAINERD}/containerd.service
-ARG BASE_IMAGE=${IMAGE_RUNC}:v${VERSION_IMAGE}_ctr
+ARG BASE_IMAGE=${IMAGE_RUNC}:ctr_v${VERSION_IMAGE}
 
 # ================================
 # Build Stages
