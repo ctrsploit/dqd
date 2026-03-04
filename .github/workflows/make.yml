@@ -2,6 +2,15 @@ name: make
 
 on:
   workflow_dispatch:
+    inputs:
+      base_sha:
+        description: "Base commit SHA for VERSION diff"
+        required: false
+        type: string
+      head_sha:
+        description: "Head commit SHA for VERSION diff (default: current SHA)"
+        required: false
+        type: string
   push:
     branches:
       - main
@@ -30,25 +39,34 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
-            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-          else
+          if [[ "${{ github.event_name }}" == "push" ]]; then
             BASE_SHA="${{ github.event.before }}"
             HEAD_SHA="${{ github.sha }}"
+          else
+            BASE_SHA="${{ github.event.inputs.base_sha }}"
+            HEAD_SHA="${{ github.event.inputs.head_sha }}"
+            HEAD_SHA="${HEAD_SHA:-${{ github.sha }}}"
+
+            if [[ -z "${BASE_SHA}" ]]; then
+              echo "workflow_dispatch without base_sha: skipping make job"
+              echo "changed=false" >> "${GITHUB_OUTPUT}"
+              echo 'matrix=[]' >> "${GITHUB_OUTPUT}"
+              exit 0
+            fi
           fi
 
-          if [[ -z "${BASE_SHA}" || "${BASE_SHA}" == "0000000000000000000000000000000000000000" ]]; then
+          if [[ "${BASE_SHA}" == "0000000000000000000000000000000000000000" ]]; then
             BASE_SHA="$(git rev-list --max-parents=0 "${HEAD_SHA}" | tail -n 1)"
           fi
 
-          mapfile -t ENV_FILES < <(git diff --name-only --diff-filter=AMR "${BASE_SHA}" "${HEAD_SHA}" -- '**/.env')
+          git rev-parse --verify "${BASE_SHA}^{commit}" >/dev/null
+          git rev-parse --verify "${HEAD_SHA}^{commit}" >/dev/null
+
+          mapfile -t ENV_FILES < <(git diff --name-only --diff-filter=AMR -G '^VERSION=' "${BASE_SHA}" "${HEAD_SHA}" -- '**/.env')
 
           declare -A ENV_DIRS=()
           for file in "${ENV_FILES[@]}"; do
-            if git diff -U0 "${BASE_SHA}" "${HEAD_SHA}" -- "${file}" | grep -Eq '^[+-]VERSION='; then
-              ENV_DIRS["$(dirname "${file}")"]=1
-            fi
+            ENV_DIRS["$(dirname "${file}")"]=1
           done
 
           if [[ ${#ENV_DIRS[@]} -eq 0 ]]; then
