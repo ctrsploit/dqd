@@ -61,7 +61,7 @@ jobs:
             exit 0
           fi
 
-          MATRIX_JSON="$(printf '%s\n' "${!ENV_DIRS[@]}" | sort | jq -R . | jq -s .)"
+          MATRIX_JSON="$(printf '%s\n' "${!ENV_DIRS[@]}" | sort | jq -R . | jq -cs .)"
           echo "changed=true" >> "${GITHUB_OUTPUT}"
           echo "matrix=${MATRIX_JSON}" >> "${GITHUB_OUTPUT}"
 
