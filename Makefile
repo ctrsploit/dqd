@@ -1,4 +1,4 @@
-.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean all dbg
+.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean preclean postclean all dbg
 
 # ------------------------------------------------------------------------------
 # Config
@@ -57,7 +57,8 @@ help:
 	  '  push-dqd - push DQD versioned and latest tags' \
 	  '  push   - push ctr and DQD tags' \
 	  '  clean  - remove generated vm.qcow2' \
-	  '  all    - run clean, ctr, vm, dqd' \
+	  '  post-clean - run cleanup after build flow' \
+	  '  all    - run clean, ctr, vm, dqd, push, post-clean' \
 	  '  dbg    - build debug DQD image'
 
 env:
@@ -98,11 +99,14 @@ push-dqd: env
 
 push: push-ctr push-dqd
 
-clean:
+clean: env
 	$(call require_env,clean)
-	rm -f $(ENV)/vm.qcow2 $(ENV)/1
+	rm -f $(ENV)/vm.qcow2
 
-all: env clean ctr vm dqd clean push
+post-clean: clean
+	rm -f $(ENV)/1
+
+all: env clean ctr vm dqd push post-clean
 
 dbg: clean ctr
 	$(D2VM) convert $(CTR) --append-to-cmdline nokaslr -p root -o $(ENV)/vm.qcow2
