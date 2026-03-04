@@ -1,4 +1,4 @@
-.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean preclean postclean all dbg
+.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean preclean post-clean all dbg generate_ssh_config
 
 # ------------------------------------------------------------------------------
 # Config
@@ -56,9 +56,10 @@ help:
 	  '  push-ctr - push ctr tag only' \
 	  '  push-dqd - push DQD versioned and latest tags' \
 	  '  push   - push ctr and DQD tags' \
+	  '  generate_ssh_config - generate ssh_config/config and per-env ssh helpers' \
 	  '  clean  - remove generated vm.qcow2' \
 	  '  post-clean - run cleanup after build flow' \
-	  '  all    - run clean, ctr, vm, dqd, push, post-clean' \
+	  '  all    - run clean, ctr, vm, dqd, push, post-clean, generate_ssh_config' \
 	  '  dbg    - build debug DQD image'
 
 env:
@@ -72,6 +73,9 @@ ci: env
 	@TARGETS="$(if $(strip $(CI_MAKE_TARGETS)),$(CI_MAKE_TARGETS),all)"; \
 	echo "Running CI targets '$$TARGETS' for ENV=$(ENV)"; \
 	$(MAKE) $$TARGETS ENV=$(ENV)
+
+generate_ssh_config:
+	bash script/generate_ssh_config.sh
 
 ctr: env
 	@echo "Building Docker image in directory $(ENV) with image name $(IMAGE) and version $(VERSION), TAG is $(CTR), SIZE is $(SIZE)"
@@ -106,7 +110,7 @@ clean: env
 post-clean: clean
 	rm -f $(ENV)/1
 
-all: env clean ctr vm dqd push post-clean
+all: env clean ctr vm dqd push post-clean generate_ssh_config
 
 dbg: clean ctr
 	$(D2VM) convert $(CTR) --append-to-cmdline nokaslr -p root -o $(ENV)/vm.qcow2

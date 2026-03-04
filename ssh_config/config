@@ -1,0 +1,11 @@
+# Default configuration for all dqd-* hosts
+Host dqd-*
+    Hostname 127.0.0.1
+    User root
+    IdentityFile ~/.ssh/keys/dqd
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+
+Host dqd-ubuntu-24.04
+    Port 24040
+
