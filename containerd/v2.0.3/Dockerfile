@@ -1,0 +1,31 @@
+# ================================
+# Configuration Variables
+# ================================
+ARG HOSTNAME=containerd-2-0-3
+ARG VERSION_CONTAINERD=2.0.3
+# https://github.com/containerd/containerd/blob/v2.0.3/script/setup/runc-version
+ARG VERSION_RUNC=1.2.5
+ARG IMAGE_RUNC=ghcr.io/ctrsploit/runc-v${VERSION_RUNC}
+ARG VERSION_IMAGE=0.4.0
+
+# ================================
+# Internal Variables
+# ================================
+ARG URL_ARTIFACT_CONTAINERD=https://github.com/containerd/containerd/releases/download/v${VERSION_CONTAINERD}/containerd-${VERSION_CONTAINERD}-linux-amd64.tar.gz
+ARG URL_ARTIFACT_SYSTEMD=https://raw.githubusercontent.com/containerd/containerd/refs/tags/v${VERSION_CONTAINERD}/containerd.service
+ARG BASE_IMAGE=${IMAGE_RUNC}:v${VERSION_IMAGE}_ctr
+
+# ================================
+# Build Stages
+# ================================
+FROM ${BASE_IMAGE}
+ARG HOSTNAME
+ARG URL_ARTIFACT_CONTAINERD
+ARG URL_ARTIFACT_SYSTEMD
+# install containerd
+ADD ${URL_ARTIFACT_CONTAINERD} /tmp/containerd.tar.gz
+RUN tar Cxzvf /usr/local /tmp/containerd.tar.gz \
+    && rm /tmp/containerd.tar.gz
+# config systemd
+ADD ${URL_ARTIFACT_SYSTEMD} /usr/local/lib/systemd/system/containerd.service
+RUN echo "${HOSTNAME}" > /etc/hostname
