@@ -13,8 +13,8 @@ SIZE ?= 10G
 # ------------------------------------------------------------------------------
 # Command helpers
 # ------------------------------------------------------------------------------
-D2VM := docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.4
-VIRT_SPARSIFY := docker run -it --rm -v $(PWD)/$(ENV):/data -w /data --env PUID=$(shell id -u) --env PGID=$(shell id -u) bkahlert/libguestfs:edge virt-sparsify
+D2VM := docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.4
+VIRT_SPARSIFY := docker run -i --rm -v $(PWD)/$(ENV):/data -w /data --env PUID=$(shell id -u) --env PGID=$(shell id -u) bkahlert/libguestfs:edge virt-sparsify
 
 # ------------------------------------------------------------------------------
 # Derived values
