@@ -29,6 +29,10 @@ load_env() {
     fi
 }
 
+# ============================================================================
+# Functions
+# ============================================================================
+
 # Create custom network (for buildx)
 # https://docs.docker.com/build/builders/drivers/docker-container/#custom-network
 create_network() {
@@ -52,6 +56,19 @@ create_builder() {
 prune_cache() {
     docker buildx --builder "${BUILDER_NAME}" prune \
         --filter type=exec.cachemount -f || true
+}
+
+# Prepare kernel modules
+prepare_modules() {
+    local kernel_version
+    kernel_version=$(uname -r)
+    mkdir -p modules
+    cp "/lib/modules/${kernel_version}" "modules/${kernel_version}" -r
+}
+
+# Cleanup kernel modules
+cleanup_modules() {
+    rm -rf modules
 }
 
 # Execute Docker buildx build
@@ -87,4 +104,6 @@ load_env
 create_network
 create_builder
 prune_cache
+prepare_modules
 execute_build "${1}"
+cleanup_modules
