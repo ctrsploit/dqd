@@ -22,8 +22,9 @@ load_env() {
 
     if [[ -f "${env_file}" ]]; then
         set -a
-        # shellcheck disable=SC1090
-        source "${env_file}"
+        # CI_MAKE_TARGETS uses Make-style space-delimited targets and is not valid shell assignment.
+        # shellcheck disable=SC1090,SC1091
+        source <(grep -vE '^[[:space:]]*CI_MAKE_TARGETS=' "${env_file}")
         set +a
     fi
 }
