@@ -1,4 +1,4 @@
-.PHONY: help env ctr vm dqd push clean all dbg
+.PHONY: help env ci ctr vm dqd push clean all dbg
 
 # ------------------------------------------------------------------------------
 # Config
@@ -49,6 +49,7 @@ help:
 	  '' \
 	  'Targets:' \
 	  '  env    - validate ENV and load variables from $$(ENV)/.env' \
+	  '  ci     - run CI target set from CI_MAKE_TARGETS (default: all)' \
 	  '  ctr    - build container image (uses build.sh when present)' \
 	  '  vm     - convert container image to vm.qcow2 and sparsify it' \
 	  '  dqd    - build DQD image with vm.qcow2' \
@@ -63,6 +64,11 @@ env:
 	$(if $(strip $(IMAGE)),,$(error IMAGE is missing in $(ENV_FILE)))
 	$(if $(strip $(VERSION)),,$(error VERSION is missing in $(ENV_FILE)))
 	@:
+
+ci: env
+	@TARGETS="$(if $(strip $(CI_MAKE_TARGETS)),$(CI_MAKE_TARGETS),all)"; \
+	echo "Running CI targets '$$TARGETS' for ENV=$(ENV)"; \
+	$(MAKE) $$TARGETS ENV=$(ENV)
 
 ctr: env
 	@echo "Building Docker image in directory $(ENV) with image name $(IMAGE) and version $(VERSION), TAG is $(CTR), SIZE is $(SIZE)"
