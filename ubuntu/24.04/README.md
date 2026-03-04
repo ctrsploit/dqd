@@ -15,19 +15,17 @@
 ## usage
 
 ```shell
-cd ubuntu/24.04
-docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
-./ssh
+$ cd ubuntu/24.04
+$ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-root@localhost:~# uname -a
-Linux localhost.localdomain 6.8.0-59-generic #61-Ubuntu SMP PREEMPT_DYNAMIC Fri Apr 11 23:16:11 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
-root@localhost:~# cat /etc/os-release 
-PRETTY_NAME="Ubuntu 24.04.2 LTS"
+root@ubuntu24-04:~# cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
 NAME="Ubuntu"
 VERSION_ID="24.04"
-VERSION="24.04.2 LTS (Noble Numbat)"
+VERSION="24.04.4 LTS (Noble Numbat)"
 VERSION_CODENAME=noble
 ID=ubuntu
 ID_LIKE=debian
@@ -37,6 +35,8 @@ BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
 PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
 UBUNTU_CODENAME=noble
 LOGO=ubuntu-logo
+root@ubuntu24-04:~# uname -a
+Linux ubuntu24-04 6.8.0-101-generic #101-Ubuntu SMP PREEMPT_DYNAMIC Mon Feb  9 10:15:05 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
@@ -48,5 +48,5 @@ make all ENV=ubuntu/24.04
 for developers:
 
 ```dockerfile
-FROM ssst0n3/docker_archive:ctr_ubuntu-24.04_v0.3.0
+FROM ghcr.io/ctrsploit/ubuntu-24.04:ctr_v0.4.0
 ```
