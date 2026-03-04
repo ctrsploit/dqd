@@ -1,0 +1,80 @@
+name: Build on .env VERSION change
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/.env"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/.env"
+
+permissions:
+  contents: read
+
+jobs:
+  detect-version-change:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.collect.outputs.changed }}
+      matrix: ${{ steps.collect.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect .env paths with VERSION changes
+        id: collect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+            HEAD_SHA="${{ github.sha }}"
+          fi
+
+          if [[ -z "${BASE_SHA}" || "${BASE_SHA}" == "0000000000000000000000000000000000000000" ]]; then
+            BASE_SHA="$(git rev-list --max-parents=0 "${HEAD_SHA}" | tail -n 1)"
+          fi
+
+          mapfile -t ENV_FILES < <(git diff --name-only --diff-filter=AMR "${BASE_SHA}" "${HEAD_SHA}" -- '**/.env')
+
+          declare -A ENV_DIRS=()
+          for file in "${ENV_FILES[@]}"; do
+            if git diff -U0 "${BASE_SHA}" "${HEAD_SHA}" -- "${file}" | grep -Eq '^[+-]VERSION='; then
+              ENV_DIRS["$(dirname "${file}")"]=1
+            fi
+          done
+
+          if [[ ${#ENV_DIRS[@]} -eq 0 ]]; then
+            echo "changed=false" >> "${GITHUB_OUTPUT}"
+            echo 'matrix=[]' >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          MATRIX_JSON="$(printf '%s\n' "${!ENV_DIRS[@]}" | sort | jq -R . | jq -s .)"
+          echo "changed=true" >> "${GITHUB_OUTPUT}"
+          echo "matrix=${MATRIX_JSON}" >> "${GITHUB_OUTPUT}"
+
+  make-all:
+    runs-on: ubuntu-latest
+    needs: detect-version-change
+    if: needs.detect-version-change.outputs.changed == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        env_path: ${{ fromJson(needs.detect-version-change.outputs.matrix) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run make all
+        run: make all ENV="${{ matrix.env_path }}"
