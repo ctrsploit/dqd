@@ -1,6 +1,7 @@
-name: Build on .env VERSION change
+name: make
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
