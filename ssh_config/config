@@ -9,3 +9,6 @@ Host dqd-*
 Host dqd-ubuntu-24.04
     Port 24040
 
+Host dqd-runc-v1.2.5
+    Port 12500
+
