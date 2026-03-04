@@ -14,6 +14,20 @@ BUILDER_NAME="docker-archive-builder"
 # Functions
 # ============================================================================
 
+load_env() {
+    local script_dir env_file
+
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    env_file="${script_dir}/.env"
+
+    if [[ -f "${env_file}" ]]; then
+        set -a
+        # shellcheck disable=SC1090
+        source "${env_file}"
+        set +a
+    fi
+}
+
 # Create custom network (for buildx)
 # https://docs.docker.com/build/builders/drivers/docker-container/#custom-network
 create_network() {
@@ -43,6 +57,11 @@ prune_cache() {
 execute_build() {
     local image_tag="${1:?Error: Please provide image tag, e.g.: ./build.sh myimage:tag}"
     local progress_opt=""
+
+    if [[ -z "${SANDBOX_HOSTNAME:-}" ]]; then
+        echo "Error: SANDBOX_HOSTNAME is required. Set it in .env or export it before running build.sh." >&2
+        exit 1
+    fi
     
     # Determine progress option based on DEBUG environment variable
     if [[ "${DEBUG:-}" == "true" ]] || [[ "${DEBUG:-}" == "1" ]] || [[ "${DEBUG:-}" == "yes" ]]; then
@@ -63,6 +82,7 @@ execute_build() {
 # ============================================================================
 # Script entry point
 # ============================================================================
+load_env
 create_network
 create_builder
 prune_cache
