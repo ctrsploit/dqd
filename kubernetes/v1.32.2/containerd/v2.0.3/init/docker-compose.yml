@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:v0.2.0
+    image: ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:v0.3.0
     environment:
       - "QEMU_NET=10.0.2.0/24"
       - "QEMU_DHCPSTART=10.0.2.16"
