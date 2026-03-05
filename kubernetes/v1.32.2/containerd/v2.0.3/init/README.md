@@ -1,12 +1,14 @@
 # kubernetes v1.32.2 with containerd v2.0.3
 
-* dqd:
-  * ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:latest -> ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:v0.2.0
-  * ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:v0.2.0
-  * ssst0n3/docker_archive:kubernetes-v1.32.2_containerd-v2.0.3_v0.1.0
-* ctr:
-  * ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:ctr_v0.2.0
-  * ssst0n3/docker_archive:ctr_kubernetes-v1.32.2_containerd-v2.0.3_v0.1.0
+| type | image | note |
+| ---- | ----- | ---- |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:latest | point to v0.3.0 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:v0.3.0 | bump base image |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:v0.2.0 | migrate from docker_archive |
+| dqd | ssst0n3/docker_archive:kubernetes-v1.32.2_containerd-v2.0.3_v0.1.0 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:ctr_v0.3.0 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_init:ctr_v0.2.0 | - |
+| ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.32.2_containerd-v2.0.3_v0.1.0 | - |
 
 ## usage
 
