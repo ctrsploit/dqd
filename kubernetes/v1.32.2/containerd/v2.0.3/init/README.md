@@ -20,15 +20,15 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 ### built-in pods
 
 ```shell
-$ kubectl --kubeconfig=kubeconfig get pods -A
+$ kubectl --kubeconfig=kubeconfig get pods -A                                            
 NAMESPACE     NAME                                                         READY   STATUS    RESTARTS      AGE
-kube-system   coredns-668d6bf9bc-pg7z8                                     0/1     Pending   0             20m
-kube-system   coredns-668d6bf9bc-ssr9z                                     0/1     Pending   0             20m
-kube-system   etcd-kubernetes-1-32-2-containerd-2-0-3                      1/1     Running   1 (76s ago)   21m
-kube-system   kube-apiserver-kubernetes-1-32-2-containerd-2-0-3            1/1     Running   1 (76s ago)   21m
-kube-system   kube-controller-manager-kubernetes-1-32-2-containerd-2-0-3   1/1     Running   1 (76s ago)   21m
-kube-system   kube-proxy-bjhvm                                             1/1     Running   1 (76s ago)   20m
-kube-system   kube-scheduler-kubernetes-1-32-2-containerd-2-0-3            1/1     Running   1 (76s ago)   21m
+kube-system   coredns-668d6bf9bc-79d4n                                     0/1     Pending   0             13m
+kube-system   coredns-668d6bf9bc-tm9p5                                     0/1     Pending   0             13m
+kube-system   etcd-kubernetes-1-32-2-containerd-2-0-3                      1/1     Running   1 (53s ago)   13m
+kube-system   kube-apiserver-kubernetes-1-32-2-containerd-2-0-3            1/1     Running   1 (53s ago)   13m
+kube-system   kube-controller-manager-kubernetes-1-32-2-containerd-2-0-3   1/1     Running   1 (53s ago)   13m
+kube-system   kube-proxy-wjpdj                                             1/1     Running   1 (53s ago)   13m
+kube-system   kube-scheduler-kubernetes-1-32-2-containerd-2-0-3            1/1     Running   1 (53s ago)   13m
 ```
 
 ### versions
