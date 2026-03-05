@@ -16,6 +16,10 @@ ARG VERSION_CNI_PLUGINS=1.4.0
 ARG VERSION_CRICTL=1.32.0
 # https://github.com/kubernetes-sigs/kubespray/blob/8f4b7f9f5d9139e6a475286605730918a1ced65b/roles/kubespray-defaults/defaults/main/checksums.yml#L569
 ARG VERSION_HELM=3.16.4
+# https://github.com/kubernetes-sigs/kubespray/blob/8f4b7f9f5d9139e6a475286605730918a1ced65b/roles/kubespray-defaults/defaults/main/checksums.yml#L911
+ARG VERSION_NERDCTL=2.0.3
+# https://github.com/containerd/nerdctl/blob/v2.0.3/Dockerfile#L26
+ARG VERSION_BUILDKIT=0.19.0
 ARG VERSION_IMAGE_CONTAINERD=0.4.0
 
 # ================================
@@ -29,6 +33,10 @@ ARG URL_ARTIFACT_HELM=https://get.helm.sh/helm-v${VERSION_HELM}-linux-amd64.tar.
 ARG URL_ARTIFACT_K8S_BIN=https://dl.k8s.io/release/v${VERSION_K8S}/bin/linux/amd64
 ARG URL_ARTIFACT_K8S_RELEASE=https://raw.githubusercontent.com/kubernetes/release/v${VERSION_K8S_RELEASE}
 ARG URL_ARTIFACT_CRICTL=https://github.com/kubernetes-sigs/cri-tools/releases/download/v${VERSION_CRICTL}/crictl-v${VERSION_CRICTL}-linux-amd64.tar.gz
+ARG URL_ARTIFACT_NERDCTL=https://github.com/containerd/nerdctl/releases/download/v${VERSION_NERDCTL}/nerdctl-${VERSION_NERDCTL}-linux-amd64.tar.gz
+ARG URL_ARTIFACT_BUILDKIT=https://github.com/moby/buildkit/releases/download/v${VERSION_BUILDKIT}/buildkit-v${VERSION_BUILDKIT}.linux-amd64.tar.gz
+ARG URL_RAW_NERDCTL=https://raw.githubusercontent.com/containerd/nerdctl/refs/tags/v${VERSION_NERDCTL}
+ARG URL_RAW_BUILDKIT=https://raw.githubusercontent.com/moby/buildkit/refs/tags/v${VERSION_BUILDKIT}
 
 FROM ${BASE_IMAGE} AS prerequisite
 ARG URL_ARTIFACT_CNI
@@ -45,27 +53,49 @@ RUN echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/k8s.conf
     # sysctl --system
 # cgroup driver: systemd is the default
 
-FROM prerequisite AS install_helm
+FROM prerequisite AS helm
 ARG URL_ARTIFACT_HELM
 ADD ${URL_ARTIFACT_HELM} /tmp/helm.tar.gz
 RUN tar -C /tmp -xzvf /tmp/helm.tar.gz && \
     mv /tmp/linux-amd64/helm /usr/local/bin/helm && \
     rm -rf /tmp/linux-amd64 /tmp/helm.tar.gz
 
-FROM install_helm AS install_cni
+FROM helm AS cni
 # install CNI plugins
 ADD ${URL_ARTIFACT_CNI} /tmp/cni-plugins.tgz
 RUN mkdir -p /opt/cni/bin && \
     tar Cxzvf /opt/cni/bin /tmp/cni-plugins.tgz && \
     rm /tmp/cni-plugins.tgz
 
-FROM install_cni AS install_crictl
+FROM cni AS crictl
 ARG URL_ARTIFACT_CRICTL
 ARG DIR_BIN
 RUN curl -L ${URL_ARTIFACT_CRICTL} | tar -C ${DIR_BIN} -xz && \
     echo 'runtime-endpoint: unix:///var/run/containerd/containerd.sock' > /etc/crictl.yaml
 
-FROM install_crictl AS install_kube
+FROM crictl AS buildkit
+ARG URL_ARTIFACT_BUILDKIT
+ARG URL_RAW_NERDCTL
+ARG URL_RAW_BUILDKIT
+# install buildkit
+ADD ${URL_ARTIFACT_BUILDKIT} /tmp/buildkit.tar.gz
+RUN tar Cxzvvf /usr/local/ /tmp/buildkit.tar.gz \
+    && rm /tmp/buildkit.tar.gz
+# enable containerd worker
+ADD ${URL_RAW_NERDCTL}/Dockerfile.d/etc_buildkit_buildkitd.toml /etc/buildkit/buildkitd.toml
+# config systemd
+ADD ${URL_RAW_BUILDKIT}/examples/systemd/system/buildkit.service /usr/local/lib/systemd/system/buildkit.service
+ADD ${URL_RAW_BUILDKIT}/examples/systemd/system/buildkit.socket /usr/local/lib/systemd/system/buildkit.socket
+RUN systemctl enable buildkit.service
+
+FROM buildkit AS nerdctl
+ARG URL_ARTIFACT_NERDCTL
+# install nerdctl
+ADD ${URL_ARTIFACT_NERDCTL} /tmp/nerdctl.tar.gz
+RUN tar Cxzvvf /usr/local/bin /tmp/nerdctl.tar.gz \
+    && rm /tmp/nerdctl.tar.gz
+
+FROM nerdctl AS kube
 ARG URL_ARTIFACT_K8S_BIN
 ARG URL_ARTIFACT_K8S_RELEASE
 ARG DIR_BIN
@@ -81,7 +111,7 @@ RUN set -ex && \
     curl -fL --show-error -o /etc/systemd/system/kubelet.service.d/10-kubeadm.conf \
         "${URL_ARTIFACT_K8S_RELEASE}/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf"
 
-FROM install_kube AS preflight
+FROM kube AS preflight
 ARG VERSION_K8S
 COPY --chmod=755 pull.sh /tmp/
 RUN --security=insecure /tmp/pull.sh
