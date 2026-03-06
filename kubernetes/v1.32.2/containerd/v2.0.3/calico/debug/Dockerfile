@@ -12,7 +12,7 @@ ARG VERSION_IMAGE=0.2.0
 # ================================
 ARG BASE_IMAGE=ghcr.io/ctrsploit/kubernetes-v${VERSION_KUBERNETES}_containerd-v${VERSION_CONTAINERD}_calico:ctr_v${VERSION_IMAGE}
 ARG URL_ARTIFACT_KUBELET_DEBUG=https://github.com/ssst0n3/container-debug-artifacts/releases/download/kubernetes/kubelet-v${VERSION_KUBERNETES}-debug
-ARG URL_ARTIFACT_CONTAINERD_DEBUG=https://github.com/ssst0n3/container-debug-artifacts/releases/download/kubernetes/containerd-v${VERSION_CONTAINERD}-debug
+ARG URL_ARTIFACT_CONTAINERD_DEBUG=https://github.com/ssst0n3/container-debug-artifacts/releases/download/containerd/containerd-v${VERSION_CONTAINERD}-debug
 ARG URL_ARTIFACT_DLV=https://github.com/ssst0n3/container-debug-artifacts/releases/download/dlv/dlv-v${VERSION_DLV}
 
 # ================================
