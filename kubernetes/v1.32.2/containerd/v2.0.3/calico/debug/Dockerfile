@@ -29,4 +29,4 @@ COPY --chmod=755 debug.sh /usr/local/bin/debug.sh
 # back up real kubelet binary
 RUN cp /usr/bin/kubelet /usr/local/bin/kubelet.real && \
     # back up real containerd binary
-    cp /usr/bin/containerd /usr/local/bin/containerd.real
+    cp /usr/local/bin/containerd /usr/local/bin/containerd.real
