@@ -4,6 +4,9 @@ case "$target" in
     kubelet)
         port=2345
         ;;
+    containerd)
+        port=2346
+        ;;
     *)
         echo "unknown target: $target"
         exit 1
