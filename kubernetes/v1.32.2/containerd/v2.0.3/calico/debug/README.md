@@ -2,8 +2,9 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:latest | points to `v0.1.0` |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:v0.1.0 | - |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:latest | points to `v0.2.0` |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:v0.2.0 | debug kubelet,containerd |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:v0.1.0 | debug kubelet |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:ctr_v0.1.0 | - |
 
 ## Usage
@@ -27,12 +28,35 @@ API server listening at: [::]:2345
 ...
 ```
 
+### Debug Containerd with Delve
+
+```shell
+$ ./ssh
+root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl stop containerd
+root@kubernetes-1-32-2-containerd-2-0-3:~# ln -sf /usr/local/bin/debug.sh /usr/local/bin/containerd
+root@kubernetes-1-32-2-containerd-2-0-3:~# /usr/local/bin/containerd --config /etc/containerd/config.toml
+API server listening at: [::]:2346
+...
+```
+
+> Using `systemctl start containerd` is also ok, but will raise a systemctl's timeout error. It's as an expected behavior, because `containerd.service` uses `Type=notify`, and launching containerd via Delve can cause systemd startup timeout.
+
 ### GoLand remote attach
+
+kubelet
 
 ```text
 Run/Debug Configurations -> Go Remote
 Host: 127.0.0.1
 Port: 13229
+```
+
+containerd
+
+```text
+Run/Debug Configurations -> Go Remote
+Host: 127.0.0.1
+Port: 23220
 ```
 
 ### Restore Kubelet
@@ -42,6 +66,15 @@ root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl stop kubelet
 root@kubernetes-1-32-2-containerd-2-0-3:~# cp /usr/local/bin/kubelet.real /usr/bin/kubelet
 root@kubernetes-1-32-2-containerd-2-0-3:~# chmod +x /usr/bin/kubelet
 root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl start kubelet
+```
+
+### Restore Containerd
+
+```shell
+root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl stop containerd
+root@kubernetes-1-32-2-containerd-2-0-3:~# cp /usr/local/bin/containerd.real /usr/local/bin/containerd
+root@kubernetes-1-32-2-containerd-2-0-3:~# chmod +x /usr/local/bin/containerd
+root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl start containerd
 ```
 
 ### Built-in Pods
