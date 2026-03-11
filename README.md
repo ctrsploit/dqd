@@ -12,6 +12,7 @@
 
 | tag | version |
 |-----|---------|
+| [runc-v1.3.4](./runc/v1.3.4/) | v0.2.0 |
 | [runc-v1.2.5](./runc/v1.2.5/) | v0.4.0 |
 
 ### containerd
