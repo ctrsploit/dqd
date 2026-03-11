@@ -90,7 +90,7 @@ Linux kubernetes-1-32-2-containerd-2-0-3 6.8.0-101-generic #101-Ubuntu SMP PREEM
 ## build
 
 ```shell
-make all DIR=kubernetes/v1.32.2/containerd/v2.0.3/calico/default
+make all ENV=kubernetes/v1.32.2/containerd/v2.0.3/calico/default
 ```
 
 

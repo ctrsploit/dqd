@@ -9,7 +9,7 @@
 ## build
 
 ```shell
-make ctr DIR=kubernetes/v1.32.2/containerd/v2.0.3/base
+make ctr ENV=kubernetes/v1.32.2/containerd/v2.0.3/base
 ```
 
 ### for developers
