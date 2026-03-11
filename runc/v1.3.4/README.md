@@ -1,12 +1,12 @@
 # runc v1.3.4
 
-* dqd
-    * ghcr.io/ctrsploit/runc-v1.3.4:latest -> ghcr.io/ctrsploit/runc-v1.3.4:v0.2.0
-    * ghcr.io/ctrsploit/runc-v1.3.4:v0.2.0
-    * ssst0n3/docker_archive:runc-v1.3.4_v0.1.0
-* ctr
-    * ghcr.io/ctrsploit/runc-v1.3.4:ctr_v0.2.0: migrate from docker_archive
-    * ssst0n3/docker_archive:ctr_runc-v1.3.4_v0.1.0
+| Type | Image | Notes |
+| ---- | ----- | ----- |
+| dqd | ghcr.io/ctrsploit/runc-v1.3.4:latest | points to `v0.2.0` |
+| dqd | ghcr.io/ctrsploit/runc-v1.3.4:v0.2.0 | migrate from docker_archive |
+| dqd | ssst0n3/docker_archive:runc-v1.3.4_v0.1.0 | - |
+| ctr | ghcr.io/ctrsploit/runc-v1.3.4:ctr_v0.2.0 | - |
+| ctr | ssst0n3/docker_archive:ctr_runc-v1.3.4_v0.1.0 | - |
 
 ## usage
 
@@ -62,7 +62,7 @@ Linux runc-1-3-4 6.8.0-101-generic #101-Ubuntu SMP PREEMPT_DYNAMIC Mon Feb  9 10
 ## build
 
 ```shell
-make all DIR=runc/v1.3.4
+make all ENV=runc/v1.3.4
 ```
 
 for developers:

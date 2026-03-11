@@ -5,6 +5,7 @@
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:latest | points to `v0.2.0` |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:v0.2.0 | debug kubelet,containerd |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:v0.1.0 | debug kubelet |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:ctr_v0.2.0 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico_debug:ctr_v0.1.0 | - |
 
 ## Usage
