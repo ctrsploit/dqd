@@ -24,3 +24,6 @@ Host dqd-kubernetes-v1.32.2_containerd-v2.0.3_calico
 Host dqd-kubernetes-v1.32.2_containerd-v2.0.3_calico_debug
     Port 13227
 
+Host dqd-runc-v1.3.4
+    Port 13410
+
