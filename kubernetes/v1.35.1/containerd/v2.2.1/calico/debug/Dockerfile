@@ -4,7 +4,7 @@
 # ================================
 ARG VERSION_KUBERNETES=1.35.1
 ARG VERSION_CONTAINERD=2.2.1
-ARG VERSION_DLV=1.26.0
+ARG VERSION_DLV=1.26.1
 ARG VERSION_IMAGE=0.1.0
 
 # ================================

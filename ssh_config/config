@@ -36,3 +36,6 @@ Host dqd-kubernetes-v1.35.1_containerd-v2.2.1_init
 Host dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico
     Port 13512
 
+Host dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico_debug
+    Port 13514
+
