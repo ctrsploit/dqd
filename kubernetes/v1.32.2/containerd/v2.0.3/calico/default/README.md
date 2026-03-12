@@ -1,12 +1,5 @@
 # kubernetes v1.32.2 with containerd v2.0.3, calico
 
-* dqd:
-  * ssst0n3/docker_archive:kubernetes-v1.32.2_containerd-v2.0.3-calico -> ssst0n3/docker_archive:kubernetes-v1.32.2_containerd-v2.0.3-calico_v0.1.0
-  * ssst0n3/docker_archive:kubernetes-v1.32.2_containerd-v2.0.3-calico_v0.1.0
-* ctr:
-  * ssst0n3/docker_archive:ctr_kubernetes-v1.32.2_containerd-v2.0.3-calico -> ssst0n3/docker_archive:ctr_kubernetes-v1.32.2_containerd-v2.0.3-calico_v0.1.0
-  * ssst0n3/docker_archive:ctr_kubernetes-v1.32.2_containerd-v2.0.3-calico_v0.1.0
-
 | type | image | note |
 | ---- | ----- | ---- |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico:latest | point to v0.2.0 |
@@ -53,6 +46,8 @@ NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          39s
 ```
 
+### versions
+
 ```shell
 $ ./ssh
 root@kubernetes-1-32-2-containerd-2-0-3:~# helm version
@@ -98,7 +93,7 @@ make all ENV=kubernetes/v1.32.2/containerd/v2.0.3/calico/default
 
 ```dockerfile
 # syntax=docker/dockerfile:1-labs
-FROM ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico:v0.2.0
+FROM ghcr.io/ctrsploit/kubernetes-v1.32.2_containerd-v2.0.3_calico:ctr_v0.2.0
 ...
 RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
 ```
