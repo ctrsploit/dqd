@@ -28,7 +28,7 @@
 
 | tag | version | alias | note |
 |-----|---------|-------|------|
-| [kubernetes-v1.35.1_containerd-v2.2.1_calico_debug](./kubernetes/v1.35.1/containerd/v2.2.1/calico/debug) | v0.1.0  | - | debug kubelet |
+| [kubernetes-v1.35.1_containerd-v2.2.1_calico_debug](./kubernetes/v1.35.1/containerd/v2.2.1/calico/debug) | v0.2.0  | - | debug kubelet,containerd |
 | [kubernetes-v1.35.1_containerd-v2.2.1_calico](./kubernetes/v1.35.1/containerd/v2.2.1/calico/default) | v0.1.0  | - | calico installed |
 | [kubernetes-v1.35.1_containerd-v2.2.1_init](./kubernetes/v1.35.1/containerd/v2.2.1/init) | v0.1.0  | - | kubeadm init, without CNI |
 | [kubernetes-v1.35.1_containerd-v2.2.1_base](./kubernetes/v1.35.1/containerd/v2.2.1/base) | v0.1.0  | - | k8s components installed  |
