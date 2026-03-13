@@ -6,10 +6,11 @@ services:
     environment:
       - "QEMU_NET=10.0.2.0/24"
       - "QEMU_DHCPSTART=10.0.2.16"
-      - "QEMU_HOSTFWD=hostfwd=tcp::6443-:6443,hostfwd=tcp::2345-:2345"
+      - "QEMU_HOSTFWD=hostfwd=tcp::6443-:6443,hostfwd=tcp::2345-:2345,hostfwd=tcp::2346-:2346"
     ports:
         - "13514:22"
         - "13515:6443"
         - "13516:2345"
+        - "13517:2346"
     tty: true
     stdin_open: true 

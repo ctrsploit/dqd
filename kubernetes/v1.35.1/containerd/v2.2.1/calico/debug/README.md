@@ -3,7 +3,9 @@
 | Type | Image | Notes |
 | ---- | ----- | ----- |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.35.1_containerd-v2.2.1_calico_debug:latest | -> `v0.2.0` |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.35.1_containerd-v2.2.1_calico_debug:v0.2.0 | debug kubelet,containerd |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.35.1_containerd-v2.2.1_calico_debug:v0.1.0 | debug kubelet |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.35.1_containerd-v2.2.1_calico_debug:ctr_v0.2.0 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.35.1_containerd-v2.2.1_calico_debug:ctr_v0.1.0 | - |
 
 ## Usage
@@ -19,13 +21,26 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 
 ```shell
 $ ./ssh
-root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl stop kubelet
-root@kubernetes-1-32-2-containerd-2-0-3:~# ln -sf /usr/local/bin/debug.sh /usr/bin/kubelet
-root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl start kubelet
-root@kubernetes-1-32-2-containerd-2-0-3:~# journalctl -u kubelet -f
+root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl stop kubelet
+root@kubernetes-1-35-1-containerd-2-2-1:~# ln -sf /usr/local/bin/debug.sh /usr/bin/kubelet
+root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl start kubelet
+root@kubernetes-1-35-1-containerd-2-2-1:~# journalctl -u kubelet -f
 API server listening at: [::]:2345
 ...
 ```
+
+### Debug Containerd with Delve
+
+```shell
+$ ./ssh
+root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl stop containerd
+root@kubernetes-1-35-1-containerd-2-2-1:~# ln -sf /usr/local/bin/debug.sh /usr/local/bin/containerd
+root@kubernetes-1-35-1-containerd-2-2-1:~# /usr/local/bin/containerd --config /etc/containerd/config.toml
+API server listening at: [::]:2346
+...
+```
+
+> Using `systemctl start containerd` is also ok, but will raise a systemctl's timeout error. It's as an expected behavior, because `containerd.service` uses `Type=notify`, and launching containerd via Delve can cause systemd startup timeout.
 
 ### GoLand remote attach
 
@@ -37,13 +52,30 @@ Host: 127.0.0.1
 Port: 13516
 ```
 
+containerd
+
+```text
+Run/Debug Configurations -> Go Remote
+Host: 127.0.0.1
+Port: 13517
+```
+
 ### Restore Kubelet
 
 ```shell
-root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl stop kubelet
-root@kubernetes-1-32-2-containerd-2-0-3:~# cp /usr/local/bin/kubelet.real /usr/bin/kubelet
-root@kubernetes-1-32-2-containerd-2-0-3:~# chmod +x /usr/bin/kubelet
-root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl start kubelet
+root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl stop kubelet
+root@kubernetes-1-35-1-containerd-2-2-1:~# cp /usr/local/bin/kubelet.real /usr/bin/kubelet
+root@kubernetes-1-35-1-containerd-2-2-1:~# chmod +x /usr/bin/kubelet
+root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl start kubelet
+```
+
+### Restore Containerd
+
+```shell
+root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl stop containerd
+root@kubernetes-1-35-1-containerd-2-2-1:~# cp /usr/local/bin/containerd.real /usr/local/bin/containerd
+root@kubernetes-1-35-1-containerd-2-2-1:~# chmod +x /usr/local/bin/containerd
+root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl start containerd
 ```
 
 ### Built-in Pods
@@ -128,7 +160,7 @@ make all ENV=kubernetes/v1.35.1/containerd/v2.2.1/calico/debug
 
 ```dockerfile
 # syntax=docker/dockerfile:1-labs
-FROM ghcr.io/ctrsploit/kubernetes-v1.35.1_containerd-v2.2.1_calico_debug:ctr_v0.1.0
+FROM ghcr.io/ctrsploit/kubernetes-v1.35.1_containerd-v2.2.1_calico_debug:ctr_v0.2.0
 ...
 RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
 ```
