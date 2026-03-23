@@ -19,7 +19,8 @@
 
 | tag | version |
 |-----|---------|
-| [containerd-v2.2.1](./containerd/v2.0.3/) | v0.2.0  |
+| [containerd-v2.2.1](./containerd/v2.2.1/) | v0.2.0  |
+| [containerd-v2.0.4](./containerd/v2.0.4/) | v0.3.0  |
 | [containerd-v2.0.3](./containerd/v2.0.3/) | v0.4.0  |
 
 ### kubenertes
