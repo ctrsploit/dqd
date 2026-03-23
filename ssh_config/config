@@ -42,3 +42,6 @@ Host dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico_debug
 Host dqd-containerd-v2.0.4
     Port 20400
 
+Host dqd-kubernetes-v1.32.2_containerd-v2.0.4_init
+    Port 32240
+
