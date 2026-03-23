@@ -32,7 +32,13 @@ Hello from Docker!
 ```shell
 $ ./ssh
 root@containerd-2-0-4:~# containerd --version
+containerd github.com/containerd/containerd/v2 v2.0.4 1a43cb6a1035441f9aca8f5666a9b3ef9e70ab20
 root@containerd-2-0-4:~# runc --version
+runc version 1.2.5
+commit: v1.2.5-0-g59923ef1
+spec: 1.2.0
+go: go1.22.12
+libseccomp: 2.5.5
 ```
 
 ## build
