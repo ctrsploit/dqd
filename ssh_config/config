@@ -57,3 +57,6 @@ Host dqd-docker-v29.4.1
 Host dqd-kubernetes-v1.32.2_containerd-v2.0.4_calico
     Port 32242
 
+Host dqd-cve-2026-31431
+    Port 31431
+
