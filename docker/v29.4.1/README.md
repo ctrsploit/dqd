@@ -16,7 +16,7 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 
 ```shell
 $ ./ssh
-root@localhost:~# docker run -ti hello-world
+root@docker-29-4-1:~# docker run -ti hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
 e6590344b1a5: Pull complete 
