@@ -20,8 +20,9 @@ $ ./ssh
 root@docker-29-4-1:~# docker run -ti hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
-e6590344b1a5: Pull complete 
-Digest: sha256:ec153840d1e635ac434fab5e377081f17e0e15afab27beb3f726c3265039cfff
+4f55086f7dd0: Pull complete 
+d5e71e642bf5: Download complete 
+Digest: sha256:f9078146db2e05e794366b1bfe584a14ea6317f44027d10ef7dad65279026885
 Status: Downloaded newer image for hello-world:latest
 
 Hello from Docker!
@@ -58,8 +59,14 @@ Server: Docker Engine - Community
   Version:          0.19.0
   GitCommit:        de40ad0
 root@docker-29-4-1:~# containerd --version
-containerd github.com/containerd/containerd/v2 v2.2.3 77c84241c7cbdd9b4eca2591793e3d4f4317c590
-root@docker-29-4-1:~# cat /etc/os-release
+containerd containerd.io v2.2.3 77c84241c7cbdd9b4eca2591793e3d4f4317c590
+root@docker-29-4-1:~# runc --version
+runc version 1.3.5
+commit: v1.3.5-0-g488fc13e
+spec: 1.2.1
+go: go1.25.9
+libseccomp: 2.5.5
+root@docker-29-4-1:~# cat /etc/os-release 
 PRETTY_NAME="Ubuntu 24.04.4 LTS"
 NAME="Ubuntu"
 VERSION_ID="24.04"
@@ -74,7 +81,17 @@ PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-poli
 UBUNTU_CODENAME=noble
 LOGO=ubuntu-logo
 root@docker-29-4-1:~# uname -a
-Linux docker-29-4-1 6.8.0-110-generic #110-Ubuntu SMP PREEMPT_DYNAMIC Thu Mar 19 15:09:20 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+Linux docker-29-4-1 6.8.0-111-generic #111-Ubuntu SMP PREEMPT_DYNAMIC Sat Apr 11 23:16:02 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+Specially hint: this version image use dynamic linked runc.
+
+```shell
+root@docker-29-4-1:~# ldd /usr/bin/runc
+	linux-vdso.so.1 (0x00007fff20f5b000)
+	libseccomp.so.2 => /lib/x86_64-linux-gnu/libseccomp.so.2 (0x00007c155ede2000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007c155de00000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007c155ee07000)
 ```
 
 ## build
