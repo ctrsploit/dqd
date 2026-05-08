@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/docker-v29.4.1:v0.1.0
+    image: ghcr.io/ctrsploit/docker-v29.4.1:v0.2.0
     ports:
         - "29410:22"
     tty: true

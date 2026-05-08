@@ -37,7 +37,7 @@
 
 | tag | version |
 |-----|---------|
-| [docker-v29.4.1](./docker/v29.4.1/) | v0.1.0  |
+| [docker-v29.4.1](./docker/v29.4.1/) | v0.2.0  |
 
 ### kubenertes
 
