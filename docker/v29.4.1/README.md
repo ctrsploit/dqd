@@ -2,8 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/docker-v29.4.1:latest | points to `v0.1.0` |
-| dqd | ghcr.io/ctrsploit/docker-v29.4.1:v0.1.0 | - |
+| dqd | ghcr.io/ctrsploit/docker-v29.4.1:latest | points to `v0.2.0` |
+| dqd | ghcr.io/ctrsploit/docker-v29.4.1:v0.2.0 | dynamic linked runc |
+| dqd | ghcr.io/ctrsploit/docker-v29.4.1:v0.1.0 | static linked runc |
+| ctr | ghcr.io/ctrsploit/docker-v29.4.1:ctr_v0.2.0 | - |
 | ctr | ghcr.io/ctrsploit/docker-v29.4.1:ctr_v0.1.0 | - |
 
 ## usage
@@ -84,5 +86,5 @@ make all DIR=docker/v29.4.1
 for developers:
 
 ```dockerfile
-FROM ghcr.io/ctrsploit/docker-v29.4.1:ctr_v0.1.0
+FROM ghcr.io/ctrsploit/docker-v29.4.1:ctr_v0.2.0
 ```
