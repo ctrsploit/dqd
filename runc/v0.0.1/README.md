@@ -30,7 +30,7 @@ root@runc-0-0-1:~# runc config.json
 BusyBox v1.22.1 (Ubuntu 1:1.22.0-15ubuntu1.4) built-in shell (ash)
 Enter 'help' for a list of built-in commands.
 
-/ #
+/ # 
 ```
 
 ### versions
@@ -51,6 +51,8 @@ SUPPORT_URL="http://help.ubuntu.com/"
 BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 VERSION_CODENAME=xenial
 UBUNTU_CODENAME=xenial
+root@runc-0-0-1:~# uname -a
+Linux runc-0-0-1 4.4.0-210-generic #242-Ubuntu SMP Fri Apr 16 09:57:56 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
