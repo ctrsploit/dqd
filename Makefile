@@ -10,6 +10,8 @@ VM_PASSWORD ?= root
 KERNEL ?= true
 SIZE ?= 10G
 TIME_STATS ?= 1
+PUSH_RETRIES ?= 3
+PUSH_RETRY_DELAY ?= 10
 
 # ------------------------------------------------------------------------------
 # Command helpers
@@ -42,6 +44,19 @@ endef
 
 define sparsify_qcow2
 cd $(ENV) && $(VIRT_SPARSIFY) --compress vm.qcow2 shrunk.qcow2 && mv -f shrunk.qcow2 vm.qcow2
+endef
+
+define docker_push
+@attempt=1; \
+until docker push "$(1)"; do \
+    if [ "$$attempt" -ge "$(PUSH_RETRIES)" ]; then \
+        echo "docker push failed after $$attempt attempt(s): $(1)" >&2; \
+        exit 1; \
+    fi; \
+    attempt=$$((attempt+1)); \
+    echo "docker push failed; retrying $(1) in $(PUSH_RETRY_DELAY)s (attempt $$attempt/$(PUSH_RETRIES))" >&2; \
+    sleep "$(PUSH_RETRY_DELAY)"; \
+done
 endef
 
 define time_begin
@@ -87,7 +102,8 @@ help:
 	  '  all    - run clean, ctr, vm, dqd, push, post-clean, generate_ssh_config' \
 	  '  dbg    - build debug DQD image' \
 	  '' \
-	  'Note: each target prints execution time as [TIME] ... (set TIME_STATS=0 to disable)'
+	  'Note: each target prints execution time as [TIME] ... (set TIME_STATS=0 to disable)' \
+	  'Note: push targets retry with PUSH_RETRIES=3 and PUSH_RETRY_DELAY=10 by default'
 
 env:
 	$(call require_env,env)
@@ -132,14 +148,14 @@ dqd: env
 
 push-ctr: env
 	$(time_begin)
-	docker push $(CTR)
+	$(call docker_push,$(CTR))
 	$(time_end)
 
 push-dqd: env
 	$(time_begin)
 	docker tag $(DQD_VERSION) $(DQD_LATEST)
-	docker push $(DQD_VERSION)
-	docker push $(DQD_LATEST)
+	$(call docker_push,$(DQD_VERSION))
+	$(call docker_push,$(DQD_LATEST))
 	$(time_end)
 
 push: push-ctr push-dqd
