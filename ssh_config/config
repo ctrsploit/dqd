@@ -63,3 +63,6 @@ Host dqd-cve-2026-31431
 Host dqd-cve-2026-43284
     Port 43284
 
+Host dqd-ubuntu-16.04
+    Port 16040
+
