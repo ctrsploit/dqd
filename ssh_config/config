@@ -60,3 +60,6 @@ Host dqd-kubernetes-v1.32.2_containerd-v2.0.4_calico
 Host dqd-cve-2026-31431
     Port 31431
 
+Host dqd-cve-2026-43284
+    Port 43284
+
