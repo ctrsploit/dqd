@@ -69,3 +69,6 @@ Host dqd-ubuntu-16.04
 Host dqd-runc-v0.0.1
     Port 10010
 
+Host dqd-runc-v0.0.2
+    Port 10020
+
