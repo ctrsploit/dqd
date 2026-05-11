@@ -17,6 +17,7 @@
 | tag | version |
 |-----|---------|
 | [ubuntu-16.04](./ubuntu/16.04/) | v0.3.0  |
+| [ubuntu-20.04](./ubuntu/20.04/) | v0.3.0  |
 | [ubuntu-24.04](./ubuntu/24.04/) | v0.4.0  |
 
 ### runc
@@ -42,6 +43,7 @@
 
 | tag | version |
 |-----|---------|
+| [docker-v20.10.12](./docker/v20.10.12/) | v0.2.0  |
 | [docker-v29.4.1](./docker/v29.4.1/) | v0.2.0  |
 
 ### kubenertes
