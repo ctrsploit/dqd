@@ -66,9 +66,11 @@ Host dqd-cve-2026-43284
 Host dqd-ubuntu-16.04
     Port 16040
 
+Host dqd-ubuntu-20.04
+    Port 20040
+
 Host dqd-runc-v0.0.1
     Port 10010
 
 Host dqd-runc-v0.0.2
     Port 10020
-
