@@ -16,6 +16,7 @@
 | tag | version |
 |-----|---------|
 | [ubuntu-16.04](./ubuntu/16.04/) | v0.3.0  |
+| [ubuntu-20.04](./ubuntu/20.04/) | v0.3.0  |
 | [ubuntu-24.04](./ubuntu/24.04/) | v0.4.0  |
 
 ### runc
