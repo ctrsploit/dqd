@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/ubuntu-22.04:v0.3.0
+    ports:
+        - "22040:22"
+    tty: true
+    stdin_open: true
