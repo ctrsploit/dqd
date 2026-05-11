@@ -41,6 +41,7 @@
 
 | tag | version |
 |-----|---------|
+| [docker-v20.10.12](./docker/v20.10.12/) | v0.2.0  |
 | [docker-v29.4.1](./docker/v29.4.1/) | v0.2.0  |
 
 ### kubenertes

@@ -54,6 +54,9 @@ Host dqd-containerd-v2.2.3
 Host dqd-docker-v29.4.1
     Port 29410
 
+Host dqd-docker-v20.10.12
+    Port 21012
+
 Host dqd-kubernetes-v1.32.2_containerd-v2.0.4_calico
     Port 32242
 
