@@ -30,6 +30,12 @@
 | [debian-11.0](./debian/11.0/) | v0.1.0  |
 | [debian-12.0](./debian/12.0/) | v0.2.0  |
 
+### centos
+
+| tag | version |
+|-----|---------|
+| [centos-8](./centos/8/) | v0.2.0  |
+
 ### runc
 
 | tag | version |

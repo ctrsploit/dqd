@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/centos-8:v0.2.0
+    ports:
+        - "18000:22"
+    tty: true
+    stdin_open: true
