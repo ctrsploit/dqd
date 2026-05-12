@@ -81,6 +81,9 @@ Host dqd-ubuntu-20.04
 Host dqd-ubuntu-22.04
     Port 22040
 
+Host dqd-debian-11.0
+    Port 11000
+
 Host dqd-runc-v0.0.1
     Port 10010
 

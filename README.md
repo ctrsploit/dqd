@@ -23,6 +23,12 @@
 | [ubuntu-22.04](./ubuntu/22.04/) | v0.3.0  |
 | [ubuntu-24.04](./ubuntu/24.04/) | v0.4.0  |
 
+### debian
+
+| tag | version |
+|-----|---------|
+| [debian-11.0](./debian/11.0/) | v0.1.0  |
+
 ### runc
 
 | tag | version |
