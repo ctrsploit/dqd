@@ -22,7 +22,7 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 ```shell
 $ ./ssh
 root@ubuntu22-04:~# uname -a
-Linux ubuntu22-04 5.15.0-139-generic #149-Ubuntu SMP Fri Apr 11 22:06:13 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+Linux ubuntu22-04 5.15.0-177-generic #187-Ubuntu SMP Sat Apr 11 22:54:33 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 root@ubuntu22-04:~# cat /etc/os-release
 PRETTY_NAME="Ubuntu 22.04.5 LTS"
 NAME="Ubuntu"
