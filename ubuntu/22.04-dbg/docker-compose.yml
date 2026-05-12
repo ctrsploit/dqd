@@ -1,0 +1,8 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/ubuntu-22.04-dbg:v0.2.0
+    ports:
+        - "22041:22"
+    command: /start.sh -kernel /vmlinux -append 'root=/dev/sda1 net.ifnames=0 console=tty0 console=ttyS0,115200n8 nokaslr' -s -S -smp 1
+    tty: true
+    stdin_open: true
