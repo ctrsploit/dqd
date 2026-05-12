@@ -1,4 +1,4 @@
-.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean preclean post-clean all dbg generate_ssh_config
+.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean preclean post-clean all dbg check-ssh-ports generate_ssh_config
 
 # ------------------------------------------------------------------------------
 # Config
@@ -96,6 +96,7 @@ help:
 	  '  push-ctr - push ctr tag only' \
 	  '  push-dqd - push DQD versioned and latest tags' \
 	  '  push   - push ctr and DQD tags' \
+	  '  check-ssh-ports - verify SSH host ports are unique across environments' \
 	  '  generate_ssh_config - generate ssh_config/config and per-env ssh helpers' \
 	  '  clean  - remove generated vm.qcow2' \
 	  '  post-clean - run cleanup after build flow' \
@@ -119,7 +120,12 @@ ci: env
 	$(MAKE) $$TARGETS ENV=$(ENV)
 	$(time_end)
 
-generate_ssh_config:
+check-ssh-ports:
+	$(time_begin)
+	bash script/check_ssh_ports.sh
+	$(time_end)
+
+generate_ssh_config: check-ssh-ports
 	$(time_begin)
 	bash script/generate_ssh_config.sh
 	$(time_end)
@@ -171,7 +177,7 @@ post-clean: clean
 	rm -f $(ENV)/1
 	$(time_end)
 
-all: env clean ctr vm dqd push post-clean generate_ssh_config
+all: env check-ssh-ports clean ctr vm dqd push post-clean generate_ssh_config
 
 dbg: clean ctr
 	$(time_begin)

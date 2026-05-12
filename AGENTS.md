@@ -46,11 +46,13 @@ make push ENV=<env-path>
 make clean ENV=<env-path>
 make post-clean ENV=<env-path>
 make generate_ssh_config
+make check-ssh-ports
 ```
 Notes:
 - `push` depends on `push-ctr` and `push-dqd`.
 - `clean` removes `<ENV>/vm.qcow2`.
 - `post-clean` removes `<ENV>/1` after `clean`.
+- `check-ssh-ports` verifies SSH host ports are unique across all environments.
 ### 2.4 CI entrypoint
 ```bash
 make ci ENV=<env-path>
@@ -98,6 +100,26 @@ docker compose -f containerd/v2.0.3/docker-compose.yml -f containerd/v2.0.3/dock
 ```
 Guideline:
 - use `*.kvm.yml` only when `/dev/kvm` exists on host.
+### 3.1 SSH port allocation
+- The SSH host port source of truth is each `<ENV>/docker-compose.yml` mapping to container port 22.
+- SSH host ports must be globally unique across all environments in this repository.
+- Before adding or changing a port, run:
+```bash
+make check-ssh-ports
+```
+- When migrating from `docker_archive`, preserve the original port unless it conflicts with an existing dqd environment.
+- If the candidate port is only occupied by a local host process, treat that as a runtime issue and do not change versioned repo config solely for the local process.
+- If the candidate conflicts with another dqd environment, choose the nearest free port in the same family/range instead of crossing into another component's range.
+- Keep `<ENV>/docker-compose.yml`, `<ENV>/ssh`, `ssh_config/config`, and README examples synchronized after a port change; `make generate_ssh_config` checks uniqueness before generating SSH config.
+
+Port design conventions:
+- Ubuntu: `YY040`, for example `16.04 -> 16040`, `22.04 -> 22040`; variants use nearby ports such as `+1`.
+- Debian: `major000`, for example `11.0 -> 11000`, `12.0 -> 12000`.
+- CentOS: `1<major>000`, for example `8 -> 18000`, `stream9 -> 19000`.
+- containerd: encode major/minor/patch, for example `v2.0.3 -> 20300`, `v2.2.1 -> 22100`; variants use nearby ports.
+- Docker: encode major/minor/patch compactly, for example `v20.10.12 -> 21012`, `v29.4.1 -> 29410`; preserve archive ports when uncertain.
+- Kubernetes: encode the Kubernetes version/stack, then use role offsets such as `init`, `calico +2`, `debug +4`.
+- CVE/vul: prefer the CVE numeric suffix, for example `CVE-2026-43284 -> 43284`; for four-digit suffixes use a year/category prefix such as `CVE-2022-0847 -> 20847`.
 ## 4) Code style and engineering conventions
 ### 4.1 Imports/includes/structure
 - Shell: keep constants and setup near the top.
@@ -160,6 +182,7 @@ If these files are added later:
 - Read `Makefile` and target `<ENV>/.env` before changing build logic.
 - Run `make env ENV=<env-path>` as env-specific preflight.
 - Run the narrowest validating command for changed scope.
+- Run `make check-ssh-ports` after adding or changing an SSH port mapping.
 - Keep docs/examples synchronized with actual behavior.
 - Never commit generated artifacts (for example `*.qcow2`).
 - Preserve existing image/tag naming unless explicitly requested.
