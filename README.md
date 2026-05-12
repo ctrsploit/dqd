@@ -28,6 +28,7 @@
 | tag | version |
 |-----|---------|
 | [debian-11.0](./debian/11.0/) | v0.1.0  |
+| [debian-12.0](./debian/12.0/) | v0.2.0  |
 
 ### runc
 
