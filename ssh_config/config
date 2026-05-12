@@ -90,6 +90,9 @@ Host dqd-debian-12.0
 Host dqd-centos-8
     Port 18000
 
+Host dqd-centos-stream9
+    Port 19000
+
 Host dqd-runc-v0.0.1
     Port 10010
 
