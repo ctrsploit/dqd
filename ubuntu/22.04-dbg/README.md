@@ -33,9 +33,9 @@ vm:
 
 ```shell
 $ ./ssh
-root@localhost:~# uname -a
-Linux localhost.localdomain 5.15.0-177-generic #187-Ubuntu SMP Sat Apr 11 22:54:33 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
-root@localhost:~# cat /etc/os-release
+root@ubuntu22-04:~# uname -a
+Linux ubuntu22-04 5.15.0-177-generic #187-Ubuntu SMP Sat Apr 11 22:54:33 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+root@ubuntu22-04:~# cat /etc/os-release 
 PRETTY_NAME="Ubuntu 22.04.5 LTS"
 NAME="Ubuntu"
 VERSION_ID="22.04"
@@ -54,12 +54,14 @@ ctr:
 
 ```shell
 $ docker exec -ti ubuntu-22-04-dbg-vm-1 bash
-root@bbed7ea6e45e:/# dpkg -l |grep linux
+root@ca84c82e58c5:/# dpkg -l | awk '$2 ~ /^linux-/'
+ii  linux-base                                     4.5ubuntu9+22.04.1                      all          Linux image base package
 ii  linux-image-5.15.0-177-generic                 5.15.0-177.187                          amd64        Signed kernel image generic
 ii  linux-image-5.15.0-177-generic-dbgsym          5.15.0-177.187                          amd64        Signed kernel image generic
 ii  linux-image-unsigned-5.15.0-177-generic-dbgsym 5.15.0-177.187                          amd64        Linux kernel debug image for version 5.15.0 on 64 bit x86 SMP
+ii  linux-libc-dev:amd64                           5.15.0-177.187                          amd64        Linux Kernel Headers for development
+ii  linux-modules-5.15.0-177-generic               5.15.0-177.187                          amd64        Linux kernel extra modules for version 5.15.0 on 64 bit x86 SMP
 ii  linux-source-5.15.0                            5.15.0-177.187                          all          Linux kernel source for version 5.15.0 with Ubuntu patches
-...
 ```
 
 ## build
