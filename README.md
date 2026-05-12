@@ -17,6 +17,7 @@
 
 | tag | version |
 |-----|---------|
+| [ubuntu-12.04](./ubuntu/12.04/) | v0.2.0  |
 | [ubuntu-16.04](./ubuntu/16.04/) | v0.3.0  |
 | [ubuntu-18.04](./ubuntu/18.04/) | v0.3.0  |
 | [ubuntu-20.04](./ubuntu/20.04/) | v0.3.0  |

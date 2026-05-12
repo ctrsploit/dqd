@@ -69,6 +69,10 @@ Host dqd-cve-2026-43284
 Host dqd-cve-2026-43500
     Port 43500
 
+Host dqd-ubuntu-12.04
+    Port 12040
+    IdentityFile ~/.ssh/keys/docker_archive_ecdsa-sha2-nistp256
+
 Host dqd-ubuntu-16.04
     Port 16040
 
