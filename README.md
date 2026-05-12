@@ -35,6 +35,7 @@
 | tag | version |
 |-----|---------|
 | [centos-8](./centos/8/) | v0.2.0  |
+| [centos-stream9](./centos/stream9/) | v0.2.0  |
 
 ### runc
 
