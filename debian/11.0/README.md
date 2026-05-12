@@ -18,7 +18,7 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 ```shell
 $ ./ssh
 root@debian11-0:~# uname -a
-Linux debian11-0 5.10.0-35-amd64 #1 SMP Debian 5.10.237-1 (2025-05-19) x86_64 GNU/Linux
+Linux debian11-0 5.10.0-42-amd64 #1 SMP Debian 5.10.251-4 (2026-05-08) x86_64 GNU/Linux
 root@debian11-0:~# cat /etc/os-release
 PRETTY_NAME="Debian GNU/Linux 11 (bullseye)"
 NAME="Debian GNU/Linux"
