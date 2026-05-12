@@ -73,6 +73,9 @@ Host dqd-ubuntu-12.04
     Port 12040
     IdentityFile ~/.ssh/keys/docker_archive_ecdsa-sha2-nistp256
 
+Host dqd-ubuntu-14.04
+    Port 14040
+
 Host dqd-ubuntu-16.04
     Port 16040
 
