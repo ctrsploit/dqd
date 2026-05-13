@@ -1,0 +1,264 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+    cat <<'EOF'
+Usage:
+  dqd list [prefix]
+  dqd ps [prefix]
+  dqd info <env>
+  dqd up <env> [--kvm=true|false]
+  dqd down <env>
+  dqd ssh <env>
+  dqd help
+
+Notes:
+  Build and development workflows stay in Makefile.
+EOF
+}
+
+die() {
+    echo "dqd: $*" >&2
+    exit 1
+}
+
+repo_root() {
+    local script_path script_dir
+    script_path="$(realpath "${BASH_SOURCE[0]}")"
+    script_dir="$(cd "$(dirname "$script_path")" && pwd)"
+    cd "$script_dir/.." && pwd
+}
+
+env_value() {
+    local env_file="$1"
+    local key="$2"
+    sed -n "s/^${key}=//p" "$env_file" | head -n1 | tr -d '"'
+}
+
+require_env_dir() {
+    local root="$1"
+    local env_dir="${2:-}"
+
+    [ -n "$env_dir" ] || die "ENV is required"
+    [ -f "$root/$env_dir/.env" ] || die "missing env file: $env_dir/.env"
+}
+
+require_runtime_env() {
+    local root="$1"
+    local env_dir="${2:-}"
+
+    require_env_dir "$root" "$env_dir"
+    [ -f "$root/$env_dir/docker-compose.yml" ] || die "missing compose file: $env_dir/docker-compose.yml"
+}
+
+ssh_port() {
+    local compose_file="$1"
+    sed -nE 's/^[[:space:]]*-[[:space:]]*"?([0-9]+):22"?[[:space:]]*(#.*)?$/\1/p' "$compose_file" | head -n1
+}
+
+find_envs() {
+    local root="$1"
+    local prefix="${2:-}"
+
+    find "$root" -type f -name .env -not -path "$root/.git/*" -print |
+        sort |
+        while IFS= read -r env_file; do
+            local env_dir
+            env_dir="${env_file#$root/}"
+            env_dir="${env_dir%/.env}"
+            if [ -n "$prefix" ]; then
+                case "$env_dir" in
+                    "$prefix"|"$prefix"/*) ;;
+                    *) continue ;;
+                esac
+            fi
+            printf '%s\n' "$env_dir"
+        done
+}
+
+cmd_list() {
+    local root="$1"
+    local prefix="${2:-}"
+    local current_group=""
+
+    printf '%-58s %s\n' "ENV" "IMAGE"
+
+    find_envs "$root" "$prefix" |
+        while IFS= read -r env_dir; do
+            local image group
+            image="$(env_value "$root/$env_dir/.env" IMAGE)"
+            group="${env_dir%%/*}"
+            if [ "$group" != "$current_group" ]; then
+                printf '\n'
+                current_group="$group"
+                printf '[%s]\n' "$group"
+                printf '%-58s %s\n' \
+                    "----------------------------------------------------------" \
+                    "------------------------------------------"
+            fi
+            printf '%-58s %s\n' "$env_dir" "$image"
+        done
+}
+
+cmd_ps() {
+    local root="$1"
+    local prefix="${2:-}"
+    local runtime_found=false
+    local found=false
+    local envs env_dir
+
+    mapfile -t envs < <(find_envs "$root" "$prefix")
+    for env_dir in "${envs[@]}"; do
+        local compose_file="$root/$env_dir/docker-compose.yml"
+        local output line_count
+        [ -f "$compose_file" ] || continue
+        runtime_found=true
+        output="$(docker compose -f "$compose_file" ps --status running)"
+        line_count="$(printf '%s\n' "$output" | awk 'NF { count++ } END { print count + 0 }')"
+        [ "$line_count" -gt 1 ] || continue
+        found=true
+        printf '\n[%s]\n' "$env_dir"
+        printf '%s\n' "$output"
+    done
+
+    if [ "$runtime_found" = false ]; then
+        die "no matching runtime environments found"
+    fi
+
+    if [ "$found" = false ]; then
+        echo "No running dqd environments."
+    fi
+}
+
+cmd_info() {
+    local root="$1"
+    local env_dir="$2"
+    local env_file="$root/$env_dir/.env"
+    local compose_file="$root/$env_dir/docker-compose.yml"
+    local image version project port
+
+    require_env_dir "$root" "$env_dir"
+    image="$(env_value "$env_file" IMAGE)"
+    version="$(env_value "$env_file" VERSION)"
+    project="$(env_value "$env_file" COMPOSE_PROJECT_NAME)"
+    port="-"
+    if [ -f "$compose_file" ]; then
+        port="$(ssh_port "$compose_file")"
+        port="${port:-"-"}"
+    fi
+
+    printf 'env: %s\n' "$env_dir"
+    printf 'image: %s\n' "$image"
+    printf 'version: %s\n' "$version"
+    printf 'project: %s\n' "${project:-"-"}"
+    printf 'dqd image: ghcr.io/ctrsploit/%s:%s\n' "$image" "$version"
+    printf 'ssh port: %s\n' "${port:-"-"}"
+}
+
+cmd_up() {
+    local root="$1"
+    local env_dir="$2"
+    local use_kvm="${3:-false}"
+    local compose_args
+
+    require_runtime_env "$root" "$env_dir"
+    compose_args=(-f "$root/$env_dir/docker-compose.yml")
+
+    if [ "$use_kvm" = true ]; then
+        compose_args+=(-f "$root/$env_dir/docker-compose.kvm.yml")
+    fi
+
+    docker compose "${compose_args[@]}" up -d
+}
+
+cmd_down() {
+    local root="$1"
+    local env_dir="$2"
+
+    require_runtime_env "$root" "$env_dir"
+    docker compose -f "$root/$env_dir/docker-compose.yml" down
+}
+
+cmd_ssh() {
+    local root="$1"
+    local env_dir="$2"
+    local ssh_script="$root/$env_dir/ssh"
+    local port
+
+    require_runtime_env "$root" "$env_dir"
+    if [ -x "$ssh_script" ]; then
+        exec "$ssh_script"
+    fi
+
+    port="$(ssh_port "$root/$env_dir/docker-compose.yml")"
+    [ -n "$port" ] || die "no SSH port mapping found in $env_dir/docker-compose.yml"
+    exec sshpass -p root ssh -o StrictHostKeyChecking=no -p "$port" root@127.0.0.1
+}
+
+main() {
+    local root cmd
+    root="$(repo_root)"
+    cmd="${1:-help}"
+
+    case "$cmd" in
+        list)
+            cmd_list "$root" "${2:-}"
+            ;;
+        ps)
+            cmd_ps "$root" "${2:-}"
+            ;;
+        info)
+            cmd_info "$root" "${2:-}"
+            ;;
+        up)
+            local env_dir="${2:-}"
+            local use_kvm=false
+            local kvm_set=false
+            [ -n "$env_dir" ] || die "ENV is required"
+            require_runtime_env "$root" "$env_dir"
+            if [ -e /dev/kvm ] && [ -f "$root/$env_dir/docker-compose.kvm.yml" ]; then
+                use_kvm=true
+            fi
+            shift 2
+            while [ "$#" -gt 0 ]; do
+                case "$1" in
+                    --kvm=true)
+                        kvm_set=true
+                        use_kvm=true
+                        ;;
+                    --kvm=false)
+                        kvm_set=true
+                        use_kvm=false
+                        ;;
+                    --kvm)
+                        die "use --kvm=true or --kvm=false"
+                        ;;
+                    *)
+                        die "unknown option for up: $1"
+                        ;;
+                esac
+                shift
+            done
+            if [ "$kvm_set" = true ] && [ "$use_kvm" = true ]; then
+                [ -e /dev/kvm ] || die "--kvm requested but /dev/kvm does not exist"
+                [ -f "$root/$env_dir/docker-compose.kvm.yml" ] || die "missing kvm compose file: $env_dir/docker-compose.kvm.yml"
+            fi
+            cmd_up "$root" "$env_dir" "$use_kvm"
+            ;;
+        down)
+            cmd_down "$root" "${2:-}"
+            ;;
+        ssh)
+            cmd_ssh "$root" "${2:-}"
+            ;;
+        help|-h|--help)
+            usage
+            ;;
+        *)
+            usage >&2
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

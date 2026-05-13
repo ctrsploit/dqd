@@ -2,6 +2,30 @@
 
 [docker_archive](https://github.com/ssst0n3/docker_archive) is being migrated here. For older images, please refer to the previous docker_archive project.
 
+## CLI
+
+The optional CLI is for operating existing environments only. Build and development workflows stay in `Makefile`.
+`dqd ps` lists running dqd environments.
+
+```bash
+script/install_cli.sh
+export PATH="$HOME/.local/bin:$PATH"
+dqd list
+dqd ps
+dqd ps vul
+dqd info runc/v0.0.5
+dqd up runc/v0.0.5
+dqd up runc/v0.0.5 --kvm=false
+dqd ssh runc/v0.0.5
+dqd down runc/v0.0.5
+```
+
+It can also be run directly from the repository:
+
+```bash
+./bin/dqd list
+```
+
 ## Images
 
 ### vul
