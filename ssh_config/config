@@ -118,5 +118,8 @@ Host dqd-runc-v0.0.3
 Host dqd-runc-v0.0.4
     Port 10040
 
+Host dqd-runc-v0.0.5
+    Port 10050
+
 Host dqd-cve-2022-0847
     Port 20847
