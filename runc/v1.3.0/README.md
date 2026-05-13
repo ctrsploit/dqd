@@ -42,10 +42,10 @@ spec: 1.2.1
 go: go1.23.8
 libseccomp: 2.5.6
 root@runc-1-3-0:~# cat /etc/os-release
-PRETTY_NAME="Ubuntu 24.04.2 LTS"
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
 NAME="Ubuntu"
 VERSION_ID="24.04"
-VERSION="24.04.2 LTS (Noble Numbat)"
+VERSION="24.04.4 LTS (Noble Numbat)"
 VERSION_CODENAME=noble
 ID=ubuntu
 ID_LIKE=debian
@@ -55,6 +55,8 @@ BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
 PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
 UBUNTU_CODENAME=noble
 LOGO=ubuntu-logo
+root@runc-1-3-0:~# uname -a
+Linux runc-1-3-0 6.8.0-111-generic #111-Ubuntu SMP PREEMPT_DYNAMIC Sat Apr 11 23:16:02 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
