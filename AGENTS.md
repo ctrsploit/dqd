@@ -3,6 +3,9 @@ This file defines repository-specific rules for autonomous coding agents.
 ## 1) Repository overview
 - Build orchestration is centralized in `Makefile`.
 - CI workflow is `.github/workflows/make.yml`.
+- Repository-local skills live in `skills/`:
+  - `skills/dqd-use/SKILL.md` for operating existing environments.
+  - `skills/dqd-dev/SKILL.md` for developing dqd, migrating environments, and changing ports/CI/build logic.
 - Versioned environment directories include:
   - `ubuntu/24.04`
   - `runc/v1.2.5`
