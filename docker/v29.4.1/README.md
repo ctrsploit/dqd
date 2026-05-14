@@ -10,13 +10,25 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up docker/v29.4.1
+$ ssh dqd-docker-v29.4.1
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd docker/v29.4.1
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
+$ ssh dqd-docker-v29.4.1
 root@docker-29-4-1:~# docker run -ti hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
@@ -29,7 +41,7 @@ Hello from Docker!
 ```
 
 ```shell
-$ ./ssh
+$ ssh dqd-docker-v29.4.1
 root@docker-29-4-1:~# docker version
 Client: Docker Engine - Community
  Version:           29.4.1
@@ -97,7 +109,7 @@ root@docker-29-4-1:~# ldd /usr/bin/runc
 ## build
 
 ```shell
-make all DIR=docker/v29.4.1
+make all ENV=docker/v29.4.1
 ```
 
 for developers:

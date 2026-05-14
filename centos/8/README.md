@@ -12,13 +12,25 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up centos/8
+$ ssh dqd-centos-8
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd centos/8
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
+$ ssh dqd-centos-8
 [root@centos8 ~]# uname -a
 Linux centos8 4.18.0-348.7.1.el8_5.x86_64 #1 SMP Wed Dec 22 13:25:12 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 [root@centos8 ~]# cat /etc/os-release

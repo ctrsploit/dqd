@@ -8,9 +8,21 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up kubernetes/v1.35.1/containerd/v2.2.1/calico/default
+$ ssh dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd kubernetes/v1.35.1/containerd/v2.2.1/calico/default
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ### built-in pods
@@ -48,7 +60,7 @@ nginx   1/1     Running   0          39s
 ### versions
 
 ```shell
-$ ./ssh
+$ ssh dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico
 root@kubernetes-1-35-1-containerd-2-2-1:~# helm version
 version.BuildInfo{Version:"v3.18.4", GitCommit:"d80839cf37d860c8aa9a0503fe463278f26cd5e2", GitTreeState:"clean", GoVersion:"go1.24.4"}
 root@kubernetes-1-35-1-containerd-2-2-1:~# kubectl version

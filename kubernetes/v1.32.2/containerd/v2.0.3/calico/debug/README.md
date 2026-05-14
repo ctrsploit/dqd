@@ -10,17 +10,26 @@
 
 ## Usage
 
-### Startup
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up kubernetes/v1.32.2/containerd/v2.0.3/calico/debug
+```
+
+Fallback without dqd CLI or SSH config:
 
 ```shell
 $ cd kubernetes/v1.32.2/containerd/v2.0.3/calico/debug
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ### Debug Kubelet with Delve
 
 ```shell
-$ ./ssh
+$ ssh dqd-kubernetes-v1.32.2_containerd-v2.0.3_calico_debug
 root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl stop kubelet
 root@kubernetes-1-32-2-containerd-2-0-3:~# ln -sf /usr/local/bin/debug.sh /usr/bin/kubelet
 root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl start kubelet
@@ -32,7 +41,7 @@ API server listening at: [::]:2345
 ### Debug Containerd with Delve
 
 ```shell
-$ ./ssh
+$ ssh dqd-kubernetes-v1.32.2_containerd-v2.0.3_calico_debug
 root@kubernetes-1-32-2-containerd-2-0-3:~# systemctl stop containerd
 root@kubernetes-1-32-2-containerd-2-0-3:~# ln -sf /usr/local/bin/debug.sh /usr/local/bin/containerd
 root@kubernetes-1-32-2-containerd-2-0-3:~# /usr/local/bin/containerd --config /etc/containerd/config.toml
@@ -112,7 +121,7 @@ nginx   1/1     Running   0          39s
 ### Versions
 
 ```shell
-$ ./ssh
+$ ssh dqd-kubernetes-v1.32.2_containerd-v2.0.3_calico_debug
 root@kubernetes-1-32-2-containerd-2-0-3:~# helm version
 kuversion.BuildInfo{Version:"v3.16.4", GitCommit:"7877b45b63f95635153b29a42c0c2f4273ec45ca", GitTreeState:"clean", GoVersion:"go1.22.7"}
 root@kubernetes-1-32-2-containerd-2-0-3:~# kubectl version

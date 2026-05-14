@@ -14,9 +14,21 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up runc/v1.2.5
+$ ssh dqd-runc-v1.2.5
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd runc/v1.2.5
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ### run a container
@@ -38,7 +50,7 @@ Enter 'help' for a list of built-in commands.
 ### versions
 
 ```shell
-$ ./ssh
+$ ssh dqd-runc-v1.2.5
 root@runc-1-2-5:~# runc --version
 runc version 1.2.5
 commit: v1.2.5-0-g59923ef1

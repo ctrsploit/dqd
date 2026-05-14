@@ -12,10 +12,12 @@
 
 ## debug
 
-### 1. gdb in docker (recommend)
+### Start and connect
+
+Recommended gdb session:
 
 ```
-$ docker compose up -d
+$ dqd up ubuntu/22.04-dbg
 $ docker exec -ti ubuntu-22-04-dbg-vm-1 bash
 root@276954a1c0af:/# gdb /vmlinux
 (gdb) target remote :1234
@@ -25,6 +27,14 @@ Remote debugging using :1234
 Continuing.
 ```
 
+Fallback without dqd CLI or SSH config:
+
+```shell
+$ cd ubuntu/22.04-dbg
+$ docker compose up -d
+$ ./ssh
+```
+
 ## env
 
 KVM is not recommended for debugging kernel.
@@ -32,7 +42,7 @@ KVM is not recommended for debugging kernel.
 vm:
 
 ```shell
-$ ./ssh
+$ ssh dqd-ubuntu-22.04-dbg
 root@ubuntu22-04:~# uname -a
 Linux ubuntu22-04 5.15.0-177-generic #187-Ubuntu SMP Sat Apr 11 22:54:33 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 root@ubuntu22-04:~# cat /etc/os-release 

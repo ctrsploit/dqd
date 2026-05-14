@@ -12,6 +12,17 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up ubuntu/20.04
+$ ssh dqd-ubuntu-20.04
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd ubuntu/20.04
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d

@@ -14,13 +14,25 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up ubuntu/22.04
+$ ssh dqd-ubuntu-22.04
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd ubuntu/22.04
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
+$ ssh dqd-ubuntu-22.04
 root@ubuntu22-04:~# uname -a
 Linux ubuntu22-04 5.15.0-177-generic #187-Ubuntu SMP Sat Apr 11 22:54:33 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 root@ubuntu22-04:~# cat /etc/os-release
