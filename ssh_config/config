@@ -36,6 +36,9 @@ Host dqd-runc-v1.3.0
 Host dqd-containerd-v2.2.1
     Port 22100
 
+Host dqd-containerd-v2.2.0
+    Port 22000
+
 Host dqd-containerd-v2.1.4
     Port 21400
 
