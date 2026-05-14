@@ -12,13 +12,24 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up debian/12.0
+$ ssh dqd-debian-12.0
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd debian/12.0
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
 root@debian12-0:~# uname -a
 Linux debian12-0 6.1.0-47-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.170-3 (2026-05-08) x86_64 GNU/Linux
 root@debian12-0:~# cat /etc/os-release

@@ -2,28 +2,42 @@
 
 [docker_archive](https://github.com/ssst0n3/docker_archive) is being migrated here. For older images, please refer to the previous docker_archive project.
 
-## CLI
+## Runtime Setup
 
-The optional CLI is for operating existing environments only. Build and development workflows stay in `Makefile`.
-`dqd ps` lists running dqd environments.
+The `dqd` CLI is for operating existing environments only. Build and development workflows stay in `Makefile`.
+
+### Install
 
 ```bash
 script/install_cli.sh
+script/install_ssh_config.sh
 export PATH="$HOME/.local/bin:$PATH"
+```
+
+Run the install commands once from the repository root. `script/install_cli.sh` links `dqd` into `~/.local/bin`, and `script/install_ssh_config.sh` copies the dqd SSH keys into `~/.ssh/keys` and adds this repository's `ssh_config/config` as an `Include` in `~/.ssh/config`.
+
+If your shell does not pick up `dqd` immediately, run `rehash` or open a new shell.
+
+### Start And Connect
+
+```bash
 dqd list
 dqd ps
 dqd ps vul
-dqd info runc/v0.0.5
-dqd up runc/v0.0.5
-dqd up runc/v0.0.5 --kvm=false
-dqd ssh runc/v0.0.5
-dqd down runc/v0.0.5
+dqd info runc/v1.3.0
+dqd up runc/v1.3.0
+ssh dqd-runc-v1.3.0
+dqd down runc/v1.3.0
 ```
 
-It can also be run directly from the repository:
+SSH aliases use the image name from each environment's `.env` with a `dqd-` prefix. For example, `runc/v1.3.0` uses `ssh dqd-runc-v1.3.0`.
+
+### KVM Mode
+
+`dqd up` automatically uses `docker-compose.kvm.yml` when `/dev/kvm` exists and the environment has a KVM overlay. Use `--kvm=false` when you need to force non-KVM startup:
 
 ```bash
-./bin/dqd list
+dqd up runc/v1.3.0 --kvm=false
 ```
 
 ## Images

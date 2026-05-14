@@ -10,11 +10,21 @@
 
 ## usage
 
-### start up
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up containerd/v2.2.1
+$ ssh dqd-containerd-v2.2.1
+```
+
+Fallback without dqd CLI or SSH config:
 
 ```shell
 $ cd containerd/v2.2.1
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ### run a container
@@ -31,7 +41,6 @@ This message shows that your installation appears to be working correctly.
 ### versions
 
 ```shell
-$ ./ssh
 root@containerd-2-2-1:~# containerd --version
 containerd github.com/containerd/containerd/v2 v2.2.1 dea7da592f5d1d2b7755e3a161be07f43fad8f75
 root@containerd-2-2-1:~# runc --version
@@ -69,4 +78,3 @@ for developers:
 ```dockerfile
 FROM ghcr.io/ctrsploit/containerd-v2.2.1:ctr_v0.2.0
 ```
-

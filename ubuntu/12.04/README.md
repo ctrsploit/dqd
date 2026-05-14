@@ -12,13 +12,24 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up ubuntu/12.04
+$ ssh dqd-ubuntu-12.04
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd ubuntu/12.04
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
 root@ubuntu12-04:~# uname -a
 Linux ubuntu12-04 3.2.0-150-virtual #197-Ubuntu SMP Mon Apr 5 23:03:53 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 root@ubuntu12-04:~# cat /etc/os-release

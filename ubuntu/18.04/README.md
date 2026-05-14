@@ -12,13 +12,24 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up ubuntu/18.04
+$ ssh dqd-ubuntu-18.04
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd ubuntu/18.04
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
 root@ubuntu18-04:~# uname -a
 Linux ubuntu18-04 4.15.0-213-generic #224-Ubuntu SMP Mon Jun 19 13:30:12 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 root@ubuntu18-04:~# cat /etc/os-release

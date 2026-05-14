@@ -12,9 +12,21 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up containerd/v2.0.4
+$ ssh dqd-containerd-v2.0.4
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd containerd/v2.0.4
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ### run a container
@@ -30,7 +42,6 @@ Hello from Docker!
 ### versions
 
 ```shell
-$ ./ssh
 root@containerd-2-0-4:~# containerd --version
 containerd github.com/containerd/containerd/v2 v2.0.4 1a43cb6a1035441f9aca8f5666a9b3ef9e70ab20
 root@containerd-2-0-4:~# runc --version

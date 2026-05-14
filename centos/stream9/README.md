@@ -12,13 +12,24 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up centos/stream9
+$ ssh dqd-centos-stream9
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd centos/stream9
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
 [root@centos-stream9 ~]# uname -a
 Linux centos-stream9 5.14.0-701.el9.x86_64 #1 SMP PREEMPT_DYNAMIC Mon May 4 09:10:57 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 [root@centos-stream9 ~]# cat /etc/os-release

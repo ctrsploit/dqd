@@ -12,9 +12,21 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up kubernetes/v1.32.2/containerd/v2.0.3/init
+$ ssh dqd-kubernetes-v1.32.2_containerd-v2.0.3_init
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd kubernetes/v1.32.2/containerd/v2.0.3/init
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ### built-in pods
@@ -34,7 +46,6 @@ kube-system   kube-scheduler-kubernetes-1-32-2-containerd-2-0-3            1/1  
 ### versions
 
 ```shell
-$ ./ssh
 root@kubernetes-1-32-2-containerd-2-0-3:~# helm version
 version.BuildInfo{Version:"v3.16.4", GitCommit:"7877b45b63f95635153b29a42c0c2f4273ec45ca", GitTreeState:"clean", GoVersion:"go1.22.7"}
 root@kubernetes-1-32-2-containerd-2-0-3:~# kubectl version

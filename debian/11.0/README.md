@@ -10,13 +10,24 @@
 
 ## usage
 
+### Start and connect
+
+Recommended:
+
+```shell
+$ dqd up debian/11.0
+$ ssh dqd-debian-11.0
+```
+
+Fallback without dqd CLI or SSH config:
+
 ```shell
 $ cd debian/11.0
 $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
+$ ./ssh
 ```
 
 ```shell
-$ ./ssh
 root@debian11-0:~# uname -a
 Linux debian11-0 5.10.0-42-amd64 #1 SMP Debian 5.10.251-4 (2026-05-08) x86_64 GNU/Linux
 root@debian11-0:~# cat /etc/os-release
