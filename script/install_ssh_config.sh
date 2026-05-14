@@ -19,6 +19,7 @@ for file in "${KEY_FILES[@]}"; do
   cp "$src" "$dst"
   chmod 600 "$dst"
 done
+echo "Installed dqd SSH keys -> ${KEYS_DIR}"
 
 # Ensure the config file exists
 touch "${CONFIG_FILE}"
@@ -29,4 +30,9 @@ if ! grep -qF -- "${INCLUDE_LINE}" "${CONFIG_FILE}"; then
   echo "${INCLUDE_LINE}" > "${TMP_FILE}"
   cat "${CONFIG_FILE}" >> "${TMP_FILE}"
   mv "${TMP_FILE}" "${CONFIG_FILE}"
+  echo "Added SSH config include -> ${CONFIG_FILE}"
+else
+  echo "SSH config include already present -> ${CONFIG_FILE}"
 fi
+
+echo "You can now connect with aliases such as: ssh dqd-runc-v1.3.0"
