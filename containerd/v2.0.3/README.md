@@ -44,7 +44,6 @@ Hello from Docker!
 ### versions
 
 ```shell
-$ ssh dqd-containerd-v2.0.3
 root@containerd-2-0-3:~# containerd --version
 containerd github.com/containerd/containerd/v2 v2.0.3 06b99ca80cdbfbc6cc8bd567021738c9af2b36ce
 root@containerd-2-0-3:~# runc --version

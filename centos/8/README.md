@@ -30,7 +30,6 @@ $ ./ssh
 ```
 
 ```shell
-$ ssh dqd-centos-8
 [root@centos8 ~]# uname -a
 Linux centos8 4.18.0-348.7.1.el8_5.x86_64 #1 SMP Wed Dec 22 13:25:12 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 [root@centos8 ~]# cat /etc/os-release

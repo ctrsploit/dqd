@@ -30,7 +30,6 @@ $ ./ssh
 ```
 
 ```shell
-$ ssh dqd-ubuntu-14.04
 root@ubuntu14-04:~# uname -a
 Linux ubuntu14-04 3.13.0-170-generic #220-Ubuntu SMP Thu May 9 12:40:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 root@ubuntu14-04:~# cat /etc/os-release

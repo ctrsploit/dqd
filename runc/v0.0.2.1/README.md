@@ -48,7 +48,6 @@ Enter 'help' for a list of built-in commands.
 ### versions
 
 ```shell
-$ ssh dqd-runc-v0.0.2.1
 root@runc-0-0-2-1:~# runc --version
 runc version 0.2
 root@runc-0-0-2-1:~# cat /etc/os-release

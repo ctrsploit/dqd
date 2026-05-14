@@ -27,14 +27,6 @@ Remote debugging using :1234
 Continuing.
 ```
 
-Fallback without dqd CLI or SSH config:
-
-```shell
-$ cd ubuntu/22.04-dbg
-$ docker compose up -d
-$ ./ssh
-```
-
 ## env
 
 KVM is not recommended for debugging kernel.

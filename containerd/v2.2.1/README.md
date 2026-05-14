@@ -41,7 +41,6 @@ This message shows that your installation appears to be working correctly.
 ### versions
 
 ```shell
-$ ssh dqd-containerd-v2.2.1
 root@containerd-2-2-1:~# containerd --version
 containerd github.com/containerd/containerd/v2 v2.2.1 dea7da592f5d1d2b7755e3a161be07f43fad8f75
 root@containerd-2-2-1:~# runc --version

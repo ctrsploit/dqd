@@ -28,7 +28,6 @@ $ ./ssh
 ```
 
 ```shell
-$ ssh dqd-docker-v29.4.1
 root@docker-29-4-1:~# docker run -ti hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
@@ -41,7 +40,6 @@ Hello from Docker!
 ```
 
 ```shell
-$ ssh dqd-docker-v29.4.1
 root@docker-29-4-1:~# docker version
 Client: Docker Engine - Community
  Version:           29.4.1

@@ -28,7 +28,6 @@ $ ./ssh
 ```
 
 ```shell
-$ ssh dqd-debian-11.0
 root@debian11-0:~# uname -a
 Linux debian11-0 5.10.0-42-amd64 #1 SMP Debian 5.10.251-4 (2026-05-08) x86_64 GNU/Linux
 root@debian11-0:~# cat /etc/os-release

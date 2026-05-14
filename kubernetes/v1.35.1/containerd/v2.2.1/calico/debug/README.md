@@ -16,6 +16,7 @@ Recommended:
 
 ```shell
 $ dqd up kubernetes/v1.35.1/containerd/v2.2.1/calico/debug
+$ ssh dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico_debug
 ```
 
 Fallback without dqd CLI or SSH config:
@@ -29,7 +30,6 @@ $ ./ssh
 ### Debug Kubelet with Delve
 
 ```shell
-$ ssh dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico_debug
 root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl stop kubelet
 root@kubernetes-1-35-1-containerd-2-2-1:~# ln -sf /usr/local/bin/debug.sh /usr/bin/kubelet
 root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl start kubelet
@@ -41,7 +41,6 @@ API server listening at: [::]:2345
 ### Debug Containerd with Delve
 
 ```shell
-$ ssh dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico_debug
 root@kubernetes-1-35-1-containerd-2-2-1:~# systemctl stop containerd
 root@kubernetes-1-35-1-containerd-2-2-1:~# ln -sf /usr/local/bin/debug.sh /usr/local/bin/containerd
 root@kubernetes-1-35-1-containerd-2-2-1:~# /usr/local/bin/containerd --config /etc/containerd/config.toml
@@ -122,7 +121,6 @@ nginx   1/1     Running   0          39s
 ### Versions
 
 ```shell
-$ ssh dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico_debug
 root@kubernetes-1-35-1-containerd-2-2-1:~# helm version
 version.BuildInfo{Version:"v3.18.4", GitCommit:"d80839cf37d860c8aa9a0503fe463278f26cd5e2", GitTreeState:"clean", GoVersion:"go1.24.4"}
 root@kubernetes-1-35-1-containerd-2-2-1:~# kubectl version

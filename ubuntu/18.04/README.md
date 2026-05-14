@@ -30,7 +30,6 @@ $ ./ssh
 ```
 
 ```shell
-$ ssh dqd-ubuntu-18.04
 root@ubuntu18-04:~# uname -a
 Linux ubuntu18-04 4.15.0-213-generic #224-Ubuntu SMP Mon Jun 19 13:30:12 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 root@ubuntu18-04:~# cat /etc/os-release

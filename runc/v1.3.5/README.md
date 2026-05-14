@@ -44,7 +44,6 @@ Enter 'help' for a list of built-in commands.
 ### versions
 
 ```shell
-$ ssh dqd-runc-v1.3.5
 root@runc-1-3-5:~# runc --version
 runc version 1.3.5
 commit: v1.3.5-0-g488fc13e
