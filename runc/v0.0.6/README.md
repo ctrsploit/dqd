@@ -49,8 +49,8 @@ Enter 'help' for a list of built-in commands.
 
 ```shell
 root@runc-0-0-6:~# runc --version
-runc version 0.0.6
-root@runc-0-0-6:~# cat /etc/os-release
+runc version 0.0.5
+root@runc-0-0-6:~# cat /etc/os-release 
 NAME="Ubuntu"
 VERSION="16.04.7 LTS (Xenial Xerus)"
 ID=ubuntu
