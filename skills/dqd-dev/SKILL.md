@@ -82,6 +82,13 @@ git diff --check
 make ci ENV=<env-path> CI_MAKE_TARGETS="ctr"
 ```
 
+When validation passes, commit the changes:
+
+```bash
+git add <ENV>/ README.md ssh_config/config
+git commit -m "<env-name>"
+```
+
 For scripts:
 
 ```bash
