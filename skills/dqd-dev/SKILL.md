@@ -9,7 +9,10 @@ Use this skill for repository changes. Use `dqd-use` when only running existing 
 
 ## Standard Workflow
 
-1. Work from a branch or worktree based on current `main`.
+1. Create a dedicated branch before any edits:
+   ```bash
+   git checkout main && git pull && git checkout -b <env-name>
+   ```
 2. Read `Makefile`, target `<ENV>/.env`, and nearby environments before editing.
 3. Keep generated artifacts out of git, especially `*.qcow2`.
 4. Validate with the smallest real target that covers the change.
