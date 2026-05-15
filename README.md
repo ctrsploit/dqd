@@ -138,6 +138,12 @@ dqd up runc/v1.3.0 --kvm=false
 |-----|---------|-------|------|
 | [kubernetes-v1.34.0_containerd-v2.1.4_base](./kubernetes/v1.34.0/containerd/v2.1.4/base) | v0.1.0  | - | k8s components installed  |
 
+#### v1.33.3
+
+| tag | version | alias | note |
+|-----|---------|-------|------|
+| [kubernetes-v1.33.3_containerd-v2.1.1_base](./kubernetes/v1.33.3/containerd/v2.1.1/base) | v0.1.0  | - | k8s components installed  |
+
 #### v1.32.2
 
 | tag | version | alias | note |
