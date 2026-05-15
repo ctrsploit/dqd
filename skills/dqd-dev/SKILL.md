@@ -30,6 +30,7 @@ When migrating one environment:
 - Preserve original behavior and README examples unless the dqd migration requires a change.
 - Update top-level `README.md` and `ssh_config/config`.
 - Use `ENV=<env-path>`, not old `DIR=<env-path>`, in docs and commands.
+- In README's `### versions` section, use `<!-- VERIFY -->` placeholder comments for all runtime-dependent output. The line above each placeholder must be the expected prompt + command (e.g., `root@<hostname>:~# runc --version`).
 
 For simple runc archive migrations on Ubuntu 16.04, follow the existing `runc/v0.0.x` pattern:
 
