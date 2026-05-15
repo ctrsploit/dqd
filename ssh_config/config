@@ -160,3 +160,6 @@ Host dqd-runc-v0.0.8
 Host dqd-runc-v0.0.9
     Port 10090
 
+Host dqd-runc-v0.1.0
+    Port 10000
+
