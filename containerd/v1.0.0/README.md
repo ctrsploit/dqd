@@ -41,13 +41,26 @@ Hello from Docker!
 
 ```shell
 root@containerd-1-0-0:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.0.0 89623f28b87a6004d4b785663257362d1658a729
 root@containerd-1-0-0:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc4
+commit: -dirty
+spec: 1.0.0
 root@containerd-1-0-0:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="20.04.6 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
 root@containerd-1-0-0:~# uname -a
-<!-- VERIFY -->
+Linux containerd-1-0-0 5.4.0-216-generic #236-Ubuntu SMP Fri Apr 11 19:53:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
