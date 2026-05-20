@@ -31,6 +31,7 @@ When migrating one environment:
 - Update top-level `README.md` and `ssh_config/config`.
 - Use `ENV=<env-path>`, not old `DIR=<env-path>`, in docs and commands.
 - In README's `### versions` section, use `<!-- VERIFY -->` placeholder comments for all runtime-dependent output. The line above each placeholder must be the expected prompt + command (e.g., `root@<hostname>:~# runc --version`). Standard `### versions` commands are: component version command (e.g., `runc --version`, `containerd --version`), `cat /etc/os-release`, and `uname -a`. Leave `<!-- VERIFY -->` placeholders in place until the image has been built by CI and the user requests a README update.
+- After creating all files, run `make ctr ENV=<env-path>` to validate the Dockerfile builds (base image exists, URLs are reachable). Do not run `make vm` or `make dqd` locally — those steps require pushes and produce large artifacts; they belong to CI.
 
 For simple runc archive migrations on Ubuntu 16.04, follow the existing `runc/v0.0.x` pattern:
 
