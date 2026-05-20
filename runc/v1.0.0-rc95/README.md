@@ -51,11 +51,25 @@ Enter 'help' for a list of built-in commands.
 
 ```shell
 root@runc-1-0-0-rc95:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc95
+spec: 1.0.2-dev
+go: go1.14.15
+libseccomp: 2.5.1
 root@runc-1-0-0-rc95:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="20.04.6 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
 root@runc-1-0-0-rc95:~# uname -a
-<!-- VERIFY -->
+Linux runc-1-0-0-rc95 5.4.0-216-generic #236-Ubuntu SMP Fri Apr 11 19:53:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
