@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/containerd-v1.5.4:v0.1.0
+    ports:
+        - "15400:22"
+    tty: true
+    stdin_open: true
