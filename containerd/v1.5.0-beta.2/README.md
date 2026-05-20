@@ -41,13 +41,28 @@ Hello from Docker!
 
 ```shell
 root@containerd-1-5-0-beta-2:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.5.0-beta.2 07a3ce3d7f884f278f0d48b2d024b8ecf4e6f6bd
 root@containerd-1-5-0-beta-2:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc93
+spec: 1.0.2-dev
+go: go1.14.14
+libseccomp: 2.5.1
 root@containerd-1-5-0-beta-2:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@containerd-1-5-0-beta-2:~# uname -a
-<!-- VERIFY -->
+Linux containerd-1-5-0-beta-2 6.8.0-117-generic #117-Ubuntu SMP PREEMPT_DYNAMIC Tue May  5 19:26:24 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
