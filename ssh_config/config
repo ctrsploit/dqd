@@ -12,6 +12,9 @@ Host dqd-ubuntu-24.04
 Host dqd-runc-v1.2.5
     Port 12500
 
+Host dqd-containerd-v1.5.4
+    Port 15400
+
 Host dqd-containerd-v1.5.2
     Port 15200
 
