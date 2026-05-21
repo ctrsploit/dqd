@@ -1,4 +1,4 @@
-# dqd: images of container's components
+# dqd: reproducible container runtime environments
 
 [docker_archive](https://github.com/ssst0n3/docker_archive) is being migrated here. For older images, please refer to the previous docker_archive project.
 
