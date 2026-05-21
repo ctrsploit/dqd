@@ -130,6 +130,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [containerd-v2.1.1](./containerd/v2.1.1/) |
 | [containerd-v2.0.4](./containerd/v2.0.4/) |
 | [containerd-v2.0.3](./containerd/v2.0.3/) |
+| [containerd-v1.6.21](./containerd/v1.6.21/) |
 | [containerd-v1.6.19](./containerd/v1.6.19/) |
 | [containerd-v1.6.16](./containerd/v1.6.16/) |
 | [containerd-v1.6.12](./containerd/v1.6.12/) |
