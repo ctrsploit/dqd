@@ -41,13 +41,28 @@ Hello from Docker!
 
 ```shell
 root@containerd-1-6-7:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.6.7 0197261a30bf81f1ee8e6a4dd2dea0ef95d67ccb
 root@containerd-1-6-7:~# runc --version
-<!-- VERIFY -->
+runc version 1.1.3
+commit: v1.1.3-0-g6724737f
+spec: 1.0.2-dev
+go: go1.17.10
+libseccomp: 2.5.4
 root@containerd-1-6-7:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
 root@containerd-1-6-7:~# uname -a
-<!-- VERIFY -->
+Linux containerd-1-6-7 5.15.0-179-generic #189-Ubuntu SMP Tue May 5 18:20:56 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
