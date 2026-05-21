@@ -44,7 +44,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 ### vul
 
-| tag |
+| image |
 |-----|
 | [cve-2026-43284](./vul/cve-2026-43284/) |
 | [cve-2026-31431](./vul/cve-2026-31431/) |
@@ -53,7 +53,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 ### ubuntu
 
-| tag |
+| image |
 |-----|
 | [ubuntu-12.04](./ubuntu/12.04/) |
 | [ubuntu-14.04](./ubuntu/14.04/) |
@@ -66,21 +66,21 @@ dqd up runc/v1.3.0 --kvm=false
 
 ### debian
 
-| tag |
+| image |
 |-----|
 | [debian-11.0](./debian/11.0/) |
 | [debian-12.0](./debian/12.0/) |
 
 ### centos
 
-| tag |
+| image |
 |-----|
 | [centos-8](./centos/8/) |
 | [centos-stream9](./centos/stream9/) |
 
 ### runc
 
-| tag |
+| image |
 |-----|
 | [runc-v1.3.5](./runc/v1.3.5/) |
 | [runc-v1.3.4](./runc/v1.3.4/) |
@@ -117,7 +117,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 ### containerd
 
-| tag |
+| image |
 |-----|
 | [containerd-v2.2.3](./containerd/v2.2.3/) |
 | [containerd-v2.2.1](./containerd/v2.2.1/) |
@@ -158,7 +158,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 ### docker
 
-| tag |
+| image |
 |-----|
 | [docker-v20.10.12](./docker/v20.10.12/) |
 | [docker-v29.4.1](./docker/v29.4.1/) |
@@ -167,58 +167,58 @@ dqd up runc/v1.3.0 --kvm=false
 
 #### v1.35.1
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.35.1_containerd-v2.2.1_calico_debug](./kubernetes/v1.35.1/containerd/v2.2.1/calico/debug) | - | debug kubelet,containerd |
-| [kubernetes-v1.35.1_containerd-v2.2.1_calico](./kubernetes/v1.35.1/containerd/v2.2.1/calico/default) | - | calico installed |
-| [kubernetes-v1.35.1_containerd-v2.2.1_init](./kubernetes/v1.35.1/containerd/v2.2.1/init) | - | kubeadm init, without CNI |
-| [kubernetes-v1.35.1_containerd-v2.2.1_base](./kubernetes/v1.35.1/containerd/v2.2.1/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.35.1_containerd-v2.2.1_calico_debug](./kubernetes/v1.35.1/containerd/v2.2.1/calico/debug) | debug kubelet,containerd |
+| [kubernetes-v1.35.1_containerd-v2.2.1_calico](./kubernetes/v1.35.1/containerd/v2.2.1/calico/default) | calico installed |
+| [kubernetes-v1.35.1_containerd-v2.2.1_init](./kubernetes/v1.35.1/containerd/v2.2.1/init) | kubeadm init, without CNI |
+| [kubernetes-v1.35.1_containerd-v2.2.1_base](./kubernetes/v1.35.1/containerd/v2.2.1/base) | k8s components installed |
 
 #### v1.35.0
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.35.0_containerd-v2.2.0_base](./kubernetes/v1.35.0/containerd/v2.2.0/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.35.0_containerd-v2.2.0_base](./kubernetes/v1.35.0/containerd/v2.2.0/base) | k8s components installed |
 
 #### v1.34.0
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.34.0_containerd-v2.1.4_base](./kubernetes/v1.34.0/containerd/v2.1.4/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.34.0_containerd-v2.1.4_base](./kubernetes/v1.34.0/containerd/v2.1.4/base) | k8s components installed |
 
 #### v1.33.3
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.33.3_containerd-v2.1.3_base](./kubernetes/v1.33.3/containerd/v2.1.3/base) | - | k8s components installed  |
-| [kubernetes-v1.33.3_containerd-v2.1.2_base](./kubernetes/v1.33.3/containerd/v2.1.2/base) | - | k8s components installed  |
-| [kubernetes-v1.33.3_containerd-v2.1.1_base](./kubernetes/v1.33.3/containerd/v2.1.1/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.33.3_containerd-v2.1.3_base](./kubernetes/v1.33.3/containerd/v2.1.3/base) | k8s components installed |
+| [kubernetes-v1.33.3_containerd-v2.1.2_base](./kubernetes/v1.33.3/containerd/v2.1.2/base) | k8s components installed |
+| [kubernetes-v1.33.3_containerd-v2.1.1_base](./kubernetes/v1.33.3/containerd/v2.1.1/base) | k8s components installed |
 
 #### v1.33.4
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.33.4_containerd-v2.1.4_base](./kubernetes/v1.33.4/containerd/v2.1.4/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.33.4_containerd-v2.1.4_base](./kubernetes/v1.33.4/containerd/v2.1.4/base) | k8s components installed |
 
 #### v1.33.7
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.33.7_containerd-v2.1.5_base](./kubernetes/v1.33.7/containerd/v2.1.5/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.33.7_containerd-v2.1.5_base](./kubernetes/v1.33.7/containerd/v2.1.5/base) | k8s components installed |
 
 #### v1.33.8
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.33.8_containerd-v2.2.1_base](./kubernetes/v1.33.8/containerd/v2.2.1/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.33.8_containerd-v2.2.1_base](./kubernetes/v1.33.8/containerd/v2.2.1/base) | k8s components installed |
 
 #### v1.32.2
 
-| tag | alias | note |
-|-----|-------|------|
-| [kubernetes-v1.32.2_containerd-v2.0.4_init](./kubernetes/v1.32.2/containerd/v2.0.4/init) | - | kubeadm init, without CNI |
-| [kubernetes-v1.32.2_containerd-v2.0.4_base](./kubernetes/v1.32.2/containerd/v2.0.4/base) | - | k8s components installed  |
-| [kubernetes-v1.32.2_containerd-v2.0.3_calico_debug](./kubernetes/v1.32.2/containerd/v2.0.3/calico/debug) | - | debug kubelet,containerd |
-| [kubernetes-v1.32.2_containerd-v2.0.3_calico](./kubernetes/v1.32.2/containerd/v2.0.3/calico/default) | - | calico installed  |
-| [kubernetes-v1.32.2_containerd-v2.0.3_init](./kubernetes/v1.32.2/containerd/v2.0.3/init) | - | kubeadm init, without CNI  |
-| [kubernetes-v1.32.2_containerd-v2.0.3_base](./kubernetes/v1.32.2/containerd/v2.0.3/base) | - | k8s components installed  |
+| image | note |
+|-----|------|
+| [kubernetes-v1.32.2_containerd-v2.0.4_init](./kubernetes/v1.32.2/containerd/v2.0.4/init) | kubeadm init, without CNI |
+| [kubernetes-v1.32.2_containerd-v2.0.4_base](./kubernetes/v1.32.2/containerd/v2.0.4/base) | k8s components installed |
+| [kubernetes-v1.32.2_containerd-v2.0.3_calico_debug](./kubernetes/v1.32.2/containerd/v2.0.3/calico/debug) | debug kubelet,containerd |
+| [kubernetes-v1.32.2_containerd-v2.0.3_calico](./kubernetes/v1.32.2/containerd/v2.0.3/calico/default) | calico installed |
+| [kubernetes-v1.32.2_containerd-v2.0.3_init](./kubernetes/v1.32.2/containerd/v2.0.3/init) | kubeadm init, without CNI |
+| [kubernetes-v1.32.2_containerd-v2.0.3_base](./kubernetes/v1.32.2/containerd/v2.0.3/base) | k8s components installed |
