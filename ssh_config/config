@@ -12,6 +12,9 @@ Host dqd-ubuntu-24.04
 Host dqd-runc-v1.2.5
     Port 12500
 
+Host dqd-containerd-v1.7.13
+    Port 17130
+
 Host dqd-containerd-v1.7.8
     Port 17800
 
