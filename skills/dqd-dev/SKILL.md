@@ -22,6 +22,7 @@ Use this skill for repository changes. Use `dqd-use` when only running existing 
 
 When migrating one environment:
 
+- Create a dedicated branch: `git checkout main && git pull && git checkout -b <env-name>`.
 - Copy only files needed by dqd, normally `.env`, `Dockerfile`, `README.md`, `docker-compose.yml`, `docker-compose.kvm.yml`, and `ssh`.
 - Do not migrate old `docker-compose.swr-mirror.yml` unless explicitly requested.
 - Do not migrate old `scp` helpers unless explicitly requested.
