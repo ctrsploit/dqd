@@ -88,6 +88,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [runc-v1.3.3](./runc/v1.3.3/) |
 | [runc-v1.3.0](./runc/v1.3.0/) |
 | [runc-v1.2.5](./runc/v1.2.5/) |
+| [runc-v1.2.6](./runc/v1.2.6/) |
 | [runc-v1.2.4](./runc/v1.2.4/) |
 | [runc-v1.1.12](./runc/v1.1.12/) |
 | [runc-v1.1.9](./runc/v1.1.9/) |

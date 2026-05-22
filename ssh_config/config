@@ -310,6 +310,9 @@ Host dqd-runc-v1.0.0-rc5
 Host dqd-runc-v1.0.0-rc4
     Port 10041
 
+Host dqd-runc-v1.2.6
+    Port 12600
+
 Host dqd-runc-v1.2.4
     Port 12400
 
