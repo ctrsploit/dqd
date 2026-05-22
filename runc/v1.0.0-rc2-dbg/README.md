@@ -53,7 +53,8 @@ Process 398 has exited with status 0
 root@runc-1-0-0-rc2-dbg:~# runc --version
 API server listening at: [::]:2346
 2025-05-12T13:54:45Z warning layer=rpc Listening for remote connections (connections are not authenticated nor encrypted)
-<!-- VERIFY -->
+runc version 1.0.0-rc2
+spec: 1.0.0-rc2-dev
 ```
 
 ### 2. debug the runc init
@@ -86,11 +87,24 @@ API server listening at: [::]:2347
 
 ```shell
 root@runc-1-0-0-rc2-dbg:~# runc --version
-<!-- VERIFY -->
+API server listening at: [::]:2346
+2026-05-22T13:01:49Z warning layer=rpc Listening for remote connections (connections are not authenticated nor encrypted)
+runc version 1.0.0-rc2
+spec: 1.0.0-rc2-dev
 root@runc-1-0-0-rc2-dbg:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="16.04.7 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.7 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
 root@runc-1-0-0-rc2-dbg:~# uname -a
-<!-- VERIFY -->
+Linux runc-1-0-0-rc2-dbg 4.4.0-210-generic #242-Ubuntu SMP Fri Apr 16 09:57:56 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
