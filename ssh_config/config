@@ -316,6 +316,9 @@ Host dqd-runc-v1.0.0-rc10
 Host dqd-runc-v1.0.0-rc8
     Port 10081
 
+Host dqd-runc-v1.0.0-rc6
+    Port 10061
+
 Host dqd-runc-v1.0.0-rc5
     Port 10051
 
