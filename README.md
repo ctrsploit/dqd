@@ -110,6 +110,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [runc-v1.0.0-rc5](./runc/v1.0.0-rc5/) |
 | [runc-v1.0.0-rc4](./runc/v1.0.0-rc4/) |
 | [runc-v1.0.0-rc2](./runc/v1.0.0-rc2/) |
+| [runc-v1.0.0-rc2-dbg](./runc/v1.0.0-rc2-dbg/) |
 | [runc-v1.0.0-rc1](./runc/v1.0.0-rc1/) |
 | [runc-v0.1.1](./runc/v0.1.1/) |
 | [runc-v0.1.0](./runc/v0.1.0/) |

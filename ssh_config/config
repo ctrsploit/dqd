@@ -325,6 +325,9 @@ Host dqd-runc-v1.0.0-rc4
 Host dqd-runc-v1.0.0-rc2
     Port 10019
 
+Host dqd-runc-v1.0.0-rc2-dbg
+    Port 10022
+
 Host dqd-runc-v1.0.0-rc1
     Port 10009
 
