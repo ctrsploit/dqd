@@ -49,11 +49,23 @@ Enter 'help' for a list of built-in commands.
 
 ```shell
 root@runc-1-0-0-rc3:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc3
+commit: -dirty
+spec: 1.0.0-rc5
 root@runc-1-0-0-rc3:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="16.04.7 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.7 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
 root@runc-1-0-0-rc3:~# uname -a
-<!-- VERIFY -->
+Linux runc-1-0-0-rc3 4.4.0-210-generic #242-Ubuntu SMP Fri Apr 16 09:57:56 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
