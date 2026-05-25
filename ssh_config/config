@@ -370,6 +370,9 @@ Host dqd-runc-v1.1.8
 Host dqd-runc-v1.1.7
     Port 11700
 
+Host dqd-runc-v1.1.5
+    Port 11500
+
 Host dqd-runc-v1.1.4
     Port 11400
 
