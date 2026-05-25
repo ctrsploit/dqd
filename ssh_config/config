@@ -358,6 +358,9 @@ Host dqd-runc-v1.2.6
 Host dqd-runc-v1.2.4
     Port 12400
 
+Host dqd-runc-v1.2.0-rc.3
+    Port 12030
+
 Host dqd-runc-v1.2.0-rc.2
     Port 12020
 
