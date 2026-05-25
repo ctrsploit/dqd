@@ -34,6 +34,14 @@ When migrating one environment:
 - In README's `### versions` section, use `<!-- VERIFY -->` placeholder comments for all runtime-dependent output. The line above each placeholder must be the expected prompt + command (e.g., `root@<hostname>:~# runc --version`). Standard `### versions` commands are: component version command (e.g., `runc --version`, `containerd --version`), `cat /etc/os-release`, and `uname -a`. Leave `<!-- VERIFY -->` placeholders in place until the image has been built by CI and the user requests a README update.
 - After creating all files, run `make ctr ENV=<env-path>` to validate the Dockerfile builds (base image exists, URLs are reachable). Do not run `make vm` or `make dqd` locally — those steps require pushes and produce large artifacts; they belong to CI.
 
+For runc/containerd `-dbg` variants (application-level debugging with dlv wrapper):
+
+- The base image is a ctr image (e.g., `ghcr.io/ctrsploit/runc-v1.0.0-rc2:ctr_v0.1.0`), not an ubuntu base.
+- Copy `runc.debug` and `attach.sh` from an existing `-dbg` variant in dqd.
+- Do NOT set `CI_MAKE_TARGETS` — the default `all` flow is correct.
+- Add `QEMU_HOSTFWD` environment variable and dlv ports (2346/2347) to `docker-compose.yml`.
+- Use `make dbg ENV=<env-path>` in README's `## build` section, as the `dbg` target refers to the component, not the kernel.
+
 For simple runc archive migrations on Ubuntu 16.04, follow the existing `runc/v0.0.x` pattern:
 
 - `VERSION=v0.3.0`
@@ -49,11 +57,26 @@ CI entrypoint:
 make ci ENV=<env-path>
 ```
 
-If `<ENV>/.env` does not define `CI_MAKE_TARGETS`, CI runs `all`. For nonstandard flows, set `CI_MAKE_TARGETS` in `.env`; for example debug images may need:
+If `<ENV>/.env` does not define `CI_MAKE_TARGETS`, CI runs `all`.
+
+**When to set `CI_MAKE_TARGETS`:**
+
+Only set `CI_MAKE_TARGETS` when the environment needs a non-default CI flow. Before setting it, verify why `all` is insufficient.
+
+The `dbg` target (which adds `nokaslr` kernel argument for kernel-level debugging) must NOT be used for runc/containerd `-dbg` variants that only wrap the component with dlv. Those are application-level debug images — use the default `all` flow.
+
+Checklist before setting `CI_MAKE_TARGETS` to `dbg`:
+
+- Does `<ENV>/Dockerfile.dbg` exist? If not, do NOT use `dbg`.
+- Is the debugging target the Linux kernel itself? If it is only application-level (dlv/gdb wrapping a userspace binary), do NOT use `dbg`.
+
+Example of when `dbg` IS appropriate:
 
 ```env
 CI_MAKE_TARGETS=check-ssh-ports dbg push post-clean generate_ssh_config
 ```
+
+Applies only to environments like `ubuntu/22.04-dbg` that have `Dockerfile.dbg` and need kernel debug support.
 
 ## SSH Port Rules
 
