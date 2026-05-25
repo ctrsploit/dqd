@@ -209,6 +209,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [containerd-v1.1.0](./containerd/v1.1.0/) |
 | [containerd-v1.0.1](./containerd/v1.0.1/) |
 | [containerd-v1.0.0](./containerd/v1.0.0/) |
+| [containerd-v0.2.4](./containerd/v0.2.4/) |
 
 ### docker
 
