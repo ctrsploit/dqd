@@ -144,6 +144,9 @@ Host dqd-containerd-v1.0.1
 Host dqd-containerd-v1.0.0
     Port 10004
 
+Host dqd-containerd-v0.2.4
+    Port 24000
+
 Host dqd-containerd-v2.0.3
     Port 20300
 
