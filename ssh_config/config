@@ -165,6 +165,9 @@ Host dqd-runc-v1.3.3
 Host dqd-runc-v1.3.0
     Port 13000
 
+Host dqd-runc-v1.3.0-rc.2
+    Port 13020
+
 Host dqd-runc-v1.3.0-rc.1
     Port 13010
 
