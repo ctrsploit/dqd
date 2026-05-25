@@ -106,6 +106,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [runc-v1.0.0-rc93](./runc/v1.0.0-rc93/) |
 | [runc-v1.0.0-rc92](./runc/v1.0.0-rc92/) |
 | [runc-v1.0.0-rc10](./runc/v1.0.0-rc10/) |
+| [runc-v1.0.0-rc9](./runc/v1.0.0-rc9/) |
 | [runc-v1.0.0-rc8](./runc/v1.0.0-rc8/) |
 | [runc-v1.0.0-rc7](./runc/v1.0.0-rc7/) |
 | [runc-v1.0.0-rc6](./runc/v1.0.0-rc6/) |
