@@ -385,6 +385,9 @@ Host dqd-runc-v1.0.3
 Host dqd-runc-v1.0.2
     Port 10200
 
+Host dqd-runc-v1.0.1
+    Port 10101
+
 Host dqd-runc-v1.0.0
     Port 10001
 
