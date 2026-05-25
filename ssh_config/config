@@ -379,6 +379,9 @@ Host dqd-runc-v1.1.3
 Host dqd-runc-v1.1.2
     Port 11200
 
+Host dqd-runc-v1.1.1
+    Port 11100
+
 Host dqd-runc-v1.1.0
     Port 11001
 
