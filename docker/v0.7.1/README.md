@@ -31,7 +31,7 @@ $ ./ssh
 
 ```shell
 root@docker-0-7-1:~# docker --version
-bash: docker: command not found
+Docker version 0.7.1, build 88df052
 root@docker-0-7-1:~# cat /etc/os-release
 NAME="Ubuntu"
 VERSION="12.04.5 LTS, Precise Pangolin"
