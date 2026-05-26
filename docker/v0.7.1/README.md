@@ -31,11 +31,16 @@ $ ./ssh
 
 ```shell
 root@docker-0-7-1:~# docker --version
-<!-- VERIFY -->
+bash: docker: command not found
 root@docker-0-7-1:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="12.04.5 LTS, Precise Pangolin"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu precise (12.04.5 LTS)"
+VERSION_ID="12.04"
 root@docker-0-7-1:~# uname -a
-<!-- VERIFY -->
+Linux docker-0-7-1 3.2.0-150-virtual #197-Ubuntu SMP Mon Apr 5 23:03:53 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
