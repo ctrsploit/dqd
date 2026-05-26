@@ -107,8 +107,20 @@ Run what matches the scope:
 make env ENV=<env-path>
 docker compose -f <env-path>/docker-compose.yml config
 make check-ssh-ports
+# verify IDENTITY_FILE is consistent with the base image's SSH key type
+# ed25519: modern systems (Ubuntu ≥14.04) → ~/.ssh/keys/dqd
+# ecdsa: old systems (Ubuntu 12.04) → ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
 git diff --check
 make ci ENV=<env-path> CI_MAKE_TARGETS="ctr"
+```
+
+Before committing, validate `<ENV>/.env` for integrity:
+
+```bash
+# Check for duplicate keys (each key should appear exactly once)
+grep -oP '^\w+=' <ENV>/.env | sort | uniq -d
+# Check total line count matches expected
+wc -l <ENV>/.env
 ```
 
 When validation passes, commit the changes:
