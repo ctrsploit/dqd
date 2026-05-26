@@ -34,6 +34,7 @@ When migrating one environment:
 - Preserve original behavior and README examples unless the dqd migration requires a change.
 - Update top-level `README.md` and `ssh_config/config`.
 - Use `ENV=<env-path>`, not old `DIR=<env-path>`, in docs and commands.
+- README structure under `## usage`: `### Start and connect` → `### <tool-specific title>` → `### versions` → `## build` → `for developers:`. The tool-specific subsection title must describe what the tool does, not be a generic label like "basic usage". Examples: "Run a container" for docker, "Run a container with runc" for runc, "Run a container with ctr" for containerd, "Run a container with nerdctl" for nerdctl, "Deploy a pod" for kubernetes.
 - In README's `### versions` section, use `<!-- VERIFY -->` placeholder comments for all runtime-dependent output. The line above each placeholder must be the expected prompt + command (e.g., `root@<hostname>:~# runc --version`). Standard `### versions` commands are: component version command (e.g., `runc --version`, `containerd --version`), `cat /etc/os-release`, and `uname -a`. Leave `<!-- VERIFY -->` placeholders in place until the image has been built by CI and the user requests a README update.
 - After creating all files, run `make ctr ENV=<env-path>` to validate the Dockerfile builds (base image exists, URLs are reachable). Do not run `make vm` or `make dqd` locally — those steps require pushes and produce large artifacts; they belong to CI.
 
