@@ -31,13 +31,25 @@ $ ./ssh
 
 ```shell
 root@containerd-0-2-4:~# containerd --version
-<!-- VERIFY -->
+containerd version 0.2.4 commit: 71861281661331fbc81936be81f05d8db71fc1ca
 root@containerd-0-2-4:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc1
+commit: 04f275d4601ca7e5ff9460cec7f65e8dd15443ec
+spec: 1.0.0-rc1
 root@containerd-0-2-4:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="16.04.7 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.7 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
 root@containerd-0-2-4:~# uname -a
-<!-- VERIFY -->
+Linux containerd-0-2-4 4.4.0-210-generic #242-Ubuntu SMP Fri Apr 16 09:57:56 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
