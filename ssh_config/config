@@ -15,6 +15,12 @@ Host dqd-runc-v1.2.5
 Host dqd-containerd-v2.1.0
     Port 21001
 
+Host dqd-containerd-v2.1.1
+    Port 21100
+
+Host dqd-containerd-v2.1.1-debug
+    Port 21102
+
 Host dqd-containerd-v2.1.0-debug
     Port 21019
 
