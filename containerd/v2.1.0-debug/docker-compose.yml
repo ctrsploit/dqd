@@ -1,0 +1,15 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/containerd-v2.1.0-debug:v0.1.0
+    environment:
+        - "QEMU_HOSTFWD=hostfwd=tcp::2343-:2343,hostfwd=tcp::2344-:2344,hostfwd=tcp::2345-:2345,hostfwd=tcp::2346-:2346,hostfwd=tcp::2347-:2347,hostfwd=tcp::2348-:2348"
+    ports:
+        - "21019:22"
+        - "21013:2343"
+        - "21014:2344"
+        - "21015:2345"
+        - "21016:2346"
+        - "21017:2347"
+        - "21018:2348"
+    tty: true
+    stdin_open: true
