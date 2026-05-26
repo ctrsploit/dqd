@@ -293,4 +293,183 @@ Host dqd-docker-v20.10.12
 
 Host dqd-docker-v0.7.1
     Port 12710
+    IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
+
+Host dqd-centos-8
+    Port 18000
+
+Host dqd-centos-stream9
+    Port 19000
+
+Host dqd-containerd-v2.0.4
+    Port 20400
+
+Host dqd-containerd-v2.1.2
+    Port 21202
+
+Host dqd-containerd-v2.1.3
+    Port 21300
+
+Host dqd-containerd-v2.1.4
+    Port 21400
+
+Host dqd-containerd-v2.1.5
+    Port 21500
+
+Host dqd-containerd-v2.2.0
+    Port 22000
+
+Host dqd-containerd-v2.2.1
+    Port 22100
+
+Host dqd-containerd-v2.2.3
+    Port 22300
+
+Host dqd-debian-11.0
+    Port 11000
+
+Host dqd-debian-12.0
+    Port 12000
+
+Host dqd-kubernetes-v1.32.2_containerd-v2.0.4_calico
+    Port 32242
+
+Host dqd-kubernetes-v1.32.2_containerd-v2.0.4_init
+    Port 32240
+
+Host dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico_debug
+    Port 13514
+
+Host dqd-kubernetes-v1.35.1_containerd-v2.2.1_calico
+    Port 13512
+
+Host dqd-kubernetes-v1.35.1_containerd-v2.2.1_init
+    Port 13510
+
+Host dqd-runc-v0.0.1
+    Port 10010
+
+Host dqd-runc-v0.0.2.1
+    Port 10021
+
+Host dqd-runc-v0.0.2
+    Port 10020
+
+Host dqd-runc-v0.0.3
+    Port 10030
+
+Host dqd-runc-v0.0.4
+    Port 10040
+
+Host dqd-runc-v0.0.5
+    Port 10050
+
+Host dqd-runc-v0.0.6
+    Port 10060
+
+Host dqd-runc-v0.0.7
+    Port 10070
+
+Host dqd-runc-v0.0.8
+    Port 10080
+
+Host dqd-runc-v0.0.9
+    Port 10090
+
+Host dqd-runc-v0.1.0
+    Port 10000
+
+Host dqd-runc-v1.0.0-rc1
+    Port 10009
+
+Host dqd-runc-v1.0.0-rc10
+    Port 10012
+
+Host dqd-runc-v1.0.0-rc2-dbg
+    Port 10022
+
+Host dqd-runc-v1.0.0-rc2
+    Port 10019
+
+Host dqd-runc-v1.0.0-rc3-dbg
+    Port 10032
+
+Host dqd-runc-v1.0.0-rc3
+    Port 10031
+
+Host dqd-runc-v1.0.0-rc4
+    Port 10041
+
+Host dqd-runc-v1.0.0-rc5
+    Port 10051
+
+Host dqd-runc-v1.0.0-rc6
+    Port 10061
+
+Host dqd-runc-v1.0.0-rc7
+    Port 10071
+
+Host dqd-runc-v1.0.0-rc8
+    Port 10081
+
+Host dqd-runc-v1.0.0-rc9
+    Port 10091
+
+Host dqd-runc-v1.0.0-rc90
+    Port 10088
+
+Host dqd-runc-v1.0.0-rc91
+    Port 10087
+
+Host dqd-runc-v1.0.0-rc92
+    Port 10092
+
+Host dqd-runc-v1.0.0-rc93
+    Port 10093
+
+Host dqd-runc-v1.0.0-rc94
+    Port 10094
+
+Host dqd-runc-v1.0.0-rc95
+    Port 10095
+
+Host dqd-runc-v1.3.5
+    Port 13520
+
+Host dqd-ubuntu-12.04
+    Port 12040
+    IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
+
+Host dqd-ubuntu-14.04
+    Port 14040
+
+Host dqd-ubuntu-16.04
+    Port 16040
+
+Host dqd-ubuntu-18.04
+    Port 18040
+
+Host dqd-ubuntu-20.04
+    Port 20040
+
+Host dqd-ubuntu-22.04-dbg
+    Port 22041
+
+Host dqd-ubuntu-22.04
+    Port 22040
+
+Host dqd-cve-2022-0847
+    Port 20847
+
+Host dqd-cve-2026-31431
+    Port 31431
+
+Host dqd-cve-2026-43284
+    Port 43284
+
+Host dqd-cve-2026-43500
+    Port 43500
+
+Host dqd-cve-2026-46300
+    Port 46300
 
