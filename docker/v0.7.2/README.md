@@ -27,7 +27,7 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 $ ./ssh
 ```
 
-### basic usage
+### Run a container
 
 ```shell
 root@docker-0-7-2:~# docker pull ubuntu:12.04
