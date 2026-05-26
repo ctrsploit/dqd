@@ -28,6 +28,9 @@ When migrating one environment:
 - Do not migrate old `scp` helpers unless explicitly requested.
 - Change image references from `ssst0n3/docker_archive` to `ghcr.io/ctrsploit`.
 - Prefer already-migrated dqd base images instead of using `docker_archive` as a base.
+- Check that the base image's `SSH_PUB_KEY` ARG default uses the dqd key (`default@dqd`), not the old `docker_archive` key. If the base uses the old key, update the comment only (do NOT change the key type — older Ubuntu/Debian releases may not support ed25519).
+- ed25519 requires OpenSSH ≥6.5 (Ubuntu 14.04+). For older bases (Ubuntu 12.04, Debian ≤7), use ecdsa-sha2-nistp256 (`~/.ssh/keys/dqd_ecdsa-sha2-nistp256`). Both keys are already present in the repo's key directory.
+- Check that `<ENV>/.env` does not contain `IDENTITY_FILE` pointing to the old docker_archive key. The dqd `ssh_config/config` uses `~/.ssh/keys/dqd` globally via the `Host dqd-*` wildcard.
 - Preserve original behavior and README examples unless the dqd migration requires a change.
 - Update top-level `README.md` and `ssh_config/config`.
 - Use `ENV=<env-path>`, not old `DIR=<env-path>`, in docs and commands.

@@ -4,7 +4,7 @@
 ARG HOSTNAME=ubuntu12-04
 ARG VERSION_UBUNTU=12.04
 ARG SSH_PASSWORD=root
-ARG SSH_PUB_KEY='ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIzH7+rSfx12KuhxvF8Zl/0IFWUKI3iX8alPP9UCX2vkw3E7FY+PY2e4UFnqNNYbqzVvqkA1g9reSIm6bc334LM= ecdsa-sha2-nistp256@docker_archive'
+ARG SSH_PUB_KEY='ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIzH7+rSfx12KuhxvF8Zl/0IFWUKI3iX8alPP9UCX2vkw3E7FY+PY2e4UFnqNNYbqzVvqkA1g9reSIm6bc334LM= default@dqd'
 
 # ================================
 # Internal Variables
