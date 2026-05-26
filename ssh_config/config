@@ -303,6 +303,9 @@ Host dqd-docker-v0.9.0
     Port 12090
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
 
+Host dqd-docker-v0.11.1
+    Port 11011
+
 Host dqd-centos-8
     Port 18000
 
