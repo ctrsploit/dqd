@@ -27,10 +27,21 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 $ ./ssh
 ```
 
+```shell
+root@docker-0-7-2:~# docker pull ubuntu:12.04
+<!-- VERIFY -->
+root@docker-0-7-2:~# docker run -it ubuntu:12.04 /bin/bash
+<!-- VERIFY -->
+root@docker-0-7-2:~# docker ps -a
+<!-- VERIFY -->
+```
+
 ### versions
 
 ```shell
 root@docker-0-7-2:~# docker version
+<!-- VERIFY -->
+root@docker-0-7-2:~# lxc-version
 <!-- VERIFY -->
 root@docker-0-7-2:~# cat /etc/os-release
 <!-- VERIFY -->
@@ -42,4 +53,10 @@ root@docker-0-7-2:~# uname -a
 
 ```shell
 make all ENV=docker/v0.7.2
+```
+
+for developers:
+
+```dockerfile
+FROM ghcr.io/ctrsploit/docker-v0.7.2:ctr_v0.1.0
 ```
