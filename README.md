@@ -223,6 +223,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v20.10.12](./docker/v20.10.12/) |
 | [docker-v0.7.1](./docker/v0.7.1/) |
 | [docker-v0.7.2](./docker/v0.7.2/) |
+| [docker-v0.9.0](./docker/v0.9.0/) |
 | [docker-v29.4.1](./docker/v29.4.1/) |
 
 ### kubenertes
