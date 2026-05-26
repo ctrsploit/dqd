@@ -306,6 +306,9 @@ Host dqd-docker-v0.9.0
 Host dqd-docker-v0.11.1
     Port 11011
 
+Host dqd-docker-v0.11.1-lxc
+    Port 11012
+
 Host dqd-centos-8
     Port 18000
 
