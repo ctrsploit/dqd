@@ -295,6 +295,10 @@ Host dqd-docker-v0.7.1
     Port 12710
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
 
+Host dqd-docker-v0.7.2
+    Port 12720
+    IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
+
 Host dqd-centos-8
     Port 18000
 
