@@ -285,3 +285,12 @@ Host dqd-runc-v1.0.0
 Host dqd-runc-v0.1.1
     Port 10100
 
+Host dqd-docker-v29.4.1
+    Port 29410
+
+Host dqd-docker-v20.10.12
+    Port 21012
+
+Host dqd-docker-v0.7.1
+    Port 12710
+

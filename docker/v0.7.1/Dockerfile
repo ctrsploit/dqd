@@ -17,6 +17,7 @@ ARG URL_ARTIFACT_DOCKER=http://get.docker.io/ubuntu/pool/main/l/lxc-docker-${VER
 # ================================
 FROM ${BASE_IMAGE}
 ARG HOSTNAME
+ARG VERSION_DOCKER
 ARG URL_ARTIFACT_DOCKER
 ADD ${URL_ARTIFACT_DOCKER} /tmp/
 RUN dpkg -i /tmp/lxc-docker-${VERSION_DOCKER}_${VERSION_DOCKER}_amd64.deb || apt-get install -f -y
