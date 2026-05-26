@@ -30,7 +30,7 @@ $ ./ssh
 ### versions
 
 ```shell
-root@docker-0-7-1:~# docker --version
+root@docker-0-7-1:~# docker -v
 Docker version 0.7.1, build 88df052
 root@docker-0-7-1:~# cat /etc/os-release
 NAME="Ubuntu"
