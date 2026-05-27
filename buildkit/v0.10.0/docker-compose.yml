@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/buildkit-v0.10.0:dqd_v0.1.0
+    image: ghcr.io/ctrsploit/buildkit-v0.10.0:v0.1.0
     ports:
         - "10002:22"
     tty: true
