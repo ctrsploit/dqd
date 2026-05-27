@@ -12,6 +12,9 @@ Host dqd-ubuntu-24.04
 Host dqd-runc-v1.2.5
     Port 12500
 
+Host dqd-buildkit-v0.21.1
+    Port 21109
+
 Host dqd-buildkit-v0.21.0
     Port 21022
 
