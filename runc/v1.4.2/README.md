@@ -33,7 +33,12 @@ root@runc-1-4-2:~# cp /bin/busybox rootfs/bin/
 root@runc-1-4-2:~# ln -s /bin/busybox rootfs/bin/sh
 root@runc-1-4-2:~# runc spec
 root@runc-1-4-2:~# runc run container-1
-<!-- VERIFY -->
+
+
+BusyBox v1.36.1 (Ubuntu 1:1.36.1-6ubuntu3.1) built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+~ # 
 
 ```
 
@@ -41,11 +46,27 @@ root@runc-1-4-2:~# runc run container-1
 
 ```shell
 root@runc-1-4-2:~# runc --version
-<!-- VERIFY -->
+runc version 1.4.2
+commit: v1.4.2-0-gc241c0bb
+spec: 1.3.0
+go: go1.25.8
+libseccomp: 2.6.0
 root@runc-1-4-2:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@runc-1-4-2:~# uname -a
-<!-- VERIFY -->
+Linux runc-1-4-2 6.8.0-117-generic #117-Ubuntu SMP PREEMPT_DYNAMIC Tue May  5 19:26:24 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
