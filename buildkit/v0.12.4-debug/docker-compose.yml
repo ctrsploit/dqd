@@ -1,0 +1,10 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/buildkit-v0.12.4-debug:v0.1.0
+    environment:
+        - "QEMU_HOSTFWD=hostfwd=tcp::2345-:2345"
+    ports:
+        - "12402:22"
+        - "12403:2345"
+    tty: true
+    stdin_open: true
