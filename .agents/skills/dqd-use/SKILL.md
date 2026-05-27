@@ -1,6 +1,6 @@
 ---
 name: dqd-use
-description: Use when operating existing dqd environments with the runtime CLI: listing environments, showing running environments, inspecting image and SSH details, starting or stopping environments, choosing KVM behavior, and SSH access without building images or changing repository files.
+description: "Use when operating existing dqd environments with the runtime CLI: listing environments, showing running environments, inspecting image and SSH details, starting or stopping environments, choosing KVM behavior, and SSH access without building images or changing repository files."
 ---
 
 # dqd Use
