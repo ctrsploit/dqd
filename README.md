@@ -83,6 +83,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image |
 |-----|
+| [runc-v1.4.2](./runc/v1.4.2/) |
 | [runc-v1.3.5](./runc/v1.3.5/) |
 | [runc-v1.3.4](./runc/v1.3.4/) |
 | [runc-v1.3.3](./runc/v1.3.3/) |
