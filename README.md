@@ -151,6 +151,12 @@ dqd up runc/v1.3.0 --kvm=false
 | [runc-v0.0.2](./runc/v0.0.2/) |
 | [runc-v0.0.1](./runc/v0.0.1/) |
 
+### buildkit
+
+| image |
+|-----|
+| [buildkit-v0.10.0](./buildkit/v0.10.0/) |
+
 ### containerd
 
 | image |
