@@ -31,22 +31,32 @@ $ ./ssh
 
 ```shell
 root@docker-0-9-0-lxc:~# docker import https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-minirootfs-3.19.0-x86_64.tar.gz alpine
-<!-- VERIFY -->
+Downloading from https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-minirootfs-3.19.0-x86_64.tar.gz
+
+b884bee656351d9b1ca5c161f9025b976a8c0dfeb999e7f8092750b5b7327fdd
 root@docker-0-9-0-lxc:~# docker run -i alpine echo hello
-<!-- VERIFY -->
+hello
+root@docker-0-9-0-lxc:~# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED                  STATUS              PORTS               NAMES
+f48172f98203        alpine:latest       echo hello          Less than a second ago   Exit 0                                  boring_pare
 ```
 
 ### versions
 
 ```shell
 root@docker-0-9-0-lxc:~# docker --version
-<!-- VERIFY -->
-root@docker-0-9-0-lxc:~# docker info | grep -i lxc
-<!-- VERIFY -->
+Docker version 0.9.0, build 2b3fdf2
+root@docker-0-9-0-lxc:~# ps aux | grep docker
+root       367  0.2  0.3 469708  7156 ?        Sl   06:34   0:00 /usr/bin/docker -d -e lxc
 root@docker-0-9-0-lxc:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="12.04.5 LTS, Precise Pangolin"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu precise (12.04.5 LTS)"
+VERSION_ID="12.04"
 root@docker-0-9-0-lxc:~# uname -a
-<!-- VERIFY -->
+Linux docker-0-9-0-lxc 3.2.0-150-virtual #197-Ubuntu SMP Mon Apr 5 23:03:53 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
