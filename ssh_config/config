@@ -12,6 +12,10 @@ Host dqd-ubuntu-24.04
 Host dqd-runc-v1.2.5
     Port 12500
 
+Host dqd-docker-v0.9.0-lxc
+    Port 12091
+    IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
+
 Host dqd-docker-v0.12.0-lxc
     Port 14122
 
