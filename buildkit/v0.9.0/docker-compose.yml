@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/buildkit-v0.9.0:v0.1.0
+    ports:
+        - "9001:22"
+    tty: true
+    stdin_open: true
