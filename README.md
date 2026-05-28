@@ -156,6 +156,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image |
 |-----|
+| [buildkit-v0.9.0](./buildkit/v0.9.0/) |
 | [buildkit-v0.7.0](./buildkit/v0.7.0/) |
 | [buildkit-v0.5.0](./buildkit/v0.5.0/) |
 | [buildkit-v0.4.0](./buildkit/v0.4.0/) |
