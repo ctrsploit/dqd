@@ -31,22 +31,34 @@ $ ./ssh
 
 ```shell
 root@docker-1-0-0-lxc:~# docker import https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-minirootfs-3.19.0-x86_64.tar.gz alpine
-<!-- VERIFY -->
+Downloading from https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-minirootfs-3.19.0-x86_64.tar.gz
+36cfc1bbd19a615ba5e9a2be9744740fa344a1b45e1e7a6bc16d7f8eb49f20b5
 root@docker-1-0-0-lxc:~# docker run -i alpine echo hello
-<!-- VERIFY -->
+hello
+root@docker-1-0-0-lxc:~# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                              PORTS               NAMES
+c7738bde7c5d        alpine:latest       echo hello          1 seconds ago       Exited (0) Less than a second ago                       clever_darwin
 ```
 
 ### versions
 
 ```shell
 root@docker-1-0-0-lxc:~# docker --version
-<!-- VERIFY -->
+Docker version 1.0.0, build 63fe64c
 root@docker-1-0-0-lxc:~# ps aux | grep docker
-<!-- VERIFY -->
+root       594  3.5  0.7 368116 15656 ?        Ssl  07:22   0:00 /usr/bin/docker -d -e lxc
 root@docker-1-0-0-lxc:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="14.04.6 LTS, Trusty Tahr"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 14.04.6 LTS"
+VERSION_ID="14.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 root@docker-1-0-0-lxc:~# uname -a
-<!-- VERIFY -->
+Linux docker-1-0-0-lxc 3.13.0-170-generic #220-Ubuntu SMP Thu May 9 12:40:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
