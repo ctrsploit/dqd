@@ -394,6 +394,9 @@ Host dqd-docker-v0.9.0
 Host dqd-docker-v0.11.1
     Port 11011
 
+Host dqd-docker-v1.12.2-rc2
+    Port 11222
+
 Host dqd-docker-v1.12.2
     Port 11220
 
