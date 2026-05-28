@@ -30,13 +30,14 @@ $ ./ssh
 ### Run a container
 
 ```shell
-root@docker-1-0-1:~# docker pull hello-world
-Pulling repository hello-world
-2026/05/28 08:53:32 HTTP code: 410
-root@docker-1-0-1:~# docker run hello-world
-Unable to find image 'hello-world' locally
-Pulling repository hello-world
-2026/05/28 08:53:43 HTTP code: 410
+root@docker-1-0-1:~# docker import https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-minirootfs-3.19.0-x86_64.tar.gz alpine
+Downloading from https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-minirootfs-3.19.0-x86_64.tar.gz
+6ec82d9eb47e96ec017e8005b1dd96cb6362223bbbd72d26cfa913f39e8fe0d4
+root@docker-1-0-1:~# docker run -i alpine echo hello
+hello
+root@docker-1-0-1:~# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                              PORTS               NAMES
+68afb95e5f8e        alpine:latest       echo hello          1 seconds ago       Exited (0) Less than a second ago                       backstabbing_leakey
 ```
 
 ### versions
