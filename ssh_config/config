@@ -15,6 +15,9 @@ Host dqd-runc-v1.2.5
 Host dqd-docker-v1.0.0-lxc
     Port 14101
 
+Host dqd-docker-v1.0.1-lxc
+    Port 14103
+
 Host dqd-docker-v1.0.1
     Port 14102
 
