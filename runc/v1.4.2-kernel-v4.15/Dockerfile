@@ -23,6 +23,7 @@ ARG VERSION_KERNEL
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
     busybox-static \
+    initramfs-tools \
     linux-image-${VERSION_KERNEL}-generic && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
