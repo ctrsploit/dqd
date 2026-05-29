@@ -82,6 +82,15 @@ CI_MAKE_TARGETS=check-ssh-ports dbg push post-clean generate_ssh_config
 
 Applies only to environments like `ubuntu/22.04-dbg` that have `Dockerfile.dbg` and need kernel debug support.
 
+### KERNEL Parameter
+
+The Makefile defaults `KERNEL ?= true`. It maps to d2vm's `--kernel` flag, which means **"Install latest kernel"** — NOT "extract/use the container's kernel":
+
+- `KERNEL=true` (default, omit from `.env`): d2vm installs the latest kernel into the VM, overwriting whatever kernel the container had. Use this when the container's kernel doesn't matter.
+- `KERNEL=false` (explicit in `.env`): d2vm does NOT install a kernel. The VM boots with the container's existing kernel from `/boot`. Required for custom-kernel variants and CVE environments that install a specific kernel in the Dockerfile.
+
+Rule: if the Dockerfile installs a specific kernel (via `apt install linux-image-*` or mainline `.deb`), set `KERNEL=false` in `.env`.
+
 ## SSH Port Rules
 
 - SSH ports must be globally unique.
