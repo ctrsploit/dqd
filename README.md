@@ -269,6 +269,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v0.11.1](./docker/v0.11.1/) |
 | [docker-v0.11.1-lxc](./docker/v0.11.1-lxc/) |
 | [docker-v29.4.1](./docker/v29.4.1/) |
+| [docker-v29.5.2](./docker/v29.5.2/) |
 
 ### kubenertes
 
