@@ -5,7 +5,7 @@ ARG HOSTNAME=runc-1-4-2-kernel-4-15
 ARG VERSION_RUNC=1.4.2
 ARG VERSION_UBUNTU=18.04
 ARG VERSION_IMAGE_UBUNTU=0.3.0
-ARG VERSION_LINUX_IMAGE=4.15.0.213.196
+ARG VERSION_KERNEL=4.15.0-213
 
 # ================================
 # Internal Variables
@@ -19,11 +19,11 @@ ARG URL_ARTIFACT_RUNC=https://github.com/opencontainers/runc/releases/download/v
 FROM ${IMAGE_UBUNTU}
 ARG HOSTNAME
 ARG URL_ARTIFACT_RUNC
-ARG VERSION_LINUX_IMAGE
+ARG VERSION_KERNEL
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
     busybox-static \
-    linux-image-generic=${VERSION_LINUX_IMAGE} && \
+    linux-image-${VERSION_KERNEL}-generic && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 ADD ${URL_ARTIFACT_RUNC} /tmp/runc.amd64
