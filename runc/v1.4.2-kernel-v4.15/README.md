@@ -33,18 +33,38 @@ root@runc-1-4-2-kernel-4-15:~# cp /bin/busybox rootfs/bin/
 root@runc-1-4-2-kernel-4-15:~# ln -s /bin/busybox rootfs/bin/sh
 root@runc-1-4-2-kernel-4-15:~# runc spec
 root@runc-1-4-2-kernel-4-15:~# runc run container-1
-<!-- VERIFY -->
+
+
+BusyBox v1.27.2 (Ubuntu 1:1.27.2-2ubuntu3.4) built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+/ # 
 ```
 
 ### versions
 
 ```shell
 root@runc-1-4-2-kernel-4-15:~# runc --version
-<!-- VERIFY -->
+runc version 1.4.2
+commit: v1.4.2-0-gc241c0bb
+spec: 1.3.0
+go: go1.25.8
+libseccomp: 2.6.0
 root@runc-1-4-2-kernel-4-15:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="18.04.6 LTS (Bionic Beaver)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 18.04.6 LTS"
+VERSION_ID="18.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=bionic
+UBUNTU_CODENAME=bionic
 root@runc-1-4-2-kernel-4-15:~# uname -a
-<!-- VERIFY -->
+Linux runc-1-4-2-kernel-4-15 4.15.0-213-generic #224-Ubuntu SMP Mon Jun 19 13:30:12 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
