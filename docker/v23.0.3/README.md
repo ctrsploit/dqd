@@ -31,6 +31,7 @@ $ ./ssh
 
 ```shell
 root@docker-23-0-3:~# docker run -i hello-world
+<<<<<<< HEAD
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
 4f55086f7dd0: Pulling fs layer
@@ -60,12 +61,16 @@ Share images, automate workflows, and more with a free Docker ID:
 
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/
+=======
+<!-- VERIFY -->
+>>>>>>> f5348b1b06ba3ec0e7c16282a3064e796b7681c0
 ```
 
 ### versions
 
 ```shell
 root@docker-23-0-3:~# docker version
+<<<<<<< HEAD
 Client: Docker Engine - Community
  Version:           23.0.3
  API version:       1.42
@@ -108,6 +113,13 @@ PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-poli
 UBUNTU_CODENAME=jammy
 root@docker-23-0-3:~# uname -a
 Linux docker-23-0-3 5.15.0-179-generic #189-Ubuntu SMP Tue May 5 18:20:56 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+=======
+<!-- VERIFY -->
+root@docker-23-0-3:~# cat /etc/os-release
+<!-- VERIFY -->
+root@docker-23-0-3:~# uname -a
+<!-- VERIFY -->
+>>>>>>> f5348b1b06ba3ec0e7c16282a3064e796b7681c0
 ```
 
 ## build
