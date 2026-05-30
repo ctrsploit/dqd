@@ -32,7 +32,7 @@ root@docker-29-5-2-criu:~# printf '{\n  "experimental": true\n}\n' > /etc/docker
 root@docker-29-5-2-criu:~# systemctl restart docker
 root@docker-29-5-2-criu:~# docker info --format 'Experimental: {{.ExperimentalBuild}}'
 Experimental: true
-root@docker-29-5-2-criu:~# docker run -d --name test alpine sleep 300
+root@docker-29-5-2-criu:~# docker run -d --name test --network host alpine sleep 300
 Unable to find image 'alpine:latest' locally
 latest: Pulling from library/alpine
 6a0ac1617861: Pulling fs layer
@@ -49,7 +49,12 @@ root@docker-29-5-2-criu:~# docker checkpoint ls test
 CHECKPOINT NAME
 checkpoint1
 root@docker-29-5-2-criu:~# docker start --checkpoint checkpoint1 test
-Error response from daemon: bind-mount /proc/0/ns/net -> /var/run/docker/netns/d5adc082d012: no such file or directory
+Error response from daemon: failed to upload checkpoint to containerd: commit failed: content sha256:501e4cb28ec89c08569819584395b7beeb942f548796227a1cf3182c7811d319: already exists
+root@docker-29-5-2-criu:~# ctr -n moby content rm sha256:501e4cb28ec89c08569819584395b7beeb942f548796227a1cf3182c7811d319
+sha256:501e4cb28ec89c08569819584395b7beeb942f548796227a1cf3182c7811d319
+root@docker-29-5-2-criu:~# docker start --checkpoint checkpoint1 test
+root@docker-29-5-2-criu:~# docker ps --filter name=test --format '{{.Names}} {{.Status}}'
+test Up 1 second
 ```
 
 ### versions
