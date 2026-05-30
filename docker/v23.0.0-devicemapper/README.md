@@ -34,6 +34,13 @@ root@docker-23-0-0-devicemapper:~# docker run -i hello-world
 <!-- VERIFY -->
 ```
 
+### Storage driver
+
+```shell
+root@docker-23-0-0-devicemapper:~# docker info
+<!-- VERIFY -->
+```
+
 ### versions
 
 ```shell
