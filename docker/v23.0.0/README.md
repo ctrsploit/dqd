@@ -31,18 +31,83 @@ $ ./ssh
 
 ```shell
 root@docker-23-0-0:~# docker run -i hello-world
-<!-- VERIFY -->
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+4f55086f7dd0: Pulling fs layer
+4f55086f7dd0: Verifying Checksum
+4f55086f7dd0: Download complete
+4f55086f7dd0: Pull complete
+Digest: sha256:0e760fdfbc48ba8041e7c6db999bb40bfca508b4be580ac75d32c4e29d202ce1
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
 ```
 
 ### versions
 
 ```shell
 root@docker-23-0-0:~# docker version
-<!-- VERIFY -->
+Client: Docker Engine - Community
+ Version:           23.0.0
+ API version:       1.42
+ Go version:        go1.19.5
+ Git commit:        e92dd87
+ Built:             Wed Feb  1 17:47:51 2023
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          23.0.0
+  API version:      1.42 (minimum version 1.12)
+  Go version:       go1.19.5
+  Git commit:       d7573ab
+  Built:            Wed Feb  1 17:47:51 2023
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.6.16
+  GitCommit:        31aa4358a36870b21a992d3ad2bef29e1d693bec
+ runc:
+  Version:          1.1.4
+  GitCommit:        v1.1.4-0-g5fd4c4d
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
 root@docker-23-0-0:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
 root@docker-23-0-0:~# uname -a
-<!-- VERIFY -->
+Linux docker-23-0-0 5.15.0-179-generic #189-Ubuntu SMP Tue May 5 18:20:56 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
