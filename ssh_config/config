@@ -379,6 +379,9 @@ Host dqd-docker-v29.4.1
 Host dqd-docker-v29.5.2
     Port 29520
 
+Host dqd-docker-v29.5.2-criu
+    Port 29521
+
 Host dqd-docker-v20.10.12
     Port 21012
 
