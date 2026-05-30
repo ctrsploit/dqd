@@ -1,0 +1,43 @@
+# ================================
+# Configuration Variables
+# ================================
+ARG HOSTNAME=docker-23-0-6
+ARG VERSION_DOCKER=23.0.6
+ARG VERSION_CONTAINERD=1.6.21
+ARG VERSION_BUILDX=0.10.4
+ARG VERSION_COMPOSE=2.17.3
+ARG VERSION_UBUNTU=22.04
+ARG VERSION_IMAGE=0.3.0
+
+# ================================
+# Internal Variables
+# ================================
+ARG BASE_IMAGE=ghcr.io/ctrsploit/ubuntu-${VERSION_UBUNTU}:ctr_v${VERSION_IMAGE}
+
+# ================================
+# Build Stages
+# ================================
+FROM ${BASE_IMAGE}
+ARG HOSTNAME
+ARG VERSION_DOCKER
+ARG VERSION_CONTAINERD
+ARG VERSION_BUILDX
+ARG VERSION_COMPOSE
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl && \
+    install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
+    chmod a+r /etc/apt/keyrings/docker.asc && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    tee /etc/apt/sources.list.d/docker.list > /dev/null 
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    docker-ce=5:${VERSION_DOCKER}-1~ubuntu.22.04~jammy \
+    docker-ce-cli=5:${VERSION_DOCKER}-1~ubuntu.22.04~jammy \
+    containerd.io=${VERSION_CONTAINERD}-1 \
+    docker-buildx-plugin=${VERSION_BUILDX}-1~ubuntu.22.04~jammy \
+    docker-compose-plugin=${VERSION_COMPOSE}-1~ubuntu.22.04~jammy
+
+RUN echo "${HOSTNAME}" > /etc/hostname
