@@ -27,6 +27,12 @@ $ ./ssh
 
 ### Run a container with checkpoint/restore
 
+Docker checkpoint/restore is still experimental. In this environment, restoring
+a container that uses Docker bridge networking fails while Docker rebuilds the
+network namespace, so the example uses `--network host`. The first restore can
+also leave a duplicate checkpoint blob in containerd; remove the digest reported
+by the error and retry `docker start --checkpoint`.
+
 ```shell
 root@docker-29-5-2-criu:~# printf '{\n  "experimental": true\n}\n' > /etc/docker/daemon.json
 root@docker-29-5-2-criu:~# systemctl restart docker
