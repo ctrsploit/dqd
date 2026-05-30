@@ -259,6 +259,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v1.12.2-rc2](./docker/v1.12.2-rc2/) |
 | [docker-v1.12.2](./docker/v1.12.2/) |
 | [docker-v1.12.1](./docker/v1.12.1/) |
+| [docker-v17.06.0](./docker/v17.06.0/) |
 | [docker-v0.9.0-lxc](./docker/v0.9.0-lxc/) |
 | [docker-v0.12.0-lxc](./docker/v0.12.0-lxc/) |
 | [docker-v0.12.0](./docker/v0.12.0/) |
