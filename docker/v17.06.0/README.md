@@ -38,15 +38,42 @@ uid=0(root) gid=0(root) groups=0(root)
 
 ```shell
 root@docker-17-06-0:~# docker version
-<!-- VERIFY -->
+Client:
+ Version:      17.06.0-ce
+ API version:  1.30
+ Go version:   go1.8.3
+ Git commit:   02c1d87
+ Built:        Fri Jun 23 21:23:31 2017
+ OS/Arch:      linux/amd64
+
+Server:
+ Version:      17.06.0-ce
+ API version:  1.30 (minimum version 1.12)
+ Go version:   go1.8.3
+ Git commit:   02c1d87
+ Built:        Fri Jun 23 21:19:04 2017
+ OS/Arch:      linux/amd64
+ Experimental: false
 root@docker-17-06-0:~# docker-containerd --version
-<!-- VERIFY -->
+containerd version 0.2.3 commit: cfb82a876ecc11b5ca0977d1733adbe58599088a
 root@docker-17-06-0:~# docker-runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc3
+commit: 2d41c047c83e09a6d61d464906feb2a2f3c52aa4
+spec: 1.0.0-rc5
 root@docker-17-06-0:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="16.04.7 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.7 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
 root@docker-17-06-0:~# uname -a
-<!-- VERIFY -->
+Linux docker-17-06-0 4.4.0-210-generic #242-Ubuntu SMP Fri Apr 16 09:57:56 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
