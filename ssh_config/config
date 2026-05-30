@@ -30,6 +30,9 @@ Host dqd-docker-v17.06.0
 Host dqd-docker-v19.03.13
     Port 19313
 
+Host dqd-docker-v19.03.13-debug
+    Port 19310
+
 Host dqd-docker-v0.9.0-lxc
     Port 12091
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256

@@ -1,0 +1,18 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/docker-v19.03.13-debug:v0.1.0
+    environment:
+        - "QEMU_HOSTFWD=hostfwd=tcp::2341-:2341,hostfwd=tcp::2342-:2342,hostfwd=tcp::2343-:2343,hostfwd=tcp::2344-:2344,hostfwd=tcp::2345-:2345,hostfwd=tcp::2346-:2346,hostfwd=tcp::2347-:2347,hostfwd=tcp::2348-:2348,hostfwd=tcp::2349-:2349"
+    ports:
+        - "19310:22"
+        - "19311:2341"
+        - "19312:2342"
+        - "19313:2343"
+        - "19314:2344"
+        - "19315:2345"
+        - "19316:2346"
+        - "19317:2347"
+        - "19328:2348"
+        - "19329:2349"
+    tty: true
+    stdin_open: true
