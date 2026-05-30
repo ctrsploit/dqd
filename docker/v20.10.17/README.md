@@ -31,6 +31,7 @@ $ ./ssh
 
 ```shell
 root@docker-20-10-17:~# docker run -ti hello-world
+<!-- VERIFY -->
 ```
 
 ### versions
