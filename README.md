@@ -269,6 +269,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v23.0.0-devicemapper](./docker/v23.0.0-devicemapper/) |
 | [docker-v23.0.3](./docker/v23.0.3/) |
 | [docker-v23.0.6](./docker/v23.0.6/) |
+| [docker-v23.0.6-aufs](./docker/v23.0.6-aufs/) |
 | [docker-v0.9.0-lxc](./docker/v0.9.0-lxc/) |
 | [docker-v0.12.0-lxc](./docker/v0.12.0-lxc/) |
 | [docker-v0.12.0](./docker/v0.12.0/) |
