@@ -160,6 +160,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [runc-v1.2.6-debian-11.0](./runc/debian-11.0-v1.2.6/) |
 | [runc-v1.2.6-debian-11.0-criu-v3.14](./runc/debian-11.0-v1.2.6-criu-v3.14/) |
 | [runc-v1.2.0-centos-stream9-selinux](./runc/centos-stream9-v1.2.0-selinux/) |
+| [runc-v1.3.0-rc.1-centos-stream9](./runc/centos-stream9-v1.3.0-rc.1/) |
 | [runc-v0.0.1](./runc/v0.0.1/) |
 
 ### buildkit
