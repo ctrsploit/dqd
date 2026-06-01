@@ -289,6 +289,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v28.1.1](./docker/v28.1.1/) |
 | [docker-v28.2.0](./docker/v28.2.0/) |
 | [docker-v28.2.2](./docker/v28.2.2/) |
+| [docker-v28.2.2-containerd-v2.1.0](./docker/v28.2.2-containerd-v2.1.0/) |
 | [docker-v0.9.0-lxc](./docker/v0.9.0-lxc/) |
 | [docker-v0.12.0-lxc](./docker/v0.12.0-lxc/) |
 | [docker-v0.12.0](./docker/v0.12.0/) |
