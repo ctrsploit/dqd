@@ -9,6 +9,8 @@ The `dqd` CLI is for operating existing environments only. Build and development
 ### Install
 
 ```bash
+git clone git@github.com:ctrsploit/dqd.git
+cd dqd
 script/install_cli.sh
 script/install_ssh_config.sh
 export PATH="$HOME/.local/bin:$PATH"
