@@ -1,0 +1,12 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/docker-v28.0.4-centos-stream9-runc-v1.2.5-debug:v0.1.0
+    command: /start.sh -cpu host
+    environment:
+        - "QEMU_HOSTFWD=hostfwd=tcp::2346-:2346,hostfwd=tcp::2347-:2347"
+    ports:
+        - "28041:22"
+        - "28051:2346"
+        - "28052:2347"
+    tty: true
+    stdin_open: true
