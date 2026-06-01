@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/docker-v28.3.2:v0.1.0
+    ports:
+        - "28320:22"
+    tty: true
+    stdin_open: true
