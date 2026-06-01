@@ -60,6 +60,9 @@ Host dqd-docker-v23.0.6-aufs
 Host dqd-docker-v24.0.5
     Port 24050
 
+Host dqd-docker-v26.1.4
+    Port 26014
+
 Host dqd-docker-v0.9.0-lxc
     Port 12091
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
