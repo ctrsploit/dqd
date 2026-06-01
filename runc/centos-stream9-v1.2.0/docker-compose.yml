@@ -1,0 +1,8 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/centos-stream9-runc-v1.2.0:v0.1.0
+    command: /start.sh -cpu host
+    ports:
+        - "12092:22"
+    tty: true
+    stdin_open: true
