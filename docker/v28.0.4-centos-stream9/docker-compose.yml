@@ -1,0 +1,9 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/docker-v28.0.4-centos-stream9:v0.2.0
+    # Use host cpu to fix: "Fatal glibc error: CPU does not support x86-64-v2"
+    command: /start.sh -cpu host
+    ports:
+        - "28049:22"
+    tty: true
+    stdin_open: true
