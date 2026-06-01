@@ -144,6 +144,9 @@ Host dqd-centos-stream9-runc-v1.3.0-rc.1
 Host dqd-centos-stream9-runc-v1.3.0-rc.1-selinux
     Port 13191
 
+Host dqd-debian-11.0-runc-v1.3.0-rc.1
+    Port 11301
+
 Host dqd-docker-v0.9.0-lxc
     Port 12091
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
