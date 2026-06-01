@@ -129,6 +129,9 @@ Host dqd-runc-v1.3.0-rc.1-criu
 Host dqd-runc-v1.3.0-rc.2-criu
     Port 13021
 
+Host dqd-debian-11.0-runc-v1.2.6
+    Port 11126
+
 Host dqd-docker-v0.9.0-lxc
     Port 12091
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
