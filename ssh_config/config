@@ -102,6 +102,9 @@ Host dqd-docker-v28.0.4-centos-stream9-runc-v1.2.5-debug
 Host dqd-docker-v28.1.1
     Port 28110
 
+Host dqd-docker-v28.2.0
+    Port 28200
+
 Host dqd-docker-v0.9.0-lxc
     Port 12091
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
