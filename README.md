@@ -284,6 +284,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v28.0.1](./docker/v28.0.1/) |
 | [docker-v28.0.4](./docker/v28.0.4/) |
 | [docker-v28.0.4-debug](./docker/v28.0.4-debug/) |
+| [docker-v28.0.4-centos-stream9](./docker/v28.0.4-centos-stream9/) |
 | [docker-v0.9.0-lxc](./docker/v0.9.0-lxc/) |
 | [docker-v0.12.0-lxc](./docker/v0.12.0-lxc/) |
 | [docker-v0.12.0](./docker/v0.12.0/) |
