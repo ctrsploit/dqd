@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/debian-11.0-runc-v1.3.0-rc.1:v0.1.0
+    ports:
+        - "11301:22"
+    tty: true
+    stdin_open: true
