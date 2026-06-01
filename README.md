@@ -153,6 +153,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [runc-v0.0.3](./runc/v0.0.3/) |
 | [runc-v0.0.2.1](./runc/v0.0.2.1/) |
 | [runc-v0.0.2](./runc/v0.0.2/) |
+| [runc-v1.1.9-ubuntu-20.04](./runc/ubuntu-20.04-v1.1.9/) |
 | [runc-v0.0.1](./runc/v0.0.1/) |
 
 ### buildkit
