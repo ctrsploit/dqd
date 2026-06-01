@@ -84,6 +84,9 @@ Host dqd-docker-v28.0.0
 Host dqd-docker-v28.0.0-rc.1
     Port 28001
 
+Host dqd-docker-v28.0.1
+    Port 28010
+
 Host dqd-docker-v0.9.0-lxc
     Port 12091
     IdentityFile ~/.ssh/keys/dqd_ecdsa-sha2-nistp256
