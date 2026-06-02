@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/runc-v1.1.0-7d09ba1:v0.2.0
+    ports:
+        - "27091:22"
+    tty: true
+    stdin_open: true
