@@ -167,6 +167,8 @@ dqd up runc/v1.3.0 --kvm=false
 | [runc-v1.1.0-7396ca9](./runc/v1.1.0-7396ca9/) |
 | [runc-v1.1.0-7d09ba1](./runc/v1.1.0-7d09ba1/) |
 | [runc-v1.1.0-a6f4081](./runc/v1.1.0-a6f4081/) |
+| [runc-v1.1.0-ab3cd8d](./runc/v1.1.0-ab3cd8d/) |
+| [runc-v1.1.0-d3d7f7d](./runc/v1.1.0-d3d7f7d/) |
 | [runc-v0.0.1](./runc/v0.0.1/) |
 
 ### buildkit
