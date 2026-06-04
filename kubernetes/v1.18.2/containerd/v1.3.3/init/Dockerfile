@@ -40,10 +40,11 @@ RUN --mount=type=cache,id=kubernetes-v1.18.2_containerd-v1.3.3-snapshots,target=
     --mount=type=bind,src=/modules,target=/lib/modules \
     --security=insecure \
     ["/sbin/init", "--log-target=kmsg"]
-# skip overlayfs whiteout files (c 0,0)
+# restore snapshots from cache, skipping overlayfs whiteout files (c 0,0)
 RUN --mount=type=cache,id=kubernetes-v1.18.2_containerd-v1.3.3-snapshots,target=/trick \
     --security=insecure \
-    cp -af /trick/. /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ || true
+    find /trick/snapshots -type c -delete && \
+    tar -C /trick -cf - . | tar -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
 
 FROM kube_init AS final
 RUN mkdir -p /root/.kube && \
