@@ -1,0 +1,13 @@
+[Unit]
+Description=Ensure dynamic IP is mapped to kubernetes-1-18-2-containerd-1-3-3
+After=cloud-config.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/hosts.sh
+User=root
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
