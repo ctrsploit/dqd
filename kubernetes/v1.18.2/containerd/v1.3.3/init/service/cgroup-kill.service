@@ -1,0 +1,14 @@
+[Unit]
+Description=Kill containerd-shim processes before shutdown
+DefaultDependencies=false
+Before=shutdown.target umount.target
+
+[Service]
+Slice=system.slice
+ExecStart=/bin/bash -c 'pids=$(pgrep containerd-shim); echo $pids | xargs -r kill;'
+ExecStart=/bin/sleep 5
+ExecStart=/bin/bash -c 'pids=$(pgrep containerd-shim); echo $pids | xargs -r kill -9;'
+Type=oneshot
+
+[Install]
+WantedBy=shutdown.target

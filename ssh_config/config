@@ -746,3 +746,9 @@ Host dqd-cve-2026-43500
 Host dqd-cve-2026-46300
     Port 46300
 
+Host dqd-kubernetes-v1.18.2_containerd-v1.3.3_init
+    Port 11820
+
+Host dqd-cgroup-v1-builder
+    Port 10991
+
