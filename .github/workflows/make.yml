@@ -99,4 +99,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run CI make targets
-        run: make ci ENV="${{ matrix.env_path }}"
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: script/ci_run.sh "${{ matrix.env_path }}"
