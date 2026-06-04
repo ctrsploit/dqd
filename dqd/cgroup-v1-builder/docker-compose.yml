@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/cgroup-v1-builder:v0.1.0
+    ports:
+        - "10991:22"
+    tty: true
+    stdin_open: true
