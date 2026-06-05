@@ -324,6 +324,12 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v29.5.2](./docker/v29.5.2/) |
 | [docker-v29.5.2-criu](./docker/v29.5.2-criu/) |
 
+### docker-compose
+
+| image |
+|-----|
+| [docker-compose-v2.39.4](./docker-compose/v2.39.4/) |
+
 ### kubenertes
 
 #### v1.35.1

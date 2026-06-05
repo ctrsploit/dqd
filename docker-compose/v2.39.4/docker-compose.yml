@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/docker-compose-v2.39.4:v0.1.0
+    ports:
+        - "23940:22"
+    tty: true
+    stdin_open: true
