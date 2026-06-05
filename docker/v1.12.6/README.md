@@ -31,22 +31,54 @@ $ ./ssh
 
 ```shell
 root@docker-1-12-6:~# docker run -i ubuntu:16.04 id
-<!-- VERIFY -->
+Unable to find image 'ubuntu:16.04' locally
+16.04: Pulling from library/ubuntu
+58690f9b18fc: Pulling fs layer
+b51569e7c507: Pulling fs layer
+da8ef40b9eca: Pulling fs layer
+fb15d46c38dc: Pulling fs layer
+fb15d46c38dc: Waiting
+da8ef40b9eca: Verifying Checksum
+da8ef40b9eca: Download complete
+b51569e7c507: Verifying Checksum
+b51569e7c507: Download complete
+fb15d46c38dc: Verifying Checksum
+fb15d46c38dc: Download complete
+58690f9b18fc: Download complete
+58690f9b18fc: Pull complete
+b51569e7c507: Pull complete
+da8ef40b9eca: Pull complete
+fb15d46c38dc: Pull complete
+Digest: sha256:1f1a2d56de1d604801a9671f301190704c25d604a416f59e03c04f5c6ffee0d6
+Status: Downloaded newer image for ubuntu:16.04
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ### versions
 
 ```shell
 root@docker-1-12-6:~# docker --version
-<!-- VERIFY -->
+Docker version 1.12.6, build 78d1802
 root@docker-1-12-6:~# docker-containerd --version
-<!-- VERIFY -->
+containerd version 0.2.4 commit: 2a5e70cbf65457815ee76b7e5dd2a01292d9eca8
 root@docker-1-12-6:~# docker-runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc2
+commit: 50a19c6ff828c58e5dab13830bd3dacde268afe5
+spec: 1.0.0-rc2-dev
 root@docker-1-12-6:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="16.04.7 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.7 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
 root@docker-1-12-6:~# uname -a
-<!-- VERIFY -->
+Linux docker-1-12-6 4.4.0-210-generic #242-Ubuntu SMP Fri Apr 16 09:57:56 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
