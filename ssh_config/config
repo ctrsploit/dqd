@@ -117,6 +117,9 @@ Host dqd-docker-v28.3.2
 Host dqd-docker-v28.3.2-cron
     Port 28321
 
+Host dqd-docker-compose-v2.39.4
+    Port 23940
+
 Host dqd-ubuntu-20.04-runc-v1.1.9
     Port 21190
 
