@@ -547,6 +547,9 @@ Host dqd-docker-v1.12.3-rc1
 Host dqd-docker-v1.12.3
     Port 11230
 
+Host dqd-docker-v1.12.4
+    Port 11240
+
 Host dqd-docker-v1.12.2-rc3
     Port 11223
 
