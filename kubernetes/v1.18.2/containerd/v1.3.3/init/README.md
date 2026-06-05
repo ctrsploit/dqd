@@ -29,24 +29,44 @@ $ ./ssh
 
 ```shell
 root@kubernetes-1-18-2-containerd-1-3-3:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE     NAME                                                         READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bff467f8-ntd5z                                     0/1     Pending   0          15h
+kube-system   coredns-66bff467f8-rzprn                                     0/1     Pending   0          15h
+kube-system   etcd-kubernetes-1-18-2-containerd-1-3-3                      1/1     Running   1          15h
+kube-system   kube-apiserver-kubernetes-1-18-2-containerd-1-3-3            1/1     Running   1          15h
+kube-system   kube-controller-manager-kubernetes-1-18-2-containerd-1-3-3   1/1     Running   1          15h
+kube-system   kube-proxy-25jcz                                             1/1     Running   1          15h
+kube-system   kube-scheduler-kubernetes-1-18-2-containerd-1-3-3            1/1     Running   1          15h
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-18-2-containerd-1-3-3:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.2.4", GitCommit:"0ad800ef43d3b826f31a5ad8dfbb4fe05d143688", GitTreeState:"clean", GoVersion:"go1.13.12"}
 root@kubernetes-1-18-2-containerd-1-3-3:~# kubectl version
-<!-- VERIFY -->
+Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.2", GitCommit:"52c56ce7a8272c798dbc29846288d7cd9fbae032", GitTreeState:"clean", BuildDate:"2020-04-16T11:56:40Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.2", GitCommit:"52c56ce7a8272c798dbc29846288d7cd9fbae032", GitTreeState:"clean", BuildDate:"2020-04-16T11:48:36Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
 root@kubernetes-1-18-2-containerd-1-3-3:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.3.3 d76c121f76a5fc8a462dc64594aea72fe18e1178
 root@kubernetes-1-18-2-containerd-1-3-3:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc10
+spec: 1.0.1-dev
 root@kubernetes-1-18-2-containerd-1-3-3:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="20.04.6 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
 root@kubernetes-1-18-2-containerd-1-3-3:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-18-2-containerd-1-3-3 5.4.0-216-generic #236-Ubuntu SMP Fri Apr 11 19:53:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
