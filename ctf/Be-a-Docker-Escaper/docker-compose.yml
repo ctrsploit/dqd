@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/be-a-docker-escaper:v0.1.0
+    ports:
+        - "25115:22"
+    tty: true
+    stdin_open: true
