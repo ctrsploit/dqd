@@ -328,6 +328,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image |
 |-----|
+| [docker-compose-v2.40.2](./docker-compose/v2.40.2/) |
 | [docker-compose-v2.40.1](./docker-compose/v2.40.1/) |
 | [docker-compose-v2.40.0](./docker-compose/v2.40.0/) |
 | [docker-compose-v2.39.4](./docker-compose/v2.39.4/) |
