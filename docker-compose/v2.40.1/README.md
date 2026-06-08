@@ -31,20 +31,32 @@ $ ./ssh
 
 ```shell
 root@docker-compose-2-40-1:~# docker compose version
-<!-- VERIFY -->
+Docker Compose version v2.40.1
 ```
 
 ### versions
 
 ```shell
 root@docker-compose-2-40-1:~# docker --version
-<!-- VERIFY -->
+Docker version 28.3.2, build 578ccf6
 root@docker-compose-2-40-1:~# containerd --version
-<!-- VERIFY -->
+containerd containerd.io 1.7.27 05044ec0a9a75232cad458027ca83437aae3f4da
 root@docker-compose-2-40-1:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@docker-compose-2-40-1:~# uname -a
-<!-- VERIFY -->
+Linux docker-compose-2-40-1 6.8.0-124-generic #124-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 13:00:45 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
