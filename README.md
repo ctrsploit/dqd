@@ -86,6 +86,7 @@ dqd up runc/v1.3.0 --kvm=false
 | image |
 |-----|
 | [Be-a-Docker-Escaper](./ctf/Be-a-Docker-Escaper/) |
+| [your-gpu-my-shell](./ctf/your-gpu-my-shell/) |
 
 ### runc
 
