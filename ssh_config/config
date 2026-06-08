@@ -587,6 +587,9 @@ Host dqd-be-a-docker-escaper
     Port 25115
     User ctf
 
+Host dqd-your-gpu-my-shell
+    Port 25872
+
 Host dqd-centos-8
     Port 18000
 
