@@ -583,6 +583,10 @@ Host dqd-docker-v1.12.1
 Host dqd-docker-v0.11.1-lxc
     Port 11012
 
+Host dqd-be-a-docker-escaper
+    Port 25115
+    User ctf
+
 Host dqd-centos-8
     Port 18000
 
