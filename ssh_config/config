@@ -123,6 +123,9 @@ Host dqd-docker-compose-v2.39.4
 Host dqd-docker-compose-v2.40.2
     Port 24020
 
+Host dqd-docker-compose-v2.40.1
+    Port 24010
+
 Host dqd-docker-compose-v2.40.0
     Port 24001
 
