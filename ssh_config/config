@@ -120,6 +120,9 @@ Host dqd-docker-v28.3.2-cron
 Host dqd-docker-compose-v2.39.4
     Port 23940
 
+Host dqd-docker-compose-v2.40.1
+    Port 24010
+
 Host dqd-docker-compose-v2.40.0
     Port 24001
 
