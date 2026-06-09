@@ -762,6 +762,9 @@ Host dqd-ubuntu-22.04-dbg
 Host dqd-ubuntu-22.04
     Port 22040
 
+Host dqd-cve-2025-23266
+    Port 23266
+
 Host dqd-cve-2022-0847
     Port 20847
 
