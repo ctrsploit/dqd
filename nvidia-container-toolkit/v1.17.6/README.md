@@ -25,7 +25,7 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 $ ./ssh
 ```
 
-### Run a container with nvidia runtime
+### default mode(legacy)
 
 ```shell
 root@nvidia-container-toolkit-1-17-6:~# docker run -tid --runtime=nvidia --gpus=all busybox
@@ -86,6 +86,76 @@ root@nvidia-container-toolkit-1-17-6:~# cat /run/containerd/io.containerd.runtim
 }
 ```
 
+### CDI mode
+
+```shell
+root@nvidia-container-toolkit-1-17-6:~# nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+time="2026-06-09T08:31:15Z" level=info msg="Auto-detected mode as 'nvml'"
+...
+time="2026-06-09T08:31:15Z" level=info msg="Generated CDI spec with version 0.8.0"
+root@nvidia-container-toolkit-1-17-6:~# nvidia-ctk cdi list
+time="2026-06-09T08:31:15Z" level=info msg="Found 9 CDI devices"
+nvidia.com/gpu=0
+nvidia.com/gpu=1
+nvidia.com/gpu=2
+nvidia.com/gpu=3
+nvidia.com/gpu=GPU-0-FAKE-UUID
+nvidia.com/gpu=GPU-1-FAKE-UUID
+nvidia.com/gpu=GPU-2-FAKE-UUID
+nvidia.com/gpu=GPU-3-FAKE-UUID
+nvidia.com/gpu=all
+root@nvidia-container-toolkit-1-17-6:~# docker run -tid --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=nvidia.com/gpu=all busybox
+636dc230dfd01f576f5e5c0829af468290fd42b7449ce12b42684b1ae9578dfd
+root@nvidia-container-toolkit-1-17-6:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/636dc230dfd01f576f5e5c0829af468290fd42b7449ce12b42684b1ae9578dfd/config.json | jq .hooks
+{
+  "createContainer": [
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "create-symlinks",
+        "--link",
+        "../libnvidia-allocator.so.1::/usr/lib/x86_64-linux-gnu/gbm/nvidia-drm_gbm.so",
+        "--link",
+        "libglxserver_nvidia.so.575.57.08::/usr/lib64/xorg/modules/extensions/libglxserver_nvidia.so"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "create-symlinks",
+        "--link",
+        "libcuda.so.1::/usr/lib/x86_64-linux-gnu/libcuda.so",
+        "--link",
+        "libnvidia-opticalflow.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-opticalflow.so",
+        "--link",
+        "libGLX_nvidia.so.575.57.08::/usr/lib/x86_64-linux-gnu/libGLX_indirect.so.0"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "enable-cuda-compat",
+        "--host-driver-version=575.57.08"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "update-ldcache",
+        "--folder",
+        "/usr/lib/x86_64-linux-gnu",
+        "--folder",
+        "/usr/lib/x86_64-linux-gnu/vdpau"
+      ]
+    }
+  ]
+}
+```
+
 ### fake-nvidia
 
 ```shell
@@ -126,6 +196,21 @@ Bus Location:   00000000:00:00.0
 Architecture:   7.5
 root@nvidia-container-toolkit-1-17-6:~# lsmod |grep fake
 fake_nvidia_driver     12288  0
+root@nvidia-container-toolkit-1-17-6:~# ls -lah /usr/lib/x86_64-linux-gnu/libnvidia-ml.so*
+lrwxrwxrwx 1 root root  43 Jun  9 08:11 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so -> /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1
+lrwxrwxrwx 1 root root  51 Jun  9 08:11 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 -> /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.575.57.08
+-rwxr-xr-x 1 root root 22K Jun  9 08:11 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.575.57.08
+root@nvidia-container-toolkit-1-17-6:~# systemctl status fake-nvidia-device
+○ fake-nvidia-device.service - Create device nodes for fake nvidia driver
+     Loaded: loaded (/etc/systemd/system/fake-nvidia-device.service; enabled; preset: enabled)
+     Active: inactive (dead) since Tue 2026-06-09 08:30:53 UTC; 21s ago
+    Process: 640 ExecStart=/usr/local/bin/fake-nvidia-device.sh (code=exited, status=0/SUCCESS)
+   Main PID: 640 (code=exited, status=0/SUCCESS)
+        CPU: 9ms
+
+Jun 09 08:30:53 nvidia-container-toolkit-1-17-6 systemd[1]: Starting fake-nvidia-device.service - Create device nodes for fake nvidia driver...
+Jun 09 08:30:53 nvidia-container-toolkit-1-17-6 systemd[1]: fake-nvidia-device.service: Deactivated successfully.
+Jun 09 08:30:53 nvidia-container-toolkit-1-17-6 systemd[1]: Finished fake-nvidia-device.service - Create device nodes for fake nvidia driver.
 ```
 
 ### versions
