@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/your-gpu-my-shell:v0.1.0
+    image: ghcr.io/ctrsploit/your-gpu-my-shell:v0.1.1
     environment:
         - "QEMU_HOSTFWD=hostfwd=tcp::8080-:8080"
     ports:

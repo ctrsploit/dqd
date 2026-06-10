@@ -2,10 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/your-gpu-my-shell:latest | points to `v0.1.0` |
-| dqd | ghcr.io/ctrsploit/your-gpu-my-shell:v0.1.0 | migrate from docker_archive |
+| dqd | ghcr.io/ctrsploit/your-gpu-my-shell:latest | points to `v0.1.1` |
+| dqd | ghcr.io/ctrsploit/your-gpu-my-shell:v0.1.1 | migrate from docker_archive |
 | dqd | ssst0n3/docker_archive:your-gpu-my-shell_v0.1.0 | - |
-| ctr | ghcr.io/ctrsploit/your-gpu-my-shell:ctr_v0.1.0 | - |
+| ctr | ghcr.io/ctrsploit/your-gpu-my-shell:ctr_v0.1.1 | - |
 | ctr | ssst0n3/docker_archive:ctr_your-gpu-my-shell_v0.1.0 | - |
 
 ## usage
@@ -94,5 +94,5 @@ make all ENV=ctf/your-gpu-my-shell
 for developers:
 
 ```dockerfile
-FROM ghcr.io/ctrsploit/your-gpu-my-shell:ctr_v0.1.0
+FROM ghcr.io/ctrsploit/your-gpu-my-shell:ctr_v0.1.1
 ```
