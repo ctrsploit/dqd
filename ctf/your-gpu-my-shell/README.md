@@ -74,15 +74,28 @@ Creating container with GPU support...
 
 ```shell
 root@your-gpu-my-shell:~# nvidia-container-toolkit --version
-<!-- VERIFY -->
+NVIDIA Container Runtime Hook version 1.17.6
+commit: e627eb2e21e167988e04c0579a1c941c1e263ff6
 root@your-gpu-my-shell:~# docker --version
-<!-- VERIFY -->
+Docker version 28.1.1, build 4eba377
 root@your-gpu-my-shell:~# containerd --version
-<!-- VERIFY -->
+containerd containerd.io 1.7.27 05044ec0a9a75232cad458027ca83437aae3f4da
 root@your-gpu-my-shell:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@your-gpu-my-shell:~# uname -a
-<!-- VERIFY -->
+Linux your-gpu-my-shell 6.8.0-71-generic #71-Ubuntu SMP PREEMPT_DYNAMIC Tue Jul 22 16:52:38 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
