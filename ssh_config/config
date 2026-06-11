@@ -771,6 +771,9 @@ Host dqd-cve-2025-23266-mitigation
 Host dqd-cve-2025-23266
     Port 23266
 
+Host dqd-shocker-v0.7.1
+    Port 12711
+
 Host dqd-cve-2025-62725
     Port 62725
 
