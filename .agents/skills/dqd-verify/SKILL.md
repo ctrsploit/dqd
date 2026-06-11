@@ -87,7 +87,25 @@ git add <ENV>/README.md
 git commit -m "verify <ENV>: fill version output"
 ```
 
-### 6. Interactive exploit shells
+### 6. Multi-session exploits (server + victim)
+
+Some reproduce sections require a server running in one session while a victim action happens in another (e.g., malicious OCI registry + `docker compose up`). Use `run_background` + `run_command`:
+
+```bash
+# Session 1: start the server (keeps running)
+run_background "ssh ... 'ctrsploit vul XXXX x'"
+
+# Session 2: trigger the victim action
+run_command "ssh ... 'docker compose up'"
+```
+
+Key points:
+- `run_background` keeps the SSH session alive even after the command starts producing output.
+- The server's output can be monitored via `job_output`.
+- Use `stop_job` to cleanly terminate the server afterward.
+- For exploit commands that overwrite a file, the file write is the verification marker (e.g., `cat /tmp/pwnd`).
+
+### 7. Interactive exploit shells
 
 Some reproduce sections involve commands that drop into an interactive shell (e.g., `ctrsploit exploit`). Use `printf` with `docker run -i` to pipe commands in:
 
