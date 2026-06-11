@@ -737,6 +737,9 @@ Host dqd-runc-v1.4.2-kernel-v4.15
 Host dqd-runc-v1.3.5
     Port 13520
 
+Host dqd-nvidia-container-toolkit-v1.16.1
+    Port 11610
+
 Host dqd-nvidia-container-toolkit-v1.17.6
     Port 11760
 

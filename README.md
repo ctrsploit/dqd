@@ -360,6 +360,7 @@ dqd up runc/v1.3.0 --kvm=false
 | image |
 |-----|
 | [nvidia-container-toolkit-v1.17.6](./nvidia-container-toolkit/v1.17.6/) |
+| [nvidia-container-toolkit-v1.16.1](./nvidia-container-toolkit/v1.16.1/) |
 | [kubernetes-v1.35.1_containerd-v2.2.1_calico](./kubernetes/v1.35.1/containerd/v2.2.1/calico/default) | calico installed |
 | [kubernetes-v1.35.1_containerd-v2.2.1_init](./kubernetes/v1.35.1/containerd/v2.2.1/init) | kubeadm init, without CNI |
 | [kubernetes-v1.35.1_containerd-v2.2.1_base](./kubernetes/v1.35.1/containerd/v2.2.1/base) | k8s components installed |
