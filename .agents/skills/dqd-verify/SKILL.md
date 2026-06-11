@@ -87,6 +87,21 @@ git add <ENV>/README.md
 git commit -m "verify <ENV>: fill version output"
 ```
 
+### 6. Interactive exploit shells
+
+Some reproduce sections involve commands that drop into an interactive shell (e.g., `ctrsploit exploit`). Use `printf` with `docker run -i` to pipe commands in:
+
+```bash
+printf "grep CapEff /proc/self/status\ngrep Seccomp /proc/self/status\nexit\n" | \
+  docker run -i --rm --net=host <image> sh -c "... ctrsploit exploit -t"
+```
+
+Key points:
+- `docker run -i` (not `-ti`) enables stdin pipe without TTY.
+- End with `exit\n` to cleanly terminate the shell.
+- Use `timeout` if the exploit may hang waiting for conditions that don't apply (e.g., `timeout 5`).
+- For multi-command sequences, separate with `\n` in the printf string.
+
 ### 7. (Optional) Stop environment
 
 ```bash
