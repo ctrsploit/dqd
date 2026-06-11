@@ -768,6 +768,9 @@ Host dqd-cve-2025-23266-mitigation
 Host dqd-cve-2025-23266
     Port 23266
 
+Host dqd-cve-2019-5736
+    Port 57360
+
 Host dqd-cve-2016-8867
     Port 8867
 
