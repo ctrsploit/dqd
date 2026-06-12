@@ -15,8 +15,11 @@
 * There's no config.lxc.
 
 ```shell
-root@localhost:~# ./poc.sh
-<!-- VERIFY -->
+root@shocker-v0-9-0:~# ./poc.sh
++ echo 'loading docker image, docker-v0.9.0 cannot pull images from registry v2 anymore.'
+loading docker image, docker-v0.9.0 cannot pull images from registry v2 anymore.
++ docker load
++ docker run -t -i busybox:ubuntu-12.04 grep Cap /proc/1/status
 + echo 'loading docker image, docker-v0.9.0 cannot pull images from registry v2 anymore.'
 loading docker image, docker-v0.9.0 cannot pull images from registry v2 anymore.
 + docker load
@@ -25,10 +28,10 @@ CapInh:	0000000000000000
 CapPrm:	fffffffc904ceeff
 CapEff:	fffffffc904ceeff
 CapBnd:	fffffffc904ceeff
-root@localhost:~# capsh --decode=fffffffc904ceeff
+root@shocker-v0-9-0:~# capsh --decode=fffffffc904ceeff
 0xfffffffc904ceeff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_chroot,cap_sys_ptrace,cap_sys_boot,cap_lease,cap_setfcap,cap_syslog,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63
 
-root@localhost:~# ls -lah /var/lib/docker/containers/d22ce69506a640da5b511fa74b245614855e972bcbdf9f8f69e8acef86109f64/
+root@shocker-v0-9-0:~# ls -lah /var/lib/docker/containers/d22ce69506a640da5b511fa74b245614855e972bcbdf9f8f69e8acef86109f64/
 total 36K
 drwx------ 3 root root 4.0K Aug 29 02:32 .
 drwx------ 3 root root 4.0K Aug 29 02:32 ..
@@ -50,8 +53,13 @@ ssh -p 12092 root@127.0.0.1
 ```
 
 ```shell
-root@localhost:~# docker version
-<!-- VERIFY -->
+root@shocker-v0-9-0:~# docker version
+Client version: 0.9.0
+Go version (client): go1.2.1
+Git commit (client): 2b3fdf2
+Server version: 0.9.0
+Git commit (server): 2b3fdf2
+Go version (server): go1.2.1
 Client version: 0.9.0
 Go version (client): go1.2.1
 Git commit (client): 2b3fdf2
