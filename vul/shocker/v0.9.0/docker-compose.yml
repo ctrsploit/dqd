@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/shocker-v0.9.0:v0.1.0
+    ports:
+        - "12901:22"
+    tty: true
+    stdin_open: true
