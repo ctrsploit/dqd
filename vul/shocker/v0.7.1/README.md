@@ -32,7 +32,7 @@ root@shocker-v0-7-1:~# ./poc.sh
 <!-- VERIFY -->
 root@shocker-v0-7-1:~# capsh --decode=fffffffc904cfeff
 <!-- VERIFY -->
-root@shocker-v0-7-1:~# cat /var/lib/docker/containers/0cf0fee0e041b73eeb433695c9fb6469a993c75a6e7c998c1f8091a90c59eca7/config.lxc |grep cap
+root@shocker-v0-7-1:~# cat /var/lib/docker/containers/*/config.lxc |grep cap
 <!-- VERIFY -->
 ```
 
