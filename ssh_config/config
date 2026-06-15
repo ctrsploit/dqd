@@ -842,3 +842,6 @@ Host dqd-cgroup-v1-builder
 
 Host dqd-shocker-v26.1.4
     Port 26141
+
+Host dqd-cve-2026-23111-fix
+    Port 23112
