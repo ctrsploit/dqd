@@ -819,6 +819,9 @@ Host dqd-cve-2016-8867
 Host dqd-cve-2022-0847
     Port 20847
 
+Host dqd-cve-2026-23111
+    Port 23111
+
 Host dqd-cve-2026-31431
     Port 31431
 
@@ -837,3 +840,5 @@ Host dqd-kubernetes-v1.18.2_containerd-v1.3.3_init
 Host dqd-cgroup-v1-builder
     Port 10991
 
+Host dqd-shocker-v26.1.4
+    Port 26141
