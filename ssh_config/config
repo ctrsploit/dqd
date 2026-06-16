@@ -740,6 +740,9 @@ Host dqd-runc-v1.3.5
 Host dqd-nvidia-container-toolkit-v1.10.0
     Port 11003
 
+Host dqd-nvidia-container-toolkit-v1.12.0
+    Port 11201
+
 Host dqd-nvidia-container-toolkit-v1.16.1
     Port 11610
 
