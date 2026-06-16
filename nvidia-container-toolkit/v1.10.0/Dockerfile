@@ -41,12 +41,13 @@ ARG VERSION_KERNEL
 ARG VERSION_NVIDIA_DRIVER
 ARG URL_ARTIFACT_FAKE
 ADD ${URL_ARTIFACT_FAKE} /tmp/fake-nvidia.tar.gz
-RUN apt update && apt install -y build-essential linux-headers-${VERSION_KERNEL}
+RUN apt update && apt install -y build-essential linux-headers-${VERSION_KERNEL} linux-image-${VERSION_KERNEL}
 RUN tar -xzf /tmp/fake-nvidia.tar.gz -C /tmp && \
     mv /tmp/fake-nvidia-${VERSION_FAKE_NVIDIA} /usr/local/fake-nvidia && \
     rm -rf /tmp/fake-nvidia.tar.gz && \
     cd /usr/local/fake-nvidia && \
-    KERNEL_RELEASE=${VERSION_KERNEL} NVIDIA_DRIVER_VERSION=${VERSION_NVIDIA_DRIVER} make install
+    KERNEL_RELEASE=${VERSION_KERNEL} NVIDIA_DRIVER_VERSION=${VERSION_NVIDIA_DRIVER} make install && \
+    depmod ${VERSION_KERNEL}
 
 FROM fake-nvidia AS nvidia-container-toolkit
 ARG VERSION_NCT_PKG
