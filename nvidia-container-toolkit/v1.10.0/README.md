@@ -29,9 +29,28 @@ $ ./ssh
 
 ```shell
 root@nvidia-container-toolkit-1-10-0:~# docker run -tid --runtime=nvidia --gpus=all busybox
-<!-- VERIFY -->
-root@nvidia-container-toolkit-1-10-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/<cid>/config.json | jq .hooks
-<!-- VERIFY -->
+2a0467d1ce29deb2d63d91f66371d40855d893d2e0574f842c0c3c922947cb85
+root@nvidia-container-toolkit-1-10-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/2a0467d1ce29deb2d63d91f66371d40855d893d2e0574f842c0c3c922947cb85/config.json | jq .hooks
+{
+  "prestart": [
+    {
+      "path": "/usr/bin/nvidia-container-runtime-hook",
+      "args": [
+        "nvidia-container-runtime-hook",
+        "prestart"
+      ]
+    },
+    {
+      "path": "/proc/306/exe",
+      "args": [
+        "libnetwork-setkey",
+        "-exec-root=/var/run/docker",
+        "2a0467d1ce29deb2d63d91f66371d40855d893d2e0574f842c0c3c922947cb85",
+        "72b4e1ada749"
+      ]
+    }
+  ]
+}
 ```
 
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/1.10.0/install-guide.html
@@ -45,9 +64,39 @@ nvidia-container-toolkit v1.10.0 does not support CDI mode yet.
 ```shell
 root@nvidia-container-toolkit-1-10-0:~# sed -i s/auto/csv/g /etc/nvidia-container-runtime/config.toml
 root@nvidia-container-toolkit-1-10-0:~# docker run -tid --runtime=nvidia --gpus=all busybox
-<!-- VERIFY -->
-root@nvidia-container-toolkit-1-10-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/<cid>/config.json | jq .hooks
-<!-- VERIFY -->
+ab87d4d092240e6397313ac2a607f7b0a06382563fbb6c5e2b1d897c888a47f4
+root@nvidia-container-toolkit-1-10-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/ab87d4d092240e6397313ac2a607f7b0a06382563fbb6c5e2b1d897c888a47f4/config.json | jq .hooks
+{
+  "prestart": [
+    {
+      "path": "/proc/306/exe",
+      "args": [
+        "libnetwork-setkey",
+        "-exec-root=/var/run/docker",
+        "ab87d4d092240e6397313ac2a607f7b0a06382563fbb6c5e2b1d897c888a47f4",
+        "72b4e1ada749"
+      ]
+    }
+  ],
+  "createContainer": [
+    {
+      "path": "/usr/bin/nvidia-ctk",
+      "args": [
+        "/usr/bin/nvidia-ctk",
+        "hook",
+        "update-ldcache"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-ctk",
+      "args": [
+        "/usr/bin/nvidia-ctk",
+        "hook",
+        "create-symlinks"
+      ]
+    }
+  ]
+}
 ```
 
 ### fake-nvidia
@@ -89,7 +138,7 @@ GPU UUID:       GPU-3-FAKE-UUID
 Bus Location:   00000000:00:00.0
 Architecture:   7.5
 root@nvidia-container-toolkit-1-10-0:~# lsmod |grep fake
-<!-- VERIFY -->
+fake_nvidia_driver     16384  0
 root@nvidia-container-toolkit-1-10-0:~# ls -lah /usr/lib/x86_64-linux-gnu/libnvidia-ml.so*
 lrwxrwxrwx 1 root root  43 Jun 15 10:52 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so -> /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1
 lrwxrwxrwx 1 root root  51 Jun 15 10:52 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 -> /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.575.57.08
@@ -153,7 +202,7 @@ Server:
   seccomp
    Profile: default
   cgroupns
- Kernel Version: 5.15.0-181-generic
+ Kernel Version: 5.15.0-151-generic
  Operating System: Ubuntu 22.04.5 LTS
  OSType: linux
  Architecture: x86_64
@@ -185,7 +234,7 @@ BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
 PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
 UBUNTU_CODENAME=jammy
 root@nvidia-container-toolkit-1-10-0:~# uname -a
-Linux nvidia-container-toolkit-1-10-0 5.15.0-181-generic #191-Ubuntu SMP Fri May 22 19:09:02 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+Linux nvidia-container-toolkit-1-10-0 5.15.0-151-generic #161-Ubuntu SMP Tue Jul 22 14:25:40 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
