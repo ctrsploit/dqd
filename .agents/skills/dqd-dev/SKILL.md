@@ -36,6 +36,11 @@ When migrating one environment:
 - Use `ENV=<env-path>`, not old `DIR=<env-path>`, in docs and commands.
 - README structure under `## usage`: `### Start and connect` → `### <tool-specific title>` → `### versions` → `## build` → `for developers:`. The tool-specific subsection title must describe what the tool does, not be a generic label like "basic usage". Examples: "Run a container" for docker, "Run a container with runc" for runc, "Run a container with ctr" for containerd, "Run a container with nerdctl" for nerdctl, "Deploy a pod" for kubernetes.
 - Use `<!-- VERIFY -->` placeholder comments for **all** runtime-dependent output — not limited to the `### versions` section. Any command whose output depends on the actual running environment (version commands, `docker run` / container execution output, `cat /etc/os-release`, `uname -a`, etc.) should use a placeholder. The line above each placeholder must be the expected prompt + command (e.g., `root@<hostname>:~# runc --version`). Leave `<!-- VERIFY -->` placeholders in place until the image has been built by CI and the user requests a README update.
+- **Before writing the Dockerfile, diff the source against the most similar already-migrated environment in dqd.** Find a same-category env at a nearby version (e.g. for `nvidia-container-toolkit/v1.10.0`, diff against `nvidia-container-toolkit/v1.16.1/Dockerfile`). Look for structural additions in the dqd reference that are absent from the docker_archive source — these may be version-specific differences to preserve, OR migration requirements the source didn't need because docker_archive handled them differently (e.g., d2vm kernel provisioning). Pay special attention to:
+  - `linux-image` / `linux-headers` packages
+  - `depmod` calls after module install
+  - Additional `RUN` commands in the same stage
+  - ARG defaults that differ between versions
 - After creating all files, run `make ctr ENV=<env-path>` to validate the Dockerfile builds (base image exists, URLs are reachable). Do not run `make vm` or `make dqd` locally — those steps require pushes and produce large artifacts; they belong to CI.
 
 For runc/containerd `-dbg` variants (application-level debugging with dlv wrapper):
@@ -89,7 +94,16 @@ The Makefile defaults `KERNEL ?= true`. It maps to d2vm's `--kernel` flag, which
 - `KERNEL=true` (default, omit from `.env`): d2vm installs the latest kernel into the VM, overwriting whatever kernel the container had. Use this when the container's kernel doesn't matter.
 - `KERNEL=false` (explicit in `.env`): d2vm does NOT install a kernel. The VM boots with the container's existing kernel from `/boot`. Required for custom-kernel variants and CVE environments that install a specific kernel in the Dockerfile.
 
-Rule: if the Dockerfile installs a specific kernel (via `apt install linux-image-*` or mainline `.deb`), set `KERNEL=false` in `.env`.
+**When to set `KERNEL=false`:** any time the Dockerfile's behavior depends on a specific kernel version. Two cases:
+
+1. **Explicit kernel install**: Dockerfile installs a kernel image via `apt install linux-image-*` or mainline `.deb`. d2vm must not overwrite it.
+2. **Kernel module build**: Dockerfile builds or installs kernel modules for a specific version — `linux-headers-<VERSION>` + `make install` / `dkms` / `depmod`. The compiled module only loads on that exact kernel. If d2vm replaces the kernel (`KERNEL=true`, default), the module won't load. Set `KERNEL=false` and also install `linux-image-<VERSION>` so `/boot/vmlinuz-*` exists for d2vm's rename step.
+
+The `.env` entry:
+
+```env
+KERNEL=false
+```
 
 ## SSH Port Rules
 
