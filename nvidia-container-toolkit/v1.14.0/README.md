@@ -29,49 +29,208 @@ $ ./ssh
 
 ```shell
 root@nvidia-container-toolkit-1-14-0:~# docker run -tid --runtime=nvidia --gpus=all busybox
-<!-- VERIFY -->
-root@nvidia-container-toolkit-1-14-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/<cid>/config.json | jq .hooks
-<!-- VERIFY -->
+73730fe77b5b5521f26e18ae019b8b1c2aa1aaefe02920621745a0e7ba3a997c
+root@nvidia-container-toolkit-1-14-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/73730fe77b5b5521f26e18ae019b8b1c2aa1aaefe02920621745a0e7ba3a997c/config.json | jq .hooks
+{
+  "prestart": [
+    {
+      "path": "/usr/bin/nvidia-container-runtime-hook",
+      "args": [
+        "nvidia-container-runtime-hook",
+        "prestart"
+      ]
+    },
+    {
+      "path": "/proc/305/exe",
+      "args": [
+        "libnetwork-setkey",
+        "-exec-root=/var/run/docker",
+        "73730fe77b5b5521f26e18ae019b8b1c2aa1aaefe02920621745a0e7ba3a997c",
+        "1c911aa0d989"
+      ]
+    }
+  ]
+}
 ```
 
 ### CDI mode
 
 ```shell
 root@nvidia-container-toolkit-1-14-0:~# nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
-<!-- VERIFY -->
+INFO[0000] Auto-detected mode as "nvml"                 
+...
+INFO[0000] Generated CDI spec with version 0.5.0
 root@nvidia-container-toolkit-1-14-0:~# sed -i s/auto/cdi/g /etc/nvidia-container-runtime/config.toml
 root@nvidia-container-toolkit-1-14-0:~# docker run -tid --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=nvidia.com/gpu=all ubuntu
-<!-- VERIFY -->
-root@nvidia-container-toolkit-1-14-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/<cid>/config.json | jq .hooks
-<!-- VERIFY -->
+bda0f1c13cd192eb7d44f418414ff587c36640df766e408754e92d358730873b
+root@nvidia-container-toolkit-1-14-0:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/bda0f1c13cd192eb7d44f418414ff587c36640df766e408754e92d358730873b/config.json | jq .hooks
+{
+  "prestart": [
+    {
+      "path": "/proc/305/exe",
+      "args": [
+        "libnetwork-setkey",
+        "-exec-root=/var/run/docker",
+        "bda0f1c13cd192eb7d44f418414ff587c36640df766e408754e92d358730873b",
+        "1c911aa0d989"
+      ]
+    }
+  ],
+  "createContainer": [
+    {
+      "path": "/usr/bin/nvidia-ctk",
+      "args": [
+        "nvidia-ctk",
+        "hook",
+        "update-ldcache",
+        "--folder",
+        "/lib/x86_64-linux-gnu"
+      ]
+    }
+  ]
+}
 ```
 
 ### fake-nvidia
 
 ```shell
 root@nvidia-container-toolkit-1-14-0:~# nvidia-container-cli info
-<!-- VERIFY -->
+NVRM version:   575.57.08
+CUDA version:   12.2
+
+Device Index:   0
+Device Minor:   0
+Model:          NVIDIA Tesla T4
+Brand:          Tesla
+GPU UUID:       GPU-0-FAKE-UUID
+Bus Location:   00000000:00:00.0
+Architecture:   7.5
+
+Device Index:   1
+Device Minor:   1
+Model:          NVIDIA Tesla T4
+Brand:          Tesla
+GPU UUID:       GPU-1-FAKE-UUID
+Bus Location:   00000000:00:00.0
+Architecture:   7.5
+
+Device Index:   2
+Device Minor:   2
+Model:          NVIDIA Tesla T4
+Brand:          Tesla
+GPU UUID:       GPU-2-FAKE-UUID
+Bus Location:   00000000:00:00.0
+Architecture:   7.5
+
+Device Index:   3
+Device Minor:   3
+Model:          NVIDIA Tesla T4
+Brand:          Tesla
+GPU UUID:       GPU-3-FAKE-UUID
+Bus Location:   00000000:00:00.0
+Architecture:   7.5
 root@nvidia-container-toolkit-1-14-0:~# lsmod |grep fake
-<!-- VERIFY -->
+fake_nvidia_driver     16384  0
 root@nvidia-container-toolkit-1-14-0:~# ls -lah /usr/lib/x86_64-linux-gnu/libnvidia-ml.so*
-<!-- VERIFY -->
+lrwxrwxrwx 1 root root  43 Jun 17 10:14 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so -> /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1
+lrwxrwxrwx 1 root root  51 Jun 17 10:14 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 -> /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.575.57.08
+-rwxr-xr-x 1 root root 22K Jun 17 10:14 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.575.57.08
 root@nvidia-container-toolkit-1-14-0:~# systemctl status fake-nvidia-device
-<!-- VERIFY -->
+○ fake-nvidia-device.service - Create device nodes for fake nvidia driver
+     Loaded: loaded (/etc/systemd/system/fake-nvidia-device.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2026-06-17 11:22:30 UTC; 6min ago
+    Process: 426 ExecStart=/usr/local/bin/fake-nvidia-device.sh (code=exited, status=0/SUCCESS)
+   Main PID: 426 (code=exited, status=0/SUCCESS)
+        CPU: 7ms
+
+Jun 17 11:22:30 nvidia-container-toolkit-1-14-0 systemd[1]: Starting Create device nodes for fake nvidia driver...
+Jun 17 11:22:30 nvidia-container-toolkit-1-14-0 systemd[1]: fake-nvidia-device.service: Deactivated successfully.
+Jun 17 11:22:30 nvidia-container-toolkit-1-14-0 systemd[1]: Finished Create device nodes for fake nvidia driver.
 ```
 
 ### versions
 
 ```shell
 root@nvidia-container-toolkit-1-14-0:~# nvidia-container-toolkit --version
-<!-- VERIFY -->
+NVIDIA Container Runtime Hook version 1.14.0
+commit: f2bd3173d44938eadb73252b866a9b3a7f44b8c6
 root@nvidia-container-toolkit-1-14-0:~# docker info
-<!-- VERIFY -->
+Client: Docker Engine - Community
+ Version:    24.0.5
+ Context:    default
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.11.2
+    Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.20.2
+    Path:     /usr/libexec/docker/cli-plugins/docker-compose
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 24.0.5
+ Storage Driver: overlay2
+  Backing Filesystem: extfs
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: systemd
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+ Swarm: inactive
+ Runtimes: nvidia runc io.containerd.runc.v2
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 3dce8eb055cbb6872793272b4f20ed16117344f8
+ runc version: v1.1.7-0-g860f061
+ init version: de40ad0
+ Security Options:
+  apparmor
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 5.15.0-151-generic
+ Operating System: Ubuntu 22.04.5 LTS
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 2
+ Total Memory: 1.918GiB
+ Name: nvidia-container-toolkit-1-14-0
+ ID: 74ac02e3-e1a1-4215-a6ef-5a60e2d74e1e
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Registry: https://index.docker.io/v1/
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
 root@nvidia-container-toolkit-1-14-0:~# containerd --version
-<!-- VERIFY -->
+containerd containerd.io 1.6.21 3dce8eb055cbb6872793272b4f20ed16117344f8
 root@nvidia-container-toolkit-1-14-0:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
 root@nvidia-container-toolkit-1-14-0:~# uname -a
-<!-- VERIFY -->
+Linux nvidia-container-toolkit-1-14-0 5.15.0-151-generic #161-Ubuntu SMP Tue Jul 22 14:25:40 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
