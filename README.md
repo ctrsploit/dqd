@@ -373,6 +373,7 @@ dqd up runc/v1.3.0 --kvm=false
 |-----|
 | [nvidia-container-toolkit-v1.17.6](./nvidia-container-toolkit/v1.17.6/) |
 | [nvidia-container-toolkit-v1.16.1](./nvidia-container-toolkit/v1.16.1/) |
+| [nvidia-container-toolkit-v1.13.0](./nvidia-container-toolkit/v1.13.0/) |
 | [nvidia-container-toolkit-v1.12.0](./nvidia-container-toolkit/v1.12.0/) |
 | [nvidia-container-toolkit-v1.10.0](./nvidia-container-toolkit/v1.10.0/) |
 | [kubernetes-v1.35.1_containerd-v2.2.1_calico](./kubernetes/v1.35.1/containerd/v2.2.1/calico/default) | calico installed |
