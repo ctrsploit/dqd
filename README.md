@@ -372,6 +372,7 @@ dqd up runc/v1.3.0 --kvm=false
 | image |
 |-----|
 | [nvidia-container-toolkit-v1.17.6](./nvidia-container-toolkit/v1.17.6/) |
+| [nvidia-container-toolkit-v1.16.2](./nvidia-container-toolkit/v1.16.2/) |
 | [nvidia-container-toolkit-v1.16.1](./nvidia-container-toolkit/v1.16.1/) |
 | [nvidia-container-toolkit-v1.16.0](./nvidia-container-toolkit/v1.16.0/) |
 | [nvidia-container-toolkit-v1.14.0](./nvidia-container-toolkit/v1.14.0/) |
