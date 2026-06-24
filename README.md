@@ -52,6 +52,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [cve-2026-43284](./vul/cve-2026-43284/) |
 | [cve-2026-31431](./vul/cve-2026-31431/) |
 | [cve-2026-23111](./vul/cve-2026-23111/) |
+| [cve-2026-23111-debian](./vul/cve-2026-23111-debian/) |
 | [cve-2026-23111-fix](./vul/cve-2026-23111-fix/) |
 | [cve-2025-23266-mitigation](./vul/cve-2025-23266-mitigation/) |
 | [cve-2016-8867](./vul/cve-2016-8867/) |

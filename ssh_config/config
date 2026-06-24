@@ -863,3 +863,6 @@ Host dqd-shocker-v26.1.4
 
 Host dqd-cve-2026-23111-fix
     Port 23112
+
+Host dqd-cve-2026-23111-debian
+    Port 23113
