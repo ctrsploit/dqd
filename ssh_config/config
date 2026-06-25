@@ -866,3 +866,6 @@ Host dqd-cve-2026-23111-fix
 
 Host dqd-cve-2026-23111-debian
     Port 23113
+
+Host dqd-docker-v29.4.1-debian
+    Port 29411
