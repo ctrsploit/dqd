@@ -290,6 +290,12 @@ dqd up runc/v1.3.0 --kvm=false
 | [containerd-v0.2.9](./containerd/v0.2.9/) |
 | [containerd-v0.2.4](./containerd/v0.2.4/) |
 
+### nerdctl
+
+| image |
+|-----|
+| [nerdctl-v0.5.0](./nerdctl/v0.5.0/) |
+
 ### docker
 
 | image |
