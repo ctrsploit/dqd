@@ -35,7 +35,18 @@ When migrating one environment:
 - Update top-level `README.md` and `ssh_config/config`.
 - Use `ENV=<env-path>`, not old `DIR=<env-path>`, in docs and commands.
 - README structure under `## usage`: `### Start and connect` → `### <tool-specific title>` → `### versions` → `## build` → `for developers:`. The tool-specific subsection title must describe what the tool does, not be a generic label like "basic usage". Examples: "Run a container" for docker, "Run a container with runc" for runc, "Run a container with ctr" for containerd, "Run a container with nerdctl" for nerdctl, "Deploy a pod" for kubernetes.
-- Use `<!-- VERIFY -->` placeholder comments for **all** runtime-dependent output — not limited to the `### versions` section. Any command whose output depends on the actual running environment (version commands, `docker run` / container execution output, `cat /etc/os-release`, `uname -a`, etc.) should use a placeholder. The line above each placeholder must be the expected prompt + command (e.g., `root@<hostname>:~# runc --version`). Leave `<!-- VERIFY -->` placeholders in place until the image has been built by CI and the user requests a README update.
+- Use `<!-- VERIFY -->` placeholder comments for **all** runtime-dependent output. Hardcoding output copied from the docker_archive README is **not** safe — the migrated dqd base image can differ from the docker_archive base (observed example: `nerdctl/v0.7.0-beta.0` was Ubuntu 20.04 in docker_archive but the migrated `containerd-v1.5.0-beta.2` base is Ubuntu 24.04; `cat /etc/os-release` and `uname -a` both differed). Placeholders are filled later by the `dqd-verify` workflow once CI has built the image.
+  - **What to placeholder** — every command whose output depends on the actual running image/VM:
+    - `### versions` section: **all** version commands (`nerdctl --version`, `buildkitd --version`, `containerd --version`, `runc --version`, …), plus `cat /etc/os-release` and `uname -a`. Do not leave any version command's output hardcoded.
+    - `### <tool-specific title>` usage demo section: container execution output (`nerdctl run hello-world`, `ctr run …`, `docker run …`) and listings (`nerdctl images`, `docker images`, `ctr images`).
+    - `## Known Issue` / error-reproduction blocks: the failing command's error output (e.g. `nerdctl run hello-world` → apparmor FATA).
+  - **What NOT to placeholder** — commands that produce no stdout by definition (`echo … > Dockerfile`, `nerdctl build -t foo .` with quiet output, `mkdir`, `cd`). These have no output line to replace; just write the prompt line with nothing after it.
+  - **Format**: the line immediately above each `<!-- VERIFY -->` must be the expected prompt + command in the form `root@<hostname>:~# <command>`. The placeholder sits on its own line directly below. Example:
+    ```shell
+    root@nerdctl-0-9-0:~# nerdctl --version
+    <!-- VERIFY -->
+    ```
+  - Leave all `<!-- VERIFY -->` placeholders in place at migration time. They are filled only after the image has been built by CI and the user requests a README update (see `dqd-verify` skill).
 - **Before writing the Dockerfile, diff the source against the most similar already-migrated environment in dqd.** Find a same-category env at a nearby version (e.g. for `nvidia-container-toolkit/v1.10.0`, diff against `nvidia-container-toolkit/v1.16.1/Dockerfile`). Look for structural additions in the dqd reference that are absent from the docker_archive source — these may be version-specific differences to preserve, OR migration requirements the source didn't need because docker_archive handled them differently (e.g., d2vm kernel provisioning). Pay special attention to:
   - `linux-image` / `linux-headers` packages
   - `depmod` calls after module install
