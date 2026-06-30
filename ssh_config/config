@@ -451,6 +451,9 @@ Host dqd-nerdctl-v0.19.0
 Host dqd-nerdctl-v0.20.0
     Port 20000
 
+Host dqd-nerdctl-v0.21.0
+    Port 21003
+
 Host dqd-kubernetes-v1.32.2_containerd-v2.0.3_init
     Port 13223
 
