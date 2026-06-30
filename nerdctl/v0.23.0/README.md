@@ -31,28 +31,67 @@ $ ./ssh
 
 ```shell
 root@nerdctl-0-23-0:~# nerdctl run --security-opt apparmor=unconfined hello-world
-<!-- VERIFY -->
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
 root@nerdctl-0-23-0:~# echo 'FROM hello-world' > Dockerfile
 root@nerdctl-0-23-0:~# nerdctl build -t foo .
 root@nerdctl-0-23-0:~# nerdctl images
-<!-- VERIFY -->
+REPOSITORY     TAG       IMAGE ID        CREATED                   PLATFORM       SIZE        BLOB SIZE
+foo            latest    d7173a0a1c25    Less than a second ago    linux/amd64    16.0 KiB    3.7 KiB
+hello-world    latest    96498ffd522e    40 seconds ago            linux/amd64    16.0 KiB    15.8 KiB
+hello-world    latest    96498ffd522e    40 seconds ago            linux/386      0.0 B       16.0 KiB
 ```
 
 ### versions
 
 ```shell
 root@nerdctl-0-23-0:~# nerdctl --version
-<!-- VERIFY -->
+nerdctl version 0.23.0
 root@nerdctl-0-23-0:~# buildkitd --version
-<!-- VERIFY -->
+buildkitd github.com/moby/buildkit v0.10.4 a2ba6869363812a210fcc3ded6926757ab780b5f
 root@nerdctl-0-23-0:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.6.8 9cd3357b7fd7218e4aec3eae239db1f68a5a6ec6
 root@nerdctl-0-23-0:~# runc --version
-<!-- VERIFY -->
+runc version 1.1.3
+commit: v1.1.3-0-g6724737f
+spec: 1.0.2-dev
+go: go1.17.10
+libseccomp: 2.5.4
 root@nerdctl-0-23-0:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
 root@nerdctl-0-23-0:~# uname -a
-<!-- VERIFY -->
+Linux nerdctl-0-23-0 5.15.0-185-generic #195-Ubuntu SMP Fri Jun 19 17:11:50 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
@@ -75,5 +114,5 @@ https://github.com/containerd/nerdctl/issues/3945
 
 ```
 root@nerdctl-0-23-0:~# nerdctl run hello-world
-<!-- VERIFY -->
+time="2026-06-30T12:18:30Z" level=fatal msg="get apparmor_parser version: apparmor_parser resolves to executable in current directory (./apparmor_parser)"
 ```
