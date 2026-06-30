@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/nerdctl-v0.22.0:v0.1.0
+    ports:
+        - "22001:22"
+    tty: true
+    stdin_open: true
