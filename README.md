@@ -294,6 +294,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image |
 |-----|
+| [nerdctl-v1.1.0](./nerdctl/v1.1.0/) |
 | [nerdctl-v1.0.0](./nerdctl/v1.0.0/) |
 | [nerdctl-v0.23.0](./nerdctl/v0.23.0/) |
 | [nerdctl-v0.22.0](./nerdctl/v0.22.0/) |
