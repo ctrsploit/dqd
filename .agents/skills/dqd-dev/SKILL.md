@@ -9,7 +9,7 @@ Use this skill for repository changes. Use `dqd-use` when only running existing 
 
 ## Standard Workflow
 
-1. Create a dedicated branch before any edits:
+1. For new environment migrations, create a dedicated branch before any edits:
    ```bash
    git checkout main && git pull && git checkout -b <env-name>
    ```
@@ -17,6 +17,10 @@ Use this skill for repository changes. Use `dqd-use` when only running existing 
 3. Keep generated artifacts out of git, especially `*.qcow2`.
 4. Validate with the smallest real target that covers the change.
 5. Commit only related files.
+
+Branch scope:
+- New environment migrations must use a dedicated branch.
+- README verification after CI is `dqd-verify` work and may be committed on `main`; do not force a migration branch for README-only verification commits.
 
 ## Migrating From docker_archive
 

@@ -11,6 +11,11 @@ Use this skill when the user asks to fill in runtime-dependent output in README 
 
 The environment must be running (via `docker compose up -d`) and accessible via SSH. The README must contain `<!-- VERIFY -->` placeholder comments.
 
+Branch and commit scope:
+- README verification commits may be made directly on `main`.
+- Do not create a migration branch solely for README verification unless the user asks.
+- The commit must include only `<ENV>/README.md`; leave unrelated files such as `.reasonix/` untouched.
+
 ## Workflow
 
 ### 1. Parse targets
@@ -80,14 +85,26 @@ grep '<!-- VERIFY -->' <ENV>/README.md
 
 Must return nothing.
 
+Also check for stale placeholder text and SSH noise:
+
+```bash
+grep -E '<!-- VERIFY -->|<container-id>|Warning: Permanently added' <ENV>/README.md
+```
+
+Must return nothing.
+
 ### 6. Commit
 
 ```bash
 git add <ENV>/README.md
+git diff --cached --name-status
+git diff --cached --check
 git commit -m "verify <ENV>: fill version output"
 ```
 
-### 6. Multi-session exploits (server + victim)
+Before committing, verify `git diff --cached --name-status` lists only `<ENV>/README.md`.
+
+### 8. Multi-session exploits (server + victim)
 
 Some reproduce sections require a server running in one session while a victim action happens in another (e.g., malicious OCI registry + `docker compose up`). Use `run_background` + `run_command`:
 
@@ -105,7 +122,7 @@ Key points:
 - Use `stop_job` to cleanly terminate the server afterward.
 - For exploit commands that overwrite a file, the file write is the verification marker (e.g., `cat /tmp/pwnd`).
 
-### 7. Interactive exploit shells
+### 9. Interactive exploit shells
 
 Some reproduce sections involve commands that drop into an interactive shell (e.g., `ctrsploit exploit`). Use `printf` with `docker run -i` to pipe commands in:
 
@@ -120,8 +137,10 @@ Key points:
 - Use `timeout` if the exploit may hang waiting for conditions that don't apply (e.g., `timeout 5`).
 - For multi-command sequences, separate with `\n` in the printf string.
 
-### 7. (Optional) Stop environment
+### 10. Stop environment
 
 ```bash
 docker compose -f <ENV>/docker-compose.yml down
 ```
+
+After stopping, report the branch name, commit hash, and that only `<ENV>/README.md` was committed.
