@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/nvidia-container-toolkit-v1.17.1:v0.9.0
+    ports:
+        - "11710:22"
+    tty: true
+    stdin_open: true
