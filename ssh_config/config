@@ -932,3 +932,6 @@ Host dqd-docker-v29.4.1-debian
 
 Host dqd-nvidia-container-toolkit-v1.17.7
     Port 11770
+
+Host dqd-nvidia-container-toolkit-v1.17.8
+    Port 11780
