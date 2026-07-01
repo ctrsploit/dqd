@@ -929,3 +929,6 @@ Host dqd-cve-2026-23111-debian
 
 Host dqd-docker-v29.4.1-debian
     Port 29411
+
+Host dqd-nvidia-container-toolkit-v1.17.7
+    Port 11770
