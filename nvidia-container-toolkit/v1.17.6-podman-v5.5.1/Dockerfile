@@ -77,4 +77,21 @@ RUN curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-co
 
 FROM nvidia-container-toolkit
 ARG HOSTNAME
+ARG VERSION_KERNEL
 RUN echo "${HOSTNAME}" > /etc/hostname
+RUN set -eux; \
+    mkdir -p /boot; \
+    if [ -f "/boot/vmlinuz-${VERSION_KERNEL}" ]; then \
+        cp -f "/boot/vmlinuz-${VERSION_KERNEL}" /tmp/dqd-kernel-image; \
+    elif [ -f "/usr/lib/modules/${VERSION_KERNEL}/vmlinuz" ]; then \
+        cp -f "/usr/lib/modules/${VERSION_KERNEL}/vmlinuz" /tmp/dqd-kernel-image; \
+    else \
+        echo "missing kernel image for ${VERSION_KERNEL}" >&2; \
+        find / -name 'vmlinuz*' -print >&2; \
+        exit 1; \
+    fi; \
+    find / -xdev -name 'vmlinuz*' -delete; \
+    mv /tmp/dqd-kernel-image "/boot/vmlinuz-${VERSION_KERNEL}"; \
+    find /boot -name 'initramfs-0-rescue-*.img' -delete; \
+    test "$(find / -xdev -name 'vmlinuz*' -print | wc -l)" = "1"; \
+    test "$(find /boot -name 'initramfs-*.img' -print | wc -l)" = "1"
