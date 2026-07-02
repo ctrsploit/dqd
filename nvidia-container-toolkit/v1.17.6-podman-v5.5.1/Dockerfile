@@ -79,40 +79,10 @@ FROM nvidia-container-toolkit
 ARG HOSTNAME
 ARG VERSION_KERNEL
 RUN echo "${HOSTNAME}" > /etc/hostname
-RUN printf '%s\n' \
-        '#!/usr/bin/sh' \
-        'set -eu' \
-        'COMMAND="${1:-}"' \
-        "PINNED_KERNEL=${VERSION_KERNEL}" \
-        '[ "$COMMAND" = "add" ] || exit 0' \
-        '[ -d "/lib/modules/$PINNED_KERNEL" ] || exit 0' \
-        'if [ -f "/boot/vmlinuz-$PINNED_KERNEL" ]; then' \
-        '    cp -f "/boot/vmlinuz-$PINNED_KERNEL" /tmp/dqd-pinned-kernel-image' \
-        'elif [ -f "/lib/modules/$PINNED_KERNEL/vmlinuz" ]; then' \
-        '    cp -f "/lib/modules/$PINNED_KERNEL/vmlinuz" /tmp/dqd-pinned-kernel-image' \
-        'else' \
-        '    exit 0' \
-        'fi' \
-        'find /lib/modules -mindepth 1 -maxdepth 1 -type d ! -name "$PINNED_KERNEL" -exec rm -rf {} +' \
-        'find /boot -maxdepth 1 -name "vmlinuz*" -delete' \
-        'mv /tmp/dqd-pinned-kernel-image "/boot/vmlinuz-$PINNED_KERNEL"' \
-        'find /boot -maxdepth 1 -name "initramfs-*.img" ! -name "initramfs-$PINNED_KERNEL.img" -delete' \
-        'exit 0' \
-        > /usr/lib/kernel/install.d/99-dqd-pinned-kernel.install && \
-    chmod +x /usr/lib/kernel/install.d/99-dqd-pinned-kernel.install
 RUN set -eux; \
     mkdir -p /boot; \
-    if [ -f "/boot/vmlinuz-${VERSION_KERNEL}" ]; then \
-        cp -f "/boot/vmlinuz-${VERSION_KERNEL}" /tmp/dqd-kernel-image; \
-    elif [ -f "/usr/lib/modules/${VERSION_KERNEL}/vmlinuz" ]; then \
-        cp -f "/usr/lib/modules/${VERSION_KERNEL}/vmlinuz" /tmp/dqd-kernel-image; \
-    else \
-        echo "missing kernel image for ${VERSION_KERNEL}" >&2; \
-        find / -name 'vmlinuz*' -print >&2; \
-        exit 1; \
+    if [ ! -f "/boot/vmlinuz-${VERSION_KERNEL}" ]; then \
+        cp -f "/usr/lib/modules/${VERSION_KERNEL}/vmlinuz" "/boot/vmlinuz-${VERSION_KERNEL}"; \
     fi; \
-    find / -xdev -name 'vmlinuz*' -delete; \
-    mv /tmp/dqd-kernel-image "/boot/vmlinuz-${VERSION_KERNEL}"; \
-    find /boot -name 'initramfs-0-rescue-*.img' -delete; \
-    test "$(find / -xdev -name 'vmlinuz*' -print | wc -l)" = "1"; \
-    test "$(find /boot -name 'initramfs-*.img' -print | wc -l)" = "1"
+    test -f "/boot/vmlinuz-${VERSION_KERNEL}"; \
+    test -f "/boot/initramfs-${VERSION_KERNEL}.img"
