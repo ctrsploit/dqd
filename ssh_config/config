@@ -971,3 +971,6 @@ Host dqd-nvidia-container-toolkit-v1.17.6-docker-v28.0.0-rc.1
 
 Host dqd-podman-v5.5.1
     Port 55100
+
+Host dqd-nvidia-container-toolkit-v1.17.6-podman-v5.5.1
+    Port 11764
