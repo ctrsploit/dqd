@@ -77,4 +77,12 @@ RUN curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-co
 
 FROM nvidia-container-toolkit
 ARG HOSTNAME
+ARG VERSION_KERNEL
 RUN echo "${HOSTNAME}" > /etc/hostname
+RUN set -eux; \
+    mkdir -p /boot; \
+    if [ ! -f "/boot/vmlinuz-${VERSION_KERNEL}" ]; then \
+        cp -f "/usr/lib/modules/${VERSION_KERNEL}/vmlinuz" "/boot/vmlinuz-${VERSION_KERNEL}"; \
+    fi; \
+    test -f "/boot/vmlinuz-${VERSION_KERNEL}"; \
+    test -f "/boot/initramfs-${VERSION_KERNEL}.img"

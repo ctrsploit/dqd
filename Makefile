@@ -16,7 +16,7 @@ PUSH_RETRY_DELAY ?= 10
 # ------------------------------------------------------------------------------
 # Command helpers
 # ------------------------------------------------------------------------------
-D2VM := docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.5
+D2VM := docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.6
 VIRT_SPARSIFY := docker run -i --rm -v $(PWD)/$(ENV):/data -w /data --device=/dev/kvm ghcr.io/ssst0n3/libguestfs:latest virt-sparsify
 
 # ------------------------------------------------------------------------------
