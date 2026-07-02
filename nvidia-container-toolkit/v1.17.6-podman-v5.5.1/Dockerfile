@@ -79,6 +79,27 @@ FROM nvidia-container-toolkit
 ARG HOSTNAME
 ARG VERSION_KERNEL
 RUN echo "${HOSTNAME}" > /etc/hostname
+RUN printf '%s\n' \
+        '#!/usr/bin/sh' \
+        'set -eu' \
+        'COMMAND="${1:-}"' \
+        "PINNED_KERNEL=${VERSION_KERNEL}" \
+        '[ "$COMMAND" = "add" ] || exit 0' \
+        '[ -d "/lib/modules/$PINNED_KERNEL" ] || exit 0' \
+        'if [ -f "/boot/vmlinuz-$PINNED_KERNEL" ]; then' \
+        '    cp -f "/boot/vmlinuz-$PINNED_KERNEL" /tmp/dqd-pinned-kernel-image' \
+        'elif [ -f "/lib/modules/$PINNED_KERNEL/vmlinuz" ]; then' \
+        '    cp -f "/lib/modules/$PINNED_KERNEL/vmlinuz" /tmp/dqd-pinned-kernel-image' \
+        'else' \
+        '    exit 0' \
+        'fi' \
+        'find /lib/modules -mindepth 1 -maxdepth 1 -type d ! -name "$PINNED_KERNEL" -exec rm -rf {} +' \
+        'find /boot -maxdepth 1 -name "vmlinuz*" -delete' \
+        'mv /tmp/dqd-pinned-kernel-image "/boot/vmlinuz-$PINNED_KERNEL"' \
+        'find /boot -maxdepth 1 -name "initramfs-*.img" ! -name "initramfs-$PINNED_KERNEL.img" -delete' \
+        'exit 0' \
+        > /usr/lib/kernel/install.d/99-dqd-pinned-kernel.install && \
+    chmod +x /usr/lib/kernel/install.d/99-dqd-pinned-kernel.install
 RUN set -eux; \
     mkdir -p /boot; \
     if [ -f "/boot/vmlinuz-${VERSION_KERNEL}" ]; then \
