@@ -381,6 +381,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image |
 |-----|
+| [podman-v5.4.0](./podman/v5.4.0/) |
 | [podman-v5.5.1](./podman/v5.5.1/) |
 
 ### docker-compose
