@@ -383,6 +383,7 @@ dqd up runc/v1.3.0 --kvm=false
 |-----|
 | [podman-v5.4.0](./podman/v5.4.0/) |
 | [podman-v5.5.1](./podman/v5.5.1/) |
+| [podman-v5.5.1-debug](./podman/v5.5.1-debug/) |
 
 ### docker-compose
 
