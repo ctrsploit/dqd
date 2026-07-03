@@ -980,3 +980,6 @@ Host dqd-nvidia-container-toolkit-v1.17.6-runc-v1.3.0-rc.2
 
 Host dqd-podman-v5.4.0
     Port 54000
+
+Host dqd-podman-v5.5.1-debug
+    Port 55101
