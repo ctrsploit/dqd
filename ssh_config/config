@@ -986,3 +986,6 @@ Host dqd-podman-v5.5.1-debug
 
 Host dqd-nerdctl-v2.1.2
     Port 21200
+
+Host dqd-nerdctl-v2.1.2-apparmor
+    Port 21201
