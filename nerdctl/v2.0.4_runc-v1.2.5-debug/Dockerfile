@@ -1,0 +1,72 @@
+# ================================
+# CONFIG: version pins
+# ================================
+ARG HOSTNAME=nerdctl-2-0-4-runc-1-2-5-debug
+ARG VERSION_NERDCTL=2.0.4
+ARG VERSION_CONTAINERD=2.0.4
+ARG VERSION_BUILDKIT=0.20.2
+ARG VERSION_CNI=1.6.2
+ARG VERSION_RUNC=1.2.5
+ARG VERSION_DLV=1.24.2
+ARG VERSION_IMAGE_CONTAINERD=0.3.0
+ARG PATH_RUNC=/usr/local/sbin/runc
+
+# ================================
+# Internal Variables
+# ================================
+ARG IMAGE_CONTAINERD=ghcr.io/ctrsploit/containerd-v${VERSION_CONTAINERD}
+ARG URL_ARTIFACT_NERDCTL=https://github.com/containerd/nerdctl/releases/download/v${VERSION_NERDCTL}/nerdctl-${VERSION_NERDCTL}-linux-amd64.tar.gz
+ARG URL_ARTIFACT_BUILDKIT=https://github.com/moby/buildkit/releases/download/v${VERSION_BUILDKIT}/buildkit-v${VERSION_BUILDKIT}.linux-amd64.tar.gz
+ARG URL_ARTIFACT_CNI=https://github.com/containernetworking/plugins/releases/download/v${VERSION_CNI}/cni-plugins-linux-amd64-v${VERSION_CNI}.tgz
+ARG URL_ARTIFACT_RUNC=https://github.com/ssst0n3/container-debug-artifacts/releases/download/runc/runc-v${VERSION_RUNC}-debug-flag
+ARG URL_ARTIFACT_DLV=https://github.com/ssst0n3/container-debug-artifacts/releases/download/dlv/dlv-v${VERSION_DLV}
+ARG URL_RAW_BUILDKIT=https://raw.githubusercontent.com/moby/buildkit/refs/tags/v${VERSION_BUILDKIT}
+
+# ================================
+# Build Stages
+# ================================
+FROM ${IMAGE_CONTAINERD}:ctr_v${VERSION_IMAGE_CONTAINERD} AS buildkit
+ARG URL_ARTIFACT_BUILDKIT
+ARG URL_RAW_BUILDKIT
+# install buildkit
+# https://github.com/containerd/nerdctl/blob/v2.0.4/docs/build.md#rootful
+ADD ${URL_ARTIFACT_BUILDKIT} /tmp/buildkit.tar.gz
+RUN tar Cxzvvf /usr/local/ /tmp/buildkit.tar.gz \
+    && rm /tmp/buildkit.tar.gz
+# enable containerd worker
+COPY buildkitd.toml /etc/buildkit/buildkitd.toml
+# config systemd
+ADD ${URL_RAW_BUILDKIT}/examples/systemd/system/buildkit.service /usr/local/lib/systemd/system/buildkit.service
+ADD ${URL_RAW_BUILDKIT}/examples/systemd/system/buildkit.socket /usr/local/lib/systemd/system/buildkit.socket
+RUN systemctl enable buildkit.service
+
+FROM buildkit AS cni
+ARG URL_ARTIFACT_CNI
+# install CNI plugins
+RUN apt update && \
+    apt install -y iptables && \
+    rm -rf /var/lib/apt/lists/*
+ADD ${URL_ARTIFACT_CNI} /tmp/cni-plugins.tgz
+RUN mkdir -p /opt/cni/bin && \
+    tar Cxzvf /opt/cni/bin /tmp/cni-plugins.tgz && \
+    rm /tmp/cni-plugins.tgz
+
+FROM cni AS nerdctl
+ARG URL_ARTIFACT_NERDCTL
+# install nerdctl
+ADD ${URL_ARTIFACT_NERDCTL} /tmp/nerdctl.tar.gz
+RUN tar Cxzvvf /usr/local/bin /tmp/nerdctl.tar.gz \
+    && rm /tmp/nerdctl.tar.gz
+
+FROM nerdctl AS final
+ARG HOSTNAME
+ARG URL_ARTIFACT_RUNC
+ARG URL_ARTIFACT_DLV
+ARG PATH_RUNC
+ADD --chmod=755 ${URL_ARTIFACT_RUNC} /root/runc-debug-flag
+ADD --chmod=755 ${URL_ARTIFACT_DLV} /usr/local/bin/dlv
+COPY --chmod=755 runc.debug /root/runc.debug
+COPY --chmod=755 attach.sh /usr/local/bin/
+RUN mv ${PATH_RUNC} /root/runc.real && \
+    ln -s /root/runc.real ${PATH_RUNC} && \
+    echo "${HOSTNAME}" > /etc/hostname
