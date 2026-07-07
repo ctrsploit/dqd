@@ -301,6 +301,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [nerdctl-v2.0.4_runc-v1.2.5-debug](./nerdctl/v2.0.4_runc-v1.2.5-debug/) |
 | [nerdctl-v2.0.4](./nerdctl/v2.0.4/) |
 | [nerdctl-v2.0.3_containerd-v2.0.3](./nerdctl/v2.0.3_containerd-v2.0.3/) |
+| [nerdctl-v2.0.3](./nerdctl/v2.0.3/) |
 | [nerdctl-v1.2.0](./nerdctl/v1.2.0/) |
 | [nerdctl-v1.1.0](./nerdctl/v1.1.0/) |
 | [nerdctl-v1.0.0](./nerdctl/v1.0.0/) |
