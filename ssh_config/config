@@ -1016,3 +1016,6 @@ Host dqd-nerdctl-v1.7.3
 
 Host dqd-nerdctl-v1.7.0
     Port 17001
+
+Host dqd-nerdctl-v1.6.0
+    Port 16000
