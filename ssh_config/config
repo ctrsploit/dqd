@@ -1007,3 +1007,6 @@ Host dqd-nerdctl-v2.0.3_containerd-v2.0.3
 
 Host dqd-nerdctl-v2.0.3
     Port 20301
+
+Host dqd-nerdctl-v1.7.4
+    Port 17400
