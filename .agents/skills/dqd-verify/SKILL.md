@@ -15,6 +15,7 @@ Branch and commit scope:
 - README verification commits may be made directly on `main`.
 - Do not create a migration branch solely for README verification unless the user asks.
 - The commit must include only `<ENV>/README.md`; leave unrelated files such as `.reasonix/` untouched.
+- Exception: for Kubernetes environments with `<ENV>/kubeconfig`, the verification commit must also include `<ENV>/kubeconfig` refreshed from the running migrated environment.
 
 ## Workflow
 
@@ -77,7 +78,23 @@ Edge cases:
 - Trailing whitespace from captured output: trim.
 - The `<!-- VERIFY -->` must be on its own line; do NOT append output after it inline.
 
-### 5. Confirm no remaining placeholders
+### 5. Refresh Kubernetes kubeconfig
+
+For Kubernetes environments with `<ENV>/kubeconfig`, do not keep a kubeconfig copied from `docker_archive`.
+
+After the migrated environment is running:
+
+1. Pull the generated admin kubeconfig from the environment:
+   ```bash
+   scp dqd-<image-name>:/etc/kubernetes/admin.conf <ENV>/kubeconfig
+   ```
+2. Rewrite the cluster server to the host API port from `<ENV>/docker-compose.yml`'s `:6443` mapping:
+   ```bash
+   kubectl --kubeconfig=<ENV>/kubeconfig config set-cluster <cluster-name> --server=https://127.0.0.1:<host-6443-port>
+   ```
+3. Verify `<ENV>/kubeconfig` no longer points at an in-VM IP such as `10.0.2.16` or an old docker_archive port.
+
+### 6. Confirm no remaining placeholders
 
 ```bash
 grep '<!-- VERIFY -->' <ENV>/README.md
@@ -93,7 +110,7 @@ grep -E '<!-- VERIFY -->|<container-id>|Warning: Permanently added' <ENV>/README
 
 Must return nothing.
 
-### 6. Commit
+### 7. Commit
 
 ```bash
 git add <ENV>/README.md
@@ -102,7 +119,7 @@ git diff --cached --check
 git commit -m "verify <ENV>: fill version output"
 ```
 
-Before committing, verify `git diff --cached --name-status` lists only `<ENV>/README.md`.
+Before committing, verify `git diff --cached --name-status` lists only `<ENV>/README.md`, plus `<ENV>/kubeconfig` when refreshing a Kubernetes kubeconfig.
 
 ### 8. Multi-session exploits (server + victim)
 
