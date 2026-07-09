@@ -2,11 +2,12 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:latest | point to v0.2.0 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:latest | point to v0.3.0 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:v0.3.0 | use official Calico manifest URLs |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:v0.2.0 | fail fast when Calico install fails |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:v0.1.0 | migrate from docker_archive |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.32.3-calico_v0.2.0 | source |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:ctr_v0.2.0 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:ctr_v0.3.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.32.3-calico_v0.2.0 | source |
 
 ## usage
@@ -72,7 +73,7 @@ make all ENV=kubernetes/v1.32.3/containerd/v2.0.3/calico/default
 
 ```dockerfile
 # syntax=docker/dockerfile:1-labs
-FROM ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:ctr_v0.2.0
+FROM ghcr.io/ctrsploit/kubernetes-v1.32.3_containerd-v2.0.3_calico:ctr_v0.3.0
 ...
 RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
 ```
