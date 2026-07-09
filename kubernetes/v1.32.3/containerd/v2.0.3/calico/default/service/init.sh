@@ -2,9 +2,6 @@
 set -euo pipefail
 
 VERSION_CALICO="3.29.3"
-CALICO_MANIFEST_API="https://api.github.com/repos/projectcalico/calico/contents/manifests"
-TIGERA_OPERATOR_MANIFEST="/tmp/tigera-operator.yaml"
-CALICO_CUSTOM_RESOURCES_MANIFEST="/tmp/calico-custom-resources.yaml"
 
 log() {
   echo "[dqd] $1" >> /dev/kmsg
@@ -72,26 +69,9 @@ install_calico_network() {
   log "Installing Calico network addon"
   # https://docs.tigera.io/calico/3.29/getting-started/kubernetes/requirements
   # https://docs.tigera.io/calico/3.29/getting-started/kubernetes/quickstart#install-calico
-  download_calico_manifest "tigera-operator.yaml" "${TIGERA_OPERATOR_MANIFEST}"
-  download_calico_manifest "custom-resources.yaml" "${CALICO_CUSTOM_RESOURCES_MANIFEST}"
-  kubectl create -f "${TIGERA_OPERATOR_MANIFEST}" >>/dev/kmsg 2>&1
-  kubectl create -f "${CALICO_CUSTOM_RESOURCES_MANIFEST}" >>/dev/kmsg 2>&1
+  kubectl create -f "https://raw.githubusercontent.com/projectcalico/calico/v${VERSION_CALICO}/manifests/tigera-operator.yaml" >>/dev/kmsg 2>&1
+  kubectl create -f "https://raw.githubusercontent.com/projectcalico/calico/v${VERSION_CALICO}/manifests/custom-resources.yaml" >>/dev/kmsg 2>&1
   log "Calico network addon installed"
-}
-
-download_calico_manifest() {
-  local manifest_name="${1:?manifest name is required}"
-  local output_file="${2:?output file is required}"
-  local url="${CALICO_MANIFEST_API}/${manifest_name}?ref=v${VERSION_CALICO}"
-
-  log "Downloading Calico manifest ${manifest_name}"
-  curl -fsSL \
-    -H "Accept: application/vnd.github.raw" \
-    --retry 5 \
-    --retry-all-errors \
-    -o "${output_file}" \
-    "${url}" >>/dev/kmsg 2>&1
-  grep -q '^apiVersion:' "${output_file}"
 }
 
 cleanup_unused_containers() {
