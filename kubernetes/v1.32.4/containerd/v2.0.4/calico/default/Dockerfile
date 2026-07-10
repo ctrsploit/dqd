@@ -28,9 +28,11 @@ RUN --mount=type=cache,id=kubernetes-v1.32.4_containerd-v2.0.4-calico-snapshots,
 RUN --mount=type=cache,id=kubernetes-v1.32.4_containerd-v2.0.4-calico-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
     --security=insecure \
     ["/sbin/init", "--log-target=kmsg"]
-# skip overlayfs whiteout files (c 0,0)
+# skip overlayfs whiteouts and transient runtime special files
 RUN --mount=type=cache,id=kubernetes-v1.32.4_containerd-v2.0.4-calico-snapshots,target=/trick \
     find /trick/snapshots -path '*/work/work/#*' -delete && \
+    find /trick/snapshots \( -type b -o -type c -o -type p -o -type s \) -delete && \
+    find /trick/snapshots -type l \( -lname '/run/*' -o -lname '/proc/*' -o -lname '/sys/*' -o -lname '/dev/*' \) -delete && \
     # use tar to preserve file capabilities
     tar -C /trick -cf - . | tar -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
 
