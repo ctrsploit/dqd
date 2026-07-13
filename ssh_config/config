@@ -709,6 +709,9 @@ Host dqd-kubernetes-v1.35.0_containerd-v2.2.0_init
 Host dqd-kubernetes-v1.35.0_containerd-v2.2.0_calico
     Port 13502
 
+Host dqd-kubernetes-v1.35.0_containerd-v2.2.0_calico_nerdctl-v2.2.0
+    Port 13504
+
 Host dqd-runc-v0.0.1
     Port 10010
 
