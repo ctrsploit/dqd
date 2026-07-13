@@ -509,6 +509,7 @@ dqd up runc/v1.3.0 --kvm=false
 |-----|------|
 | [kubernetes-v1.32.2_containerd-v2.0.4_init](./kubernetes/v1.32.2/containerd/v2.0.4/init) | kubeadm init, without CNI |
 | [kubernetes-v1.32.2_containerd-v2.0.4_base](./kubernetes/v1.32.2/containerd/v2.0.4/base) | k8s components installed |
+| [kubernetes-v1.32.2_containerd-v2.0.3_calico_nerdctl-v2.0.3](./kubernetes/v1.32.2/containerd/v2.0.3/calico/nerdctl-v2.0.3) | calico + nerdctl installed |
 | [kubernetes-v1.32.2_containerd-v2.0.3_calico_debug](./kubernetes/v1.32.2/containerd/v2.0.3/calico/debug) | debug kubelet,containerd |
 | [kubernetes-v1.32.2_containerd-v2.0.3_calico](./kubernetes/v1.32.2/containerd/v2.0.3/calico/default) | calico installed |
 | [kubernetes-v1.32.2_containerd-v2.0.3_init](./kubernetes/v1.32.2/containerd/v2.0.3/init) | kubeadm init, without CNI |
