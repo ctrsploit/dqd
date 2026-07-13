@@ -15,7 +15,7 @@ Branch and commit scope:
 - README verification commits may be made directly on `main`.
 - Do not create a migration branch solely for README verification unless the user asks.
 - The commit must include only `<ENV>/README.md`; leave unrelated files such as `.reasonix/` untouched.
-- Exception: for Kubernetes environments with `<ENV>/kubeconfig`, the verification commit must also include `<ENV>/kubeconfig` refreshed from the running migrated environment.
+- Kubernetes environments: the verification commit must also include `<ENV>/kubeconfig`. On a freshly migrated env this file may not exist yet — create it from the running VM's `/etc/kubernetes/admin.conf` (do not keep one copied from docker_archive). See step 5.
 
 ## Workflow
 
@@ -78,9 +78,11 @@ Edge cases:
 - Trailing whitespace from captured output: trim.
 - The `<!-- VERIFY -->` must be on its own line; do NOT append output after it inline.
 
-### 5. Refresh Kubernetes kubeconfig
+### 5. Kubernetes kubeconfig (create or refresh)
 
-For Kubernetes environments with `<ENV>/kubeconfig`, do not keep a kubeconfig copied from `docker_archive`.
+Applies to every Kubernetes environment. Detect a k8s env by any of: `kubectl`/`kubelet` in the README commands, a `:6443` mapping in `<ENV>/docker-compose.yml`, or sibling envs shipping a `kubeconfig` — NOT by whether `<ENV>/kubeconfig` currently exists. A freshly migrated env often lacks the file and needs it created.
+
+Do not keep a kubeconfig copied from `docker_archive`.
 
 After the migrated environment is running:
 
@@ -109,6 +111,14 @@ grep -E '<!-- VERIFY -->|<container-id>|Warning: Permanently added' <ENV>/README
 ```
 
 Must return nothing.
+
+For Kubernetes environments, also assert the kubeconfig deliverable — "placeholders cleared" does not mean the skill flow is done:
+
+```bash
+test -f <ENV>/kubeconfig && ! grep -q '10\.0\.2\.' <ENV>/kubeconfig
+```
+
+Must pass (kubeconfig exists, and no server points at an in-VM `10.0.2.x` IP). See step 5.
 
 ### 7. Commit
 
