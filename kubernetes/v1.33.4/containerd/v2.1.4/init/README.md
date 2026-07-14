@@ -31,24 +31,49 @@ $ ./ssh
 
 ```shell
 root@kubernetes-1-33-4-containerd-2-1-4:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE     NAME                                                         READY   STATUS    RESTARTS      AGE
+kube-system   coredns-674b8bbfcf-7zp9t                                     0/1     Pending   0             25m
+kube-system   coredns-674b8bbfcf-jckkq                                     0/1     Pending   0             25m
+kube-system   etcd-kubernetes-1-33-4-containerd-2-1-4                      1/1     Running   1 (10m ago)   26m
+kube-system   kube-apiserver-kubernetes-1-33-4-containerd-2-1-4            1/1     Running   1 (10m ago)   26m
+kube-system   kube-controller-manager-kubernetes-1-33-4-containerd-2-1-4   1/1     Running   1 (10m ago)   26m
+kube-system   kube-proxy-4f9gj                                             1/1     Running   1 (10m ago)   25m
+kube-system   kube-scheduler-kubernetes-1-33-4-containerd-2-1-4            1/1     Running   1 (10m ago)   26m
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-33-4-containerd-2-1-4:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.18.4", GitCommit:"d80839cf37d860c8aa9a0503fe463278f26cd5e2", GitTreeState:"clean", GoVersion:"go1.24.4"}
 root@kubernetes-1-33-4-containerd-2-1-4:~# kubectl version
-<!-- VERIFY -->
+Client Version: v1.33.4
+Kustomize Version: v5.6.0
+Server Version: v1.33.4
 root@kubernetes-1-33-4-containerd-2-1-4:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd/v2 v2.1.4 75cb2b7193e4e490e9fbdc236c0e811ccaba3376
 root@kubernetes-1-33-4-containerd-2-1-4:~# runc --version
-<!-- VERIFY -->
+runc version 1.3.0
+commit: v1.3.0-0-g4ca628d1
+spec: 1.2.1
+go: go1.23.8
+libseccomp: 2.5.6
 root@kubernetes-1-33-4-containerd-2-1-4:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@kubernetes-1-33-4-containerd-2-1-4:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-33-4-containerd-2-1-4 6.8.0-134-generic #134-Ubuntu SMP PREEMPT_DYNAMIC Fri Jun 26 18:43:11 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
