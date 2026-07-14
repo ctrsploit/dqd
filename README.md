@@ -478,6 +478,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.33.4_containerd-v2.1.4_init](./kubernetes/v1.33.4/containerd/v2.1.4/init) | kubeadm init, without CNI |
 | [kubernetes-v1.33.4_containerd-v2.1.4_base](./kubernetes/v1.33.4/containerd/v2.1.4/base) | k8s components installed |
 
 #### v1.33.7
