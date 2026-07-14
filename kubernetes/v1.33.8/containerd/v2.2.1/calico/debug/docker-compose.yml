@@ -1,0 +1,16 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/kubernetes-v1.33.8_containerd-v2.2.1_calico_debug:v0.1.0
+    # Use host cpu to fix calico: "This program can only be run on AMD64 processors with v2 microarchitecture support."
+    command: /start.sh -cpu host
+    environment:
+      - "QEMU_NET=10.0.2.0/24"
+      - "QEMU_DHCPSTART=10.0.2.16"
+      - "QEMU_HOSTFWD=hostfwd=tcp::6443-:6443,hostfwd=tcp::2345-:2345,hostfwd=tcp::2346-:2346"
+    ports:
+        - "13384:22"
+        - "13385:6443"
+        - "13386:2345"
+        - "13387:2346"
+    tty: true
+    stdin_open: true
