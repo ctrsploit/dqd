@@ -1080,3 +1080,6 @@ Host dqd-kubernetes-v1.33.8_containerd-v2.2.1_calico
 
 Host dqd-kubernetes-v1.33.8_containerd-v2.2.1_calico_debug
     Port 13384
+
+Host dqd-kubernetes-v1.33.3_containerd-v2.1.1_init
+    Port 13331
