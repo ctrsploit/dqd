@@ -2,9 +2,9 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:latest | points to `v0.9.1` |
-| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:v0.9.1 | bump fake-nvidia to v0.8.2; nvidia-container-toolkit 1.19.0 |
-| ctr | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:ctr_v0.9.1 | install real nvidia driver without kernel module; install i386 libs; fake-nvidia v0.8.2; nvidia-container-toolkit 1.19.0 |
+| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:latest | points to `v0.9.2` |
+| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:v0.9.2 | bump fake-nvidia to v0.8.3; nvidia-container-toolkit 1.19.0 |
+| ctr | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:ctr_v0.9.2 | install real nvidia driver without kernel module; install i386 libs; fake-nvidia v0.8.3; nvidia-container-toolkit 1.19.0 |
 
 ## usage
 
@@ -82,5 +82,5 @@ make all ENV=nvidia-container-toolkit/v1.19.0
 for developers:
 
 ```dockerfile
-FROM ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:ctr_v0.9.1
+FROM ghcr.io/ctrsploit/nvidia-container-toolkit-v1.19.0:ctr_v0.9.2
 ```
