@@ -959,6 +959,9 @@ Host dqd-nvidia-container-toolkit-v1.17.8
 Host dqd-nvidia-container-toolkit-v1.19.0
     Port 11903
 
+Host dqd-cve-2026-24260
+    Port 24260
+
 Host dqd-nvidia-container-toolkit-v1.17.5
     Port 11750
 
