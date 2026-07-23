@@ -34,24 +34,45 @@ $ ./ssh
 
 ```shell
 root@shocker-v1-0-1-lxc:~# ./poc.sh
-<!-- VERIFY -->
++ echo 'loading docker image, docker-v1.0.1 cannot pull images from registry v2 anymore.'
+loading docker image, docker-v1.0.1 cannot pull images from registry v2 anymore.
++ docker load
++ docker run -ti busybox:1.36.1 grep Cap /proc/1/status
+CapInh:	00000000880425eb
+CapPrm:	00000000880425eb
+CapEff:	00000000880425eb
+CapBnd:	00000000880425eb
 root@shocker-v1-0-1-lxc:~# capsh --decode=00000000880425eb
-<!-- VERIFY -->
+0x00000000880425eb=cap_chown,cap_dac_override,cap_fowner,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_setfcap
 root@shocker-v1-0-1-lxc:~# cat /var/lib/docker/containers/*/config.lxc | grep cap
-<!-- VERIFY -->
 ```
 
 ### versions
 
 ```shell
 root@shocker-v1-0-1-lxc:~# docker version
-<!-- VERIFY -->
+Client version: 1.0.1
+Client API version: 1.12
+Go version (client): go1.2.1
+Git commit (client): 990021a
+Server version: 1.0.1
+Server API version: 1.12
+Go version (server): go1.2.1
+Git commit (server): 990021a
 root@shocker-v1-0-1-lxc:~# lxc-start --version
-<!-- VERIFY -->
+1.0.10
 root@shocker-v1-0-1-lxc:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="14.04.6 LTS, Trusty Tahr"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 14.04.6 LTS"
+VERSION_ID="14.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 root@shocker-v1-0-1-lxc:~# uname -a
-<!-- VERIFY -->
+Linux shocker-v1-0-1-lxc 3.13.0-170-generic #220-Ubuntu SMP Thu May 9 12:40:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
