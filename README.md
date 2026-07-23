@@ -64,6 +64,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [cve-2024-23650](./vul/cve-2024-23650/) |
 | [cve-2025-47290](./vul/cve-2025-47290/) |
 | [cve-2025-62725](./vul/cve-2025-62725/) |
+| [fork-bomb](./vul/fork-bomb/) |
 | [shocker-v0.7.1](./vul/shocker/v0.7.1/) |
 | [shocker-v0.7.2](./vul/shocker/v0.7.2/) |
 | [shocker-v0.9.0](./vul/shocker/v0.9.0/) |
