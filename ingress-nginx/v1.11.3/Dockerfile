@@ -25,9 +25,14 @@ RUN echo "No cache from here, value: $CACHE_BUST"
 RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/trick \
     cp -a /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/* /trick/
 # install ingress-nginx
+# Surface the systemd/init.sh build logs (written to /dev/kmsg) to the buildkit/CI
+# log by backgrounding a /dev/kmsg reader before exec'ing systemd. systemd reopens
+# its own stdout/stderr to /dev/null, so --log-target=console would surface nothing;
+# the backgrounded cat holds the buildkit-captured pipe and drains kmsg into it.
+# See .claude/plans/purring-whistling-stallman.md (spike) for the mechanism proof.
 RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
     --security=insecure \
-    ["/sbin/init", "--log-target=kmsg"]
+    ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # skip overlayfs whiteout files (c 0,0)
 RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/trick \
     find /trick/snapshots -path '*/work/work/#*' -delete && \

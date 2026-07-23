@@ -36,7 +36,7 @@ RUN sed -i '/exit 1/d' /kind/bin/create-kubelet-cgroup-v2.sh
 # The base image uses the fuse-overlayfs snapshotter (no overlayfs-on-overlayfs problem),
 # so kubeadm init runs directly under /sbin/init without the snapshot cache trick used by
 # overlayfs-based bases (v1.32.x / v1.35.x).
-RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
+RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 
 FROM kube_init AS final
 RUN mkdir -p /root/.kube && \

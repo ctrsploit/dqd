@@ -83,7 +83,7 @@ for developers:
 # syntax=docker/dockerfile:1-labs
 FROM ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_init:ctr_v0.1.0
 ...
-RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
+RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 ```
 
 ## Tricks

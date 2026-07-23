@@ -39,7 +39,7 @@ RUN --mount=type=cache,id=kubernetes-v1.18.2_containerd-v1.3.3-snapshots,target=
 RUN --mount=type=cache,id=kubernetes-v1.18.2_containerd-v1.3.3-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
     --mount=type=bind,src=/modules,target=/lib/modules \
     --security=insecure \
-    ["/sbin/init", "--log-target=kmsg"]
+    ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # restore snapshots from cache, skipping overlayfs whiteout files (c 0,0)
 RUN --mount=type=cache,id=kubernetes-v1.18.2_containerd-v1.3.3-snapshots,target=/trick \
     --security=insecure \

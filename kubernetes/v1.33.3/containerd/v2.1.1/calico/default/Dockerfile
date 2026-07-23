@@ -27,7 +27,7 @@ RUN --mount=type=cache,id=kubernetes-v1.33.3_containerd-v2.1.1-calico-snapshots,
 # install calico
 RUN --mount=type=cache,id=kubernetes-v1.33.3_containerd-v2.1.1-calico-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
     --security=insecure \
-    ["/sbin/init", "--log-target=kmsg"]
+    ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # skip overlayfs whiteout files (c 0,0)
 RUN --mount=type=cache,id=kubernetes-v1.33.3_containerd-v2.1.1-calico-snapshots,target=/trick \
     find /trick/snapshots -path '*/work/work/#*' -delete && \
