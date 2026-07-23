@@ -406,6 +406,12 @@ dqd up runc/v1.3.0 --kvm=false
 | [podman-v5.5.1](./podman/v5.5.1/) |
 | [podman-v5.5.1-debug](./podman/v5.5.1-debug/) |
 
+### ingress-nginx
+
+| image |
+|-----|
+| [ingress-nginx-v1.11.3](./ingress-nginx/v1.11.3/) |
+
 ### docker-compose
 
 | image |

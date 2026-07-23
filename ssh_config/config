@@ -902,6 +902,9 @@ Host dqd-shocker-v0.7.1
 Host dqd-fork-bomb
     Port 11211
 
+Host dqd-ingress-nginx-v1.11.3
+    Port 11132
+
 Host dqd-cve-2025-62725
     Port 62725
 
