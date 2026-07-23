@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/fork-bomb:v0.1.0
+    ports:
+        - "11211:22"
+    tty: true
+    stdin_open: true
