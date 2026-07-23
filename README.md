@@ -73,6 +73,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [shocker-v0.12.0](./vul/shocker/v0.12.0/) |
 | [shocker-v0.12.0-lxc](./vul/shocker/v0.12.0-lxc/) |
 | [shocker-v1.0.0-lxc](./vul/shocker/v1.0.0-lxc/) |
+| [shocker-v1.0.1-lxc](./vul/shocker/v1.0.1-lxc/) |
 | [cve-2025-23266](./vul/cve-2025-23266/) |
 | [cve-2022-0847](./vul/cve-2022-0847/) |
 | [cve-2026-43500](./vul/cve-2026-43500/) |
