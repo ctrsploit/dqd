@@ -33,9 +33,10 @@ RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/trick \
 RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
     --security=insecure \
     ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
-# skip overlayfs whiteout files (c 0,0)
+# skip overlayfs whiteout files (char dev 0,0): covers both the work/work/#
+# whiteouts and fs/ whiteouts (e.g. alpine apk cache deletions). buildkit exec
+# lacks CAP_MKNOD, so tar -xf would fail recreating them.
 RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/trick \
-    find /trick/snapshots -path '*/work/work/#*' -delete && \
     find /trick -type c -delete && \
     # use tar to preserve file capabilities
     tar -C /trick -cf - . | tar -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
