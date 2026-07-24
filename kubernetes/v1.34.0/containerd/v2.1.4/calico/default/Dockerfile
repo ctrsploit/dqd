@@ -21,7 +21,7 @@ RUN systemctl enable init.service
 # so the Calico install runs directly under /sbin/init without the snapshot cache trick used by
 # overlayfs-based bases (v1.32.x / v1.35.x).
 FROM pre AS calico
-RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
+RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 
 FROM calico AS final
 RUN rm /usr/lib/systemd/system/init.service /init.sh

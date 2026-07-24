@@ -164,9 +164,9 @@ make all ENV=kubernetes/v1.33.8/containerd/v2.2.1/calico/debug
 # syntax=docker/dockerfile:1-labs
 FROM ghcr.io/ctrsploit/kubernetes-v1.33.8_containerd-v2.2.1_calico_debug:ctr_v0.1.0
 ...
-RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
+RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 ```
 
-* use `dmesg -w` to see build logs.
+* build logs (systemd + init.sh, written to `/dev/kmsg`) are surfaced to the build log via a backgrounded `cat /dev/kmsg`; use `dmesg -w` only when debugging interactively.
 * use systemd service to execute commands
 * ssh root/root 10.0.2.16 to debug

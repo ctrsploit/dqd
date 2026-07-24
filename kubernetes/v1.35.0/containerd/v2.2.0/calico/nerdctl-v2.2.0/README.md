@@ -146,6 +146,6 @@ ADD https://github.com/containerd/nerdctl/releases/download/v2.2.0/nerdctl-2.2.0
 RUN tar Cxzvvf /usr/local/bin /tmp/nerdctl.tar.gz && rm /tmp/nerdctl.tar.gz
 ```
 
-* use `dmesg -w` to see build logs.
+* build logs (systemd + init.sh, written to `/dev/kmsg`) are surfaced to the build log via a backgrounded `cat /dev/kmsg`; use `dmesg -w` only when debugging interactively.
 * use systemd service to execute commands.
 * ssh root/root 10.0.2.16 to debug.

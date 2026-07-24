@@ -41,7 +41,7 @@ RUN --mount=type=cache,id=kubernetes-v1.33.7_containerd-v2.1.5-snapshots,target=
     # fix kube-proxy `Failed to load kernel module`
     --mount=type=bind,src=/modules,target=/lib/modules \
     --security=insecure \
-    ["/sbin/init", "--log-target=kmsg"]
+    ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # skip overlayfs whiteout files (c 0,0)
 RUN --mount=type=cache,id=kubernetes-v1.33.7_containerd-v2.1.5-snapshots,target=/trick \
     find /trick/snapshots -path '*/work/work/#*' -delete && \

@@ -88,10 +88,10 @@ make all ENV=kubernetes/v1.33.3/containerd/v2.1.2/init
 # syntax=docker/dockerfile:1-labs
 FROM ghcr.io/ctrsploit/kubernetes-v1.33.3_containerd-v2.1.2_base:ctr_v0.1.0
 ...
-RUN --security=insecure ["/sbin/init", "--log-target=kmsg"]
+RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 ```
 
-* use `dmesg -w` to see build logs.
+* build logs (systemd + init.sh, written to `/dev/kmsg`) are surfaced to the build log via a backgrounded `cat /dev/kmsg`; use `dmesg -w` only when debugging interactively.
 * use systemd service to execute commands.
 * ssh root/root 10.0.2.16 to debug.
 
@@ -118,7 +118,7 @@ RUN --mount=type=cache,id=kubernetes-v1.33.3_containerd-v2.1.2-snapshots,target=
     # fix kube-proxy `Failed to load kernel module`
     --mount=type=bind,src=/modules,target=/lib/modules \
     --security=insecure \
-    ["/sbin/init", "--log-target=kmsg"]
+    ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # skip overlayfs whiteout files (c 0,0)
 RUN --mount=type=cache,id=kubernetes-v1.33.3_containerd-v2.1.2-snapshots,target=/trick \
     find /trick/snapshots -path '*/work/work/#*' -delete && \

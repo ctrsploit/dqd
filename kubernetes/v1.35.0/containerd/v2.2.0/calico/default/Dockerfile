@@ -27,7 +27,7 @@ RUN --mount=type=cache,id=kubernetes-v1.35.0-containerd-v2.2.0-snapshots,target=
 # install calico
 RUN --mount=type=cache,id=kubernetes-v1.35.0-containerd-v2.2.0-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
     --security=insecure \
-    ["/sbin/init", "--log-target=kmsg"]
+    ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # copy snapshots from cache
 RUN --mount=type=cache,id=kubernetes-v1.35.0-containerd-v2.2.0-snapshots,target=/trick \
     # all these files are safe to delete, list each file path here for more clear
