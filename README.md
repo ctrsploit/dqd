@@ -411,6 +411,7 @@ dqd up runc/v1.3.0 --kvm=false
 | image |
 |-----|
 | [ingress-nginx-v1.11.3](./ingress-nginx/v1.11.3/) |
+| [ingress-nginx-v1.11.4](./ingress-nginx/v1.11.4/) |
 
 ### docker-compose
 
