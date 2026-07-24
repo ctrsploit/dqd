@@ -36,6 +36,7 @@ RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/var/lib/contai
 # skip overlayfs whiteout files (c 0,0)
 RUN --mount=type=cache,id=ingress-nginx-v1.11.3-snapshots,target=/trick \
     find /trick/snapshots -path '*/work/work/#*' -delete && \
+    find /trick -type c -delete && \
     # use tar to preserve file capabilities
     tar -C /trick -cf - . | tar -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
 
