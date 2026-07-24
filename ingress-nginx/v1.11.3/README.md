@@ -92,6 +92,86 @@ Events:                   <none>
 
 ```
 
+### Access ingress-nginx
+
+The controller Service is type `LoadBalancer`, but `EXTERNAL-IP` stays `<pending>` — the `provider/cloud` deploy manifest does not allocate a real load balancer in this single-node VM. Reach the controller through its NodePort, or via `kubectl port-forward`.
+
+NodePorts `31298` (http) and `31170` (https) are **not** forwarded to the host (only `22` and `6443` are — see `docker-compose.yml`), so curl them from inside the VM, or use port-forward from the host.
+
+Deploy a sample backend + Ingress:
+
+```shell
+$ cat > /tmp/echo.yaml <<'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: echo, labels: {app: echo}}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: echo}}
+  template:
+    metadata: {labels: {app: echo}}
+    spec:
+      containers:
+      - name: echo
+        image: hashicorp/http-echo:0.2.3
+        args: ["-text=hello-from-ingress"]
+        ports: [{containerPort: 5678}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: echo}
+spec:
+  selector: {app: echo}
+  ports: [{port: 5678, targetPort: 5678}]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echo
+  annotations: {nginx.ingress.kubernetes.io/rewrite-target: /}
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: echo.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: {name: echo, port: {number: 5678}}
+EOF
+$ kubectl --kubeconfig=kubeconfig apply -f /tmp/echo.yaml
+$ kubectl --kubeconfig=kubeconfig get ingress
+NAME   CLASS   HOSTS        ADDRESS   PORTS   AGE
+echo   nginx   echo.local             80      8s
+```
+
+From the host via port-forward (pick a free local port — `8080` is often taken):
+
+```shell
+$ kubectl --kubeconfig=kubeconfig port-forward -n ingress-nginx svc/ingress-nginx-controller 38080:80 &
+$ curl -H "Host: echo.local" http://127.0.0.1:38080/
+hello-from-ingress
+$ curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:38080/   # no Host header → default backend
+404
+```
+
+Or from inside the VM via the NodePort (`31298` http / `31170` https):
+
+```shell
+$ ssh dqd-ingress-nginx-v1.11.3
+root@kubernetes-1-32-3-containerd-2-0-3:~# curl -H "Host: echo.local" http://127.0.0.1:31298/
+hello-from-ingress
+root@kubernetes-1-32-3-containerd-2-0-3:~# curl -k -H "Host: echo.local" https://127.0.0.1:31170/
+hello-from-ingress
+```
+
+Clean up:
+
+```shell
+$ kubectl --kubeconfig=kubeconfig delete -f /tmp/echo.yaml
+```
+
 ### versions
 
 ```shell
