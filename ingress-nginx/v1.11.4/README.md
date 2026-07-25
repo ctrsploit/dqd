@@ -88,8 +88,7 @@ spec:
 EOF
 $ kubectl --kubeconfig=kubeconfig apply -f /tmp/echo.yaml
 $ kubectl --kubeconfig=kubeconfig get ingress
-NAME   CLASS   HOSTS        ADDRESS   PORTS   AGE
-echo   nginx   echo.local             80      8s
+<!-- VERIFY -->
 ```
 
 From the host via port-forward (pick a free local port — `8080` is often taken):
@@ -97,9 +96,9 @@ From the host via port-forward (pick a free local port — `8080` is often taken
 ```shell
 $ kubectl --kubeconfig=kubeconfig port-forward -n ingress-nginx svc/ingress-nginx-controller 38080:80 &
 $ curl -H "Host: echo.local" http://127.0.0.1:38080/
-hello-from-ingress
+<!-- VERIFY -->
 $ curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:38080/   # no Host header → default backend
-404
+<!-- VERIFY -->
 ```
 
 Or from inside the VM via the NodePort (`31298` http / `31170` https):
@@ -107,9 +106,9 @@ Or from inside the VM via the NodePort (`31298` http / `31170` https):
 ```shell
 $ ssh dqd-ingress-nginx-v1.11.4
 root@kubernetes-1-32-3-containerd-2-0-3:~# curl -H "Host: echo.local" http://127.0.0.1:31298/
-hello-from-ingress
+<!-- VERIFY -->
 root@kubernetes-1-32-3-containerd-2-0-3:~# curl -k -H "Host: echo.local" https://127.0.0.1:31170/
-hello-from-ingress
+<!-- VERIFY -->
 ```
 
 Clean up:
