@@ -554,5 +554,6 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.18.2_containerd-v1.3.3_calico](./kubernetes/v1.18.2/containerd/v1.3.3/calico/default/) | calico installed, requires cgroup v1 |
 | [kubernetes-v1.18.2_containerd-v1.3.3_init](./kubernetes/v1.18.2/containerd/v1.3.3/init/) | kubeadm init, requires cgroup v1 |
 | [kubernetes-v1.18.2_containerd-v1.3.3_base](./kubernetes/v1.18.2/containerd/v1.3.3/base/) | k8s v1.18.2 components installed |
