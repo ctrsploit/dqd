@@ -2,10 +2,11 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.33.3_containerd-v2.1.3_calico:latest | point to v0.1.0 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.33.3_containerd-v2.1.3_calico:latest | point to v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.33.3_containerd-v2.1.3_calico:v0.1.1 | use canonical whiteout cleanup (find -type c -delete) |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.33.3_containerd-v2.1.3_calico:v0.1.0 | migrate from docker_archive |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.33.3_containerd-v2.1.3-calico_v0.1.0 | source |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.33.3_containerd-v2.1.3_calico:ctr_v0.1.0 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.33.3_containerd-v2.1.3_calico:ctr_v0.1.1 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.33.3_containerd-v2.1.3-calico_v0.1.0 | source |
 
 ## usage
