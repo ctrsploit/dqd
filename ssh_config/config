@@ -986,6 +986,9 @@ Host dqd-cve-2026-24260
 Host dqd-cve-2025-1974
     Port 1974
 
+Host dqd-cve-2024-40635
+    Port 40635
+
 Host dqd-nvidia-container-toolkit-v1.17.5
     Port 11750
 
