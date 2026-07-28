@@ -20,5 +20,5 @@ make all ENV=dqd/cgroup-v1-builder
 for developers:
 
 ```dockerfile
-FROM ghcr.io/ctrsploit/cgroup-v1-builder:ctr_v0.1.0
+FROM ghcr.io/ctrsploit/cgroup-v1-builder:ctr_v0.1.1
 ```
