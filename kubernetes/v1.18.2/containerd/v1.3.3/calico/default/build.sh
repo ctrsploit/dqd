@@ -67,8 +67,6 @@ create_builder() {
         --name "${BUILDER_NAME}" \
         --buildkitd-flags "--allow-insecure-entitlement security.insecure" \
         2>/dev/null || true
-
-    docker buildx inspect --builder "${BUILDER_NAME}" --bootstrap >/dev/null
 }
 
 prune_cache() {
