@@ -133,7 +133,12 @@ generate_ssh_config: check-ssh-ports
 ctr: env
 	$(time_begin)
 	@echo "Building Docker image in directory $(ENV) with image name $(IMAGE) and version $(VERSION), TAG is $(CTR), SIZE is $(SIZE)"
-	@cd $(ENV) && { [ -f build.sh ] && DEBUG=$(DEBUG) ./build.sh $(CTR) || docker build -t $(CTR) . ; }
+	# Use if/else (not `A && B || C`): the latter silently falls through to
+	# `docker build` when build.sh EXISTS but FAILS, masking the real error
+	# (e.g. the legacy builder then reports "security.insecure is not allowed"
+	# for a Dockerfile that needs buildx entitlements, hiding a no-space/disk
+	# failure). Fall back to `docker build` only when build.sh is absent.
+	@cd $(ENV) && { if [ -f build.sh ]; then DEBUG=$(DEBUG) ./build.sh $(CTR); else docker build -t $(CTR) .; fi ; }
 	$(time_end)
 
 vm: env
