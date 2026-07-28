@@ -6,6 +6,7 @@ NETWORK_SUBNET="10.0.2.0/24"
 NETWORK_IP_RANGE="10.0.2.16/28"
 NETWORK_GATEWAY="10.0.2.1"
 BUILDER_NAME="dqd-k8s-1191-builder"
+BUILDX_IMAGE="moby/buildkit:v0.30.0"
 NF_CONNTRACK_HASHSIZE="/sys/module/nf_conntrack/parameters/hashsize"
 NF_CONNTRACK_MAX="/proc/sys/net/netfilter/nf_conntrack_max"
 
@@ -64,6 +65,7 @@ create_network() {
 create_builder() {
     docker buildx create \
         --driver-opt "network=${NETWORK_NAME}" \
+        --driver-opt "image=${BUILDX_IMAGE}" \
         --name "${BUILDER_NAME}" \
         --buildkitd-flags "--allow-insecure-entitlement security.insecure" \
         2>/dev/null || true
