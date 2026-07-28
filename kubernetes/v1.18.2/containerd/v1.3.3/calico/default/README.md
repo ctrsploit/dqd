@@ -2,11 +2,12 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:latest | points to `v0.1.2` |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.2 | pin buildkit to v0.30.0 (fixes CI security.insecure / runc /proc/acpi) |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.1 | drop unneeded buildx --bootstrap (CI still failed: security.insecure not allowed) |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.0 | migrate from docker_archive (CI failed: security.insecure not allowed) |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:ctr_v0.1.2 | - |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:latest | points to `v0.1.3` |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.3 | build in 30G cgroup-v1-builder (fixes CI no space left on device) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.2 | pin buildkit to v0.30.0 (fixes runc /proc/acpi; CI then hit builder disk exhaustion) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.1 | drop unneeded buildx --bootstrap (CI still failed) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.0 | migrate from docker_archive (CI failed) |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:ctr_v0.1.3 | - |
 
 ## usage
 
