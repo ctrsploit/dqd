@@ -121,6 +121,17 @@ The `.env` entry:
 KERNEL=false
 ```
 
+### VERSION bump rules
+
+CI (`.github/workflows/make.yml`) has **no `pull_request` trigger** — it runs only on `push` to `main` (plus `workflow_dispatch`) whose diff contains a `^VERSION=` change in some `**/.env`. So CI never runs on an open PR branch; it runs only when the merge commit lands on `main` and that merge introduces/changes a `VERSION=` line. Whether a fix needs a `VERSION` bump therefore depends on whether the env's `.env` has already landed on `main`:
+
+- **`.env` not yet on `main`** (PR still open, or first migration pre-merge): keep `VERSION=v0.1.0`. The merge commit introduces `.env` as a new file, which itself satisfies the `^VERSION=` diff, so CI runs on merge — a fix-only commit (build.sh/Dockerfile/README) bundled into the same PR needs no bump. Verify the tag is unpublished with `docker manifest inspect ghcr.io/ctrsploit/<IMAGE>:ctr_v<VERSION>` (absent = not yet published, so v0.1.0 is still the right target).
+- **`.env` already on `main`** (the PR already merged — whether that first CI run succeeded or failed): any further fix must bump `VERSION` to the next patch (`v0.1.0` → `v0.1.1`). Two reasons: (1) a fix-only commit merged via a new PR produces no `^VERSION=` diff, so CI won't trigger; (2) if the prior run already pushed `ctr_v0.1.0`/`v0.1.0` to ghcr, that tag is immutable and a rebuild must target a new tag. Bump even if the first run failed before `push-ctr` — the `.env` landing on `main` is what blocks re-triggering, not whether the tag was published.
+- **Fix commit after a published build needs CI**: always bump. Edit `.env` (`VERSION=`), `Dockerfile` (`ARG VERSION_IMAGE=`), and the README image table (add the new `v<X>` / `ctr_v<X>` row, annotate the old row with why it was superseded — follow `kubernetes/v1.18.2/containerd/v1.3.3/calico/default/README.md`'s history-row convention).
+- **Escape hatch**: `workflow_dispatch` with explicit `base_sha`/`head_sha` can force a run without a bump. Prefer a bump for reproducibility — the commit history then records why the rebuild happened.
+
+When bumping, keep `Dockerfile`'s `ARG VERSION_IMAGE` in sync with `.env`'s `VERSION` (strip the leading `v`), but do **not** change the `BASE_IMAGE` reference — base tags are independent of the dependent layer's version.
+
 ## SSH Port Rules
 
 - SSH ports must be globally unique.
