@@ -6,6 +6,11 @@ NETWORK_SUBNET="10.0.2.0/24"
 NETWORK_IP_RANGE="10.0.2.16/28"
 NETWORK_GATEWAY="10.0.2.1"
 BUILDER_NAME="dqd-k8s-1182-calico-builder"
+# Pin buildkit: moby/buildkit:buildx-stable-1 is a moving tag that now points at
+# v0.31.2, whose runc masks /proc/acpi with a tmpfs remount (nr_blocks=1,nr_inodes=1)
+# that the cgroup-v1-builder VM's kernel 5.4 rejects, breaking every RUN. v0.30.0 is
+# what buildx-stable-1 resolved to when v1.18.2 init built successfully on Jun 4 2026.
+BUILDX_IMAGE="moby/buildkit:v0.30.0"
 NF_CONNTRACK_HASHSIZE="/sys/module/nf_conntrack/parameters/hashsize"
 NF_CONNTRACK_MAX="/proc/sys/net/netfilter/nf_conntrack_max"
 
@@ -64,6 +69,7 @@ create_network() {
 create_builder() {
     docker buildx create \
         --driver-opt "network=${NETWORK_NAME}" \
+        --driver-opt "image=${BUILDX_IMAGE}" \
         --name "${BUILDER_NAME}" \
         --buildkitd-flags "--allow-insecure-entitlement security.insecure" \
         2>/dev/null || true

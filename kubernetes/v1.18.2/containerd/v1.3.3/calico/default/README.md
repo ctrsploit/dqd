@@ -2,10 +2,11 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:latest | points to `v0.1.1` |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.1 | drop unneeded buildx --bootstrap (fixes CI security.insecure) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:latest | points to `v0.1.2` |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.2 | pin buildkit to v0.30.0 (fixes CI security.insecure / runc /proc/acpi) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.1 | drop unneeded buildx --bootstrap (CI still failed: security.insecure not allowed) |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:v0.1.0 | migrate from docker_archive (CI failed: security.insecure not allowed) |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:ctr_v0.1.1 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.18.2_containerd-v1.3.3_calico:ctr_v0.1.2 | - |
 
 ## usage
 
@@ -80,3 +81,7 @@ Kubernetes v1.18.2 kubelet only supports cgroup v1. On GitHub-hosted runners, th
 ### cache mount
 
 This build uses a BuildKit cache mount for containerd snapshots so the calico install writes under an ext4-backed cache instead of overlayfs-on-overlayfs.
+
+### pin buildkit to v0.30.0
+
+`build.sh` passes `--driver-opt image=moby/buildkit:v0.30.0` to `docker buildx create`. The default `moby/buildkit:buildx-stable-1` is a moving tag: it pointed at v0.30.0 when the v1.18.2 init image built successfully on 2026-06-04, but now points at v0.31.2, whose runc masks `/proc/acpi` with a tmpfs remount (`nr_blocks=1,nr_inodes=1`) that the `dqd/cgroup-v1-builder` VM's kernel 5.4 rejects (`can't mask dir "/proc/acpi": ... invalid argument`), breaking every `RUN`. Pinning to v0.30.0 restores the buildkit that worked for init.
