@@ -2,10 +2,12 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:latest | point to v0.1.1 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:v0.1.1 | pin buildkit to v0.30.0 (fixes runc /proc/acpi on cgroup-v1-builder) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:latest | point to v0.1.2 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:v0.1.2 | keep VERSION_IMAGE=0.1.0 (parent base tag), fixes base:ctr_v0.1.1 not-found |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:v0.1.1 | pin buildkit to v0.30.0 (fixes runc /proc/acpi on cgroup-v1-builder); CI failed: base:ctr_v0.1.1 not found |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:v0.1.0 | migrate from docker_archive (CI failed before push-ctr) |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.19.1_v0.1.0 | source |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:ctr_v0.1.2 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.19.1_containerd-v1.4.0_init:ctr_v0.1.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.19.1_v0.1.0 | source |
