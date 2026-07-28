@@ -130,7 +130,7 @@ CI (`.github/workflows/make.yml`) has **no `pull_request` trigger** — it runs 
 - **Fix commit after a published build needs CI**: always bump. Edit `.env` (`VERSION=`), `Dockerfile` (`ARG VERSION_IMAGE=`), and the README image table (add the new `v<X>` / `ctr_v<X>` row, annotate the old row with why it was superseded — follow `kubernetes/v1.18.2/containerd/v1.3.3/calico/default/README.md`'s history-row convention).
 - **Escape hatch**: `workflow_dispatch` with explicit `base_sha`/`head_sha` can force a run without a bump. Prefer a bump for reproducibility — the commit history then records why the rebuild happened.
 
-When bumping, keep `Dockerfile`'s `ARG VERSION_IMAGE` in sync with `.env`'s `VERSION` (strip the leading `v`), but do **not** change the `BASE_IMAGE` reference — base tags are independent of the dependent layer's version.
+When bumping, keep `Dockerfile`'s `ARG VERSION_IMAGE` pointing at the **parent layer's** published tag, not the layer's own new version. `VERSION_IMAGE` is the version of the `BASE_IMAGE` this layer `FROM`s, while the Makefile builds this layer's output tag from `.env`'s `VERSION` (`$(REPO):ctr_$(VERSION)`). They are independent and usually diverge: e.g. `v1.33.3` calico at `.env VERSION=v0.1.1` still has `ARG VERSION_IMAGE=0.1.0` because it `FROM`s the init layer's `ctr_v0.1.0`. Do **not** change `BASE_IMAGE` when bumping this layer's own version.
 
 ## SSH Port Rules
 
