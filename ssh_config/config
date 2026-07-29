@@ -941,6 +941,9 @@ Host dqd-cve-2022-0847
 Host dqd-cve-2026-23111
     Port 23111
 
+Host dqd-cve-2026-23111_6.8.0-101
+    Port 23114
+
 Host dqd-cve-2026-31431
     Port 31431
 

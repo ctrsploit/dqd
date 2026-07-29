@@ -9,6 +9,9 @@ DEBUG ?= false
 VM_PASSWORD ?= root
 KERNEL ?= true
 SIZE ?= 10G
+# Extra kernel cmdline args appended to the generated one at d2vm convert
+# time (e.g. "nosmep nosmap noibt"). Empty by default = current behavior.
+APPEND_TO_CMDLINE ?=
 TIME_STATS ?= 1
 PUSH_RETRIES ?= 3
 PUSH_RETRY_DELAY ?= 10
@@ -144,7 +147,9 @@ ctr: env
 vm: env
 	$(time_begin)
 	# Add -v to show verbose info.
-	$(D2VM) convert $(CTR) --kernel=$(KERNEL) -s $(SIZE) -p $(VM_PASSWORD) -o $(ENV)/vm.qcow2
+	# --append-to-cmdline is only passed when APPEND_TO_CMDLINE is non-empty,
+	# so the default flow is unchanged.
+	$(D2VM) convert $(CTR) --kernel=$(KERNEL) $(if $(strip $(APPEND_TO_CMDLINE)),--append-to-cmdline="$(APPEND_TO_CMDLINE)") -s $(SIZE) -p $(VM_PASSWORD) -o $(ENV)/vm.qcow2
 	$(sparsify_qcow2)
 	$(time_end)
 
