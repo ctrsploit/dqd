@@ -1137,3 +1137,6 @@ Host dqd-kubernetes-v1.33.3_containerd-v2.1.3_calico
 
 Host dqd-kubernetes-v1.19.1_containerd-v1.4.0_init
     Port 11910
+
+Host dqd-kubernetes-v1.19.1_containerd-v1.4.0_calico
+    Port 11912
