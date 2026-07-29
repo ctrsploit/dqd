@@ -238,6 +238,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image |
 |-----|
+| [containerd-v2.3.0](./containerd/v2.3.0/) |
 | [containerd-v2.2.3](./containerd/v2.2.3/) |
 | [containerd-v2.2.1](./containerd/v2.2.1/) |
 | [containerd-v2.2.0](./containerd/v2.2.0/) |

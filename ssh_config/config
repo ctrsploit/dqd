@@ -682,6 +682,9 @@ Host dqd-containerd-v2.2.1
 Host dqd-containerd-v2.2.3
     Port 22300
 
+Host dqd-containerd-v2.3.0
+    Port 23300
+
 Host dqd-debian-11.0
     Port 11000
 
