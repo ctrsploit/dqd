@@ -174,6 +174,21 @@ grep -oP '^\w+=' <ENV>/.env | sort | uniq -d
 wc -l <ENV>/.env
 ```
 
+### VERSION-bump gate (dqd image `VERSION=` in `<ENV>/.env` — NOT component versions)
+
+Run this before every fix commit. CI has no `pull_request` trigger; a fix-only commit
+with no `^VERSION=` diff will not trigger CI, and an already-published ghcr tag is immutable.
+
+1. Is `<ENV>/.env` already on `origin/main`?
+   ```bash
+   git fetch origin main --quiet
+   git show origin/main:<ENV>/.env >/dev/null 2>&1 && echo "MUST BUMP" || echo "no bump"
+   ```
+2. `MUST BUMP` → increment `VERSION=` in `<ENV>/.env` (v0.1.0→v0.1.1), bump the image tag in
+   `<ENV>/docker-compose.yml`, add a history row in `<ENV>/README.md`'s image table.
+   Do NOT change `ARG VERSION_IMAGE` (parent layer tag). See `### VERSION bump rules` for the why.
+3. `no bump` → keep `VERSION` as-is.
+
 When validation passes, commit the changes:
 
 ```bash
