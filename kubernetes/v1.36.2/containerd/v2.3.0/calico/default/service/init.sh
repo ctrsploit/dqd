@@ -57,6 +57,10 @@ install_calico_network() {
   # https://docs.tigera.io/calico/latest/getting-started/kubernetes/helm#install-calico
   helm repo add projectcalico https://docs.tigera.io/calico/charts >>/dev/kmsg 2>&1
   kubectl create namespace tigera-operator >>/dev/kmsg 2>&1
+  # As of Calico v3.32, CRDs are no longer bundled in the tigera-operator chart and must be
+  # installed separately from the crd.projectcalico.org.v1 chart before installing the operator.
+  # https://docs.tigera.io/calico/latest/getting-started/kubernetes/helm#install-calico
+  helm template calico-crds projectcalico/crd.projectcalico.org.v1 | kubectl apply --server-side -f - >>/dev/kmsg 2>&1
   helm install calico projectcalico/tigera-operator --version v3.32.1 --namespace tigera-operator >>/dev/kmsg 2>&1
   log "Calico network addon installed"
 }
