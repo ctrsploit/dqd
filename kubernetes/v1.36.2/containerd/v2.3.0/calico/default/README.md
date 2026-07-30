@@ -2,9 +2,10 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.2_containerd-v2.3.0_calico:latest | -> v0.1.0 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.2_containerd-v2.3.0_calico:v0.1.0 | - |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.36.2_containerd-v2.3.0_calico:ctr_v0.1.0 | - |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.2_containerd-v2.3.0_calico:latest | -> v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.2_containerd-v2.3.0_calico:v0.1.1 | apply CRDs from crd.projectcalico.org.v1 before installing tigera-operator (fixes v3.32.1 silent install failure) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.2_containerd-v2.3.0_calico:v0.1.0 | calico v3.32.1 CRDs not installed; tigera-operator never came up |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.36.2_containerd-v2.3.0_calico:ctr_v0.1.1 | - |
 
 ## usage
 
