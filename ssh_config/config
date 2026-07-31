@@ -938,6 +938,12 @@ Host dqd-cve-2022-0492
 Host dqd-cve-2020-15257
     Port 19317
 
+Host dqd-cve-2020-8558-master
+    Port 28558
+
+Host dqd-cve-2020-8558-worker
+    Port 48558
+
 Host dqd-cve-2019-5736
     Port 57360
 
