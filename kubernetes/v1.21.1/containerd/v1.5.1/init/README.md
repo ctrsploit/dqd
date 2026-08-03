@@ -2,9 +2,11 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.1_init:latest | point to v0.1.0 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.1_init:v0.1.0 | migrate from docker_archive |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.1_init:latest | -> v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.1_init:v0.1.1 | set cgroupDriver: cgroupfs in kubeadm.conf (fixes kubelet crash loop on cgroup-v1-builder) |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.1_init:v0.1.0 | cgroupDriver unset; kubelet defaults to systemd and crash-loops on cgroup-v1-builder |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.21.1_v0.1.0 | source |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.1_init:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.1_init:ctr_v0.1.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.21.1_v0.1.0 | source |
 
