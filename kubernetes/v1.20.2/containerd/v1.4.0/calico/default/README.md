@@ -31,24 +31,48 @@ $ ./ssh
 
 ```shell
 root@kubernetes-1-20-2-containerd-1-4-0:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE         NAME                                                         READY   STATUS    RESTARTS   AGE
+calico-system     calico-kube-controllers-7c997dbf59-7fmm6                     1/1     Running   1          33m
+calico-system     calico-node-9lx7n                                            1/1     Running   2          33m
+calico-system     calico-typha-9cf667d8b-97h95                                 1/1     Running   2          33m
+kube-system       coredns-74ff55c5b-ldvd5                                      1/1     Running   1          98m
+kube-system       coredns-74ff55c5b-lnzmm                                      1/1     Running   1          98m
+kube-system       etcd-kubernetes-1-20-2-containerd-1-4-0                      0/1     Running   2          98m
+kube-system       kube-apiserver-kubernetes-1-20-2-containerd-1-4-0            1/1     Running   2          98m
+kube-system       kube-controller-manager-kubernetes-1-20-2-containerd-1-4-0   0/1     Running   2          98m
+kube-system       kube-proxy-c59st                                             1/1     Running   2          98m
+kube-system       kube-scheduler-kubernetes-1-20-2-containerd-1-4-0            0/1     Running   2          98m
+tigera-operator   tigera-operator-587b8f5c8f-lm5gr                             1/1     Running   1          33m
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-20-2-containerd-1-4-0:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.5.0", GitCommit:"32c22239423b3b4ba6706d450bd044baffdcf9e6", GitTreeState:"clean", GoVersion:"go1.15.6"}
 root@kubernetes-1-20-2-containerd-1-4-0:~# kubectl version
-<!-- VERIFY -->
+Client Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.2", GitCommit:"faecb196815e248d3ecfb03c680a4507229c2a56", GitTreeState:"clean", BuildDate:"2021-01-13T13:28:09Z", GoVersion:"go1.15.5", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.2", GitCommit:"faecb196815e248d3ecfb03c680a4507229c2a56", GitTreeState:"clean", BuildDate:"2021-01-13T13:20:00Z", GoVersion:"go1.15.5", Compiler:"gc", Platform:"linux/amd64"}
 root@kubernetes-1-20-2-containerd-1-4-0:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.4.0 09814d48d50816305a8e6c1a4ae3e2bcc4ba725a
 root@kubernetes-1-20-2-containerd-1-4-0:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc92
+spec: 1.0.2-dev
 root@kubernetes-1-20-2-containerd-1-4-0:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="20.04.6 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
 root@kubernetes-1-20-2-containerd-1-4-0:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-20-2-containerd-1-4-0 5.4.0-216-generic #236-Ubuntu SMP Fri Apr 11 19:53:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
