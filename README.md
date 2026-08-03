@@ -564,6 +564,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.22.0_containerd-v1.5.2_init](./kubernetes/v1.22.0/containerd/v1.5.2/init/) | kubeadm init, requires cgroup v1 |
 | [kubernetes-v1.22.0_containerd-v1.5.2_base](./kubernetes/v1.22.0/containerd/v1.5.2/base/) | k8s v1.22.0 components installed |
 
 #### v1.21.1
