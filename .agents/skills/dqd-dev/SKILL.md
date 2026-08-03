@@ -21,6 +21,7 @@ Use this skill for repository changes. Use `dqd-use` when only running existing 
 Branch scope:
 - New environment migrations must use a dedicated branch.
 - README verification after CI is `dqd-verify` work and may be committed on `main`; do not force a migration branch for README-only verification commits.
+- **One image per PR.** Every migration PR builds exactly one image in CI — one `<ENV>` dir per PR. Shared index files (`README.md`, `ssh_config/config`) are touched by every PR; the rule is about ENV dirs, not shared files. For a simple env this is just "one env per branch". For **Kubernetes** `kubernetes/<ver>/containerd/<ver>/`, one logical env is three ENV dirs (`base/`, `init/`, `calico/default/`), so it is **three PRs on three branches** merged base→init→calico, one per turn — never bundled, even though they share a version bump and a README block. README diff is incremental per PR (base opens the `#### <ver>` header + base row; init prepends its row above base; calico prepends its row above init). `ssh_config/config` is touched only by `init` and `calico` — `base` sets `SKIP_SSH_CONFIG=true`. See memory `dqd-one-image-per-pr`.
 
 ## Migrating From docker_archive
 
