@@ -31,6 +31,7 @@ When migrating one environment:
 - Copy only files needed by dqd, normally `.env`, `Dockerfile`, `README.md`, `docker-compose.yml`, `docker-compose.kvm.yml`, and `ssh`.
 - Do not migrate old `docker-compose.swr-mirror.yml` unless explicitly requested.
 - Do not migrate old `scp` helpers unless explicitly requested.
+- **Executable bits on scripts — `Write` creates `100644`, CI needs `100755`.** After creating scripts with `Write`, `chmod +x` them *before* `git add`: `<ENV>/build.sh` (Makefile `ctr` target runs `./build.sh`), `<ENV>/ssh`, and every `<ENV>/service/*.sh` (systemd invokes them). A script committed `100644` fails in CI with `./build.sh: Permission denied` (Error 126) — this has bitten `v1.22.0` and `v1.23.0` init migrations, each requiring a follow-up `chmod` fix commit. Mirror a sibling env on origin/main: `git ls-tree origin/main <sibling-env>` shows which files are `100755`; replicate that exactly. Do not split the mode fix into a separate commit — include it in the initial migration commit.
 - Change image references from `ssst0n3/docker_archive` to `ghcr.io/ctrsploit`.
 - Prefer already-migrated dqd base images instead of using `docker_archive` as a base.
 - Check that the base image's `SSH_PUB_KEY` ARG default uses the dqd key (`default@dqd`), not the old `docker_archive` key. If the base uses the old key, update the comment only (do NOT change the key type — older Ubuntu/Debian releases may not support ed25519).
@@ -166,6 +167,18 @@ git diff --check
 make ci ENV=<env-path> CI_MAKE_TARGETS="ctr"
 ```
 
+**Executable-bit check — run before `git add`.** `Write` creates scripts `100644`; CI runs
+`./build.sh` and fails Error 126. After creating scripts, run:
+
+```bash
+chmod +x <env-path>/build.sh <env-path>/ssh <env-path>/service/*.sh
+git ls-files --stage <env-path> | grep -E 'build\.sh|/ssh$|service/.*\.sh$'   # all must show 100755
+```
+
+Compare against a sibling env already on origin/main to confirm which files should be
+executable: `git ls-tree origin/main <sibling-env>`. Include the mode change in the initial
+migration commit — do not split into a follow-up fix commit.
+
 Before committing, validate `<ENV>/.env` for integrity:
 
 ```bash
@@ -190,15 +203,27 @@ matches and CI has nothing to rebuild. Bumping for these would trigger a pointle
 of an identical image. (If verification reveals a broken image, fix the build inputs in a
 separate commit *first* — that fix commit is what bumps `VERSION`.)
 
-1. Is `<ENV>/.env` already on `origin/main`?
+1. **Refresh origin/main first — stale local refs cause false "no bump".** A prior merge in
+   this session (or a merge done from another machine/web UI) updates `origin/main` on the
+   remote but NOT your local ref until you fetch. Deciding the gate against a stale ref
+   reports "no bump" when `.env` is in fact already on `origin/main`, producing a fix commit
+   with no `^VERSION=` diff that silently never triggers CI. This has bitten `v1.23.0` init:
+   PR #530 merged between my fetch and the chmod fix, so the gate saw `.env` as absent and
+   skipped the bump; CI never re-ran.
    ```bash
    git fetch origin main --quiet
+   ```
+   Re-run this `git fetch` **every time** you evaluate the gate — do not reuse a ref fetched
+   earlier in the session. If a PR was merged, a branch pushed, or `git pull`/`gh pr merge`
+   ran since the last fetch, the ref is stale.
+2. Is `<ENV>/.env` already on `origin/main`?
+   ```bash
    git show origin/main:<ENV>/.env >/dev/null 2>&1 && echo "MUST BUMP" || echo "no bump"
    ```
-2. `MUST BUMP` → increment `VERSION=` in `<ENV>/.env` (v0.1.0→v0.1.1), bump the image tag in
+3. `MUST BUMP` → increment `VERSION=` in `<ENV>/.env` (v0.1.0→v0.1.1), bump the image tag in
    `<ENV>/docker-compose.yml`, add a history row in `<ENV>/README.md`'s image table.
    Do NOT change `ARG VERSION_IMAGE` (parent layer tag). See `### VERSION bump rules` for the why.
-3. `no bump` → keep `VERSION` as-is.
+4. `no bump` → keep `VERSION` as-is.
 
 When validation passes, commit the changes:
 
