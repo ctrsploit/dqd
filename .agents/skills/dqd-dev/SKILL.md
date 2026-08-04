@@ -127,7 +127,7 @@ KERNEL=false
 CI (`.github/workflows/make.yml`) has **no `pull_request` trigger** — it runs only on `push` to `main` (plus `workflow_dispatch`) whose diff contains a `^VERSION=` change in some `**/.env`. So CI never runs on an open PR branch; it runs only when the merge commit lands on `main` and that merge introduces/changes a `VERSION=` line. Whether a fix needs a `VERSION` bump therefore depends on whether the env's `.env` has already landed on `main`:
 
 - **`.env` not yet on `main`** (PR still open, or first migration pre-merge): keep `VERSION=v0.1.0`. The merge commit introduces `.env` as a new file, which itself satisfies the `^VERSION=` diff, so CI runs on merge — a fix-only commit (build.sh/Dockerfile/README) bundled into the same PR needs no bump. Verify the tag is unpublished with `docker manifest inspect ghcr.io/ctrsploit/<IMAGE>:ctr_v<VERSION>` (absent = not yet published, so v0.1.0 is still the right target).
-- **`.env` already on `main`** (the PR already merged — whether that first CI run succeeded or failed): any further fix must bump `VERSION` to the next patch (`v0.1.0` → `v0.1.1`). Two reasons: (1) a fix-only commit merged via a new PR produces no `^VERSION=` diff, so CI won't trigger; (2) if the prior run already pushed `ctr_v0.1.0`/`v0.1.0` to ghcr, that tag is immutable and a rebuild must target a new tag. Bump even if the first run failed before `push-ctr` — the `.env` landing on `main` is what blocks re-triggering, not whether the tag was published.
+- **`.env` already on `main`** (the PR already merged — whether that first CI run succeeded or failed): any further **build-input** fix must bump `VERSION` to the next patch (`v0.1.0` → `v0.1.1`). Two reasons: (1) a build-input fix merged via a new PR produces no `^VERSION=` diff, so CI won't trigger; (2) if the prior run already pushed `ctr_v0.1.0`/`v0.1.0` to ghcr, that tag is immutable and a rebuild must target a new tag. Bump even if the first run failed before `push-ctr` — the `.env` landing on `main` is what blocks re-triggering, not whether the tag was published. README-only / kubeconfig / shared-index edits do **not** bump — they don't change the built image, so the published tag still matches and CI has nothing to rebuild.
 - **Fix commit after a published build needs CI**: always bump. Edit `.env` (`VERSION=`), `Dockerfile` (`ARG VERSION_IMAGE=`), and the README image table (add the new `v<X>` / `ctr_v<X>` row, annotate the old row with why it was superseded — follow `kubernetes/v1.18.2/containerd/v1.3.3/calico/default/README.md`'s history-row convention).
 - **Escape hatch**: `workflow_dispatch` with explicit `base_sha`/`head_sha` can force a run without a bump. Prefer a bump for reproducibility — the commit history then records why the rebuild happened.
 
@@ -177,8 +177,18 @@ wc -l <ENV>/.env
 
 ### VERSION-bump gate (dqd image `VERSION=` in `<ENV>/.env` — NOT component versions)
 
-Run this before every fix commit. CI has no `pull_request` trigger; a fix-only commit
-with no `^VERSION=` diff will not trigger CI, and an already-published ghcr tag is immutable.
+Run this before any commit that **changes build inputs** — files that feed
+`make ctr`/`make vm`/`make dqd`: `<ENV>/Dockerfile`, `<ENV>/Dockerfile.dbg`,
+`<ENV>/build.sh`, `<ENV>/.env`, `<ENV>/docker-compose.yml`, `<ENV>/docker-compose.kvm.yml`.
+CI has no `pull_request` trigger; a build-input commit with no `^VERSION=` diff will not
+trigger CI, and an already-published ghcr tag is immutable.
+
+**Skip this gate for non-build commits** — README verification (`<ENV>/README.md` only,
+`dqd-verify` work), kubeconfig refresh (`<ENV>/kubeconfig`), and shared index edits
+(`README.md`, `ssh_config/config`) do not change the built image; the published tag already
+matches and CI has nothing to rebuild. Bumping for these would trigger a pointless rebuild
+of an identical image. (If verification reveals a broken image, fix the build inputs in a
+separate commit *first* — that fix commit is what bumps `VERSION`.)
 
 1. Is `<ENV>/.env` already on `origin/main`?
    ```bash

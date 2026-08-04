@@ -131,6 +131,8 @@ git commit -m "verify <ENV>: fill version output"
 
 Before committing, verify `git diff --cached --name-status` lists only `<ENV>/README.md`, plus `<ENV>/kubeconfig` when refreshing a Kubernetes kubeconfig.
 
+**No `VERSION` bump.** Verify commits are README-only (plus kubeconfig for k8s) and do not change the built image; the `dqd-dev` VERSION-bump gate does not apply. Bumping here would trigger a pointless CI rebuild of an identical image. If verification reveals a broken image, fix the build inputs in a separate commit *first* — that fix commit is what bumps `VERSION`.
+
 ### 8. Multi-session exploits (server + victim)
 
 Some reproduce sections require a server running in one session while a victim action happens in another (e.g., malicious OCI registry + `docker compose up`). Use `run_background` + `run_command`:
