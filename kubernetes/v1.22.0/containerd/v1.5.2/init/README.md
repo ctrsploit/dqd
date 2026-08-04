@@ -2,9 +2,11 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.22.0_containerd-v1.5.2_init:latest | -> v0.1.0 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.22.0_containerd-v1.5.2_init:v0.1.0 | kubeadm init with cgroupDriver: cgroupfs |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.22.0_containerd-v1.5.2_init:latest | -> v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.22.0_containerd-v1.5.2_init:v0.1.1 | fix: chmod +x build.sh/init.sh/hosts.sh/ssh so CI can run ./build.sh |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.22.0_containerd-v1.5.2_init:v0.1.0 | build.sh not executable; CI fails with `./build.sh: Permission denied` (Error 126) |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.22.0_v0.1.0 | source |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.22.0_containerd-v1.5.2_init:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.22.0_containerd-v1.5.2_init:ctr_v0.1.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.22.0_v0.1.0 | source |
 
