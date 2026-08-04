@@ -1171,6 +1171,9 @@ Host dqd-kubernetes-v1.21.1_containerd-v1.5.1_init
 Host dqd-kubernetes-v1.21.1_containerd-v1.5.1_calico
     Port 12112
 
+Host dqd-kubernetes-v1.23.0_containerd-v1.5.2_init
+    Port 12130
+
 Host dqd-kubernetes-v1.22.0_containerd-v1.5.2_init
     Port 12120
 
