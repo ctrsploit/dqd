@@ -6,9 +6,6 @@ NETWORK_SUBNET="10.0.2.0/24"
 NETWORK_IP_RANGE="10.0.2.16/28"
 NETWORK_GATEWAY="10.0.2.1"
 BUILDER_NAME="dqd-k8s-1240-builder"
-BUILDX_IMAGE="moby/buildkit:v0.30.0"
-NF_CONNTRACK_HASHSIZE="/sys/module/nf_conntrack/parameters/hashsize"
-NF_CONNTRACK_MAX="/proc/sys/net/netfilter/nf_conntrack_max"
 
 load_env() {
     local script_dir env_file
@@ -23,37 +20,6 @@ load_env() {
     fi
 }
 
-require_cgroup_v1() {
-    local fs_type
-
-    fs_type="$(stat -fc %T /sys/fs/cgroup)"
-    if [[ "${fs_type}" != "tmpfs" ]]; then
-        echo "Error: Kubernetes v1.24.0 kubelet requires cgroup v1; /sys/fs/cgroup is ${fs_type}." >&2
-        echo "Build this env with CI_DQD_BUILDER=dqd/cgroup-v1-builder, or on a cgroup-v1 host." >&2
-        exit 1
-    fi
-}
-
-prepare_nf_conntrack() {
-    local max target_hashsize current_hashsize
-
-    if [[ ! -r "${NF_CONNTRACK_MAX}" || ! -w "${NF_CONNTRACK_HASHSIZE}" ]]; then
-        echo "Skipping nf_conntrack hashsize setup; required sysctls are unavailable." >&2
-        return
-    fi
-
-    max="$(<"${NF_CONNTRACK_MAX}")"
-    target_hashsize=$(( max / 4 ))
-    current_hashsize="$(<"${NF_CONNTRACK_HASHSIZE}")"
-
-    if (( current_hashsize < target_hashsize )); then
-        echo "Updating nf_conntrack hashsize to ${target_hashsize}"
-        echo "${target_hashsize}" > "${NF_CONNTRACK_HASHSIZE}"
-    else
-        echo "Current nf_conntrack hashsize (${current_hashsize}) is enough"
-    fi
-}
-
 create_network() {
     docker network create \
         --subnet "${NETWORK_SUBNET}" \
@@ -65,7 +31,6 @@ create_network() {
 create_builder() {
     docker buildx create \
         --driver-opt "network=${NETWORK_NAME}" \
-        --driver-opt "image=${BUILDX_IMAGE}" \
         --name "${BUILDER_NAME}" \
         --buildkitd-flags "--allow-insecure-entitlement security.insecure" \
         2>/dev/null || true
@@ -116,8 +81,6 @@ execute_build() {
 }
 
 load_env
-require_cgroup_v1
-prepare_nf_conntrack
 create_network
 create_builder
 prune_cache

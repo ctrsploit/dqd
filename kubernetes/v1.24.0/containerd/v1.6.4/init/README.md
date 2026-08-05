@@ -2,9 +2,11 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:latest | -> v0.1.0 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:v0.1.0 | migrate from docker_archive |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:latest | -> v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:v0.1.1 | fix: cgroup driver mismatch — kubelet cgroupfs vs containerd SystemdCgroup=true caused kubeadm init to hang; align with docker_archive v1.24.0 (systemd on both sides), drop cgroup-v1-builder |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:v0.1.0 | cgroup driver mismatch (kubelet cgroupfs, containerd systemd) → kubeadm init never completes, CI hangs |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.24.0_v0.1.0 | source |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:ctr_v0.1.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.24.0_v0.1.0 | source |
 
@@ -57,8 +59,6 @@ root@kubernetes-1-24-0-containerd-1-6-4:~# uname -a
 make all ENV=kubernetes/v1.24.0/containerd/v1.6.4/init
 ```
 
-GitHub Actions builds the `ctr` image with `CI_DQD_BUILDER=dqd/cgroup-v1-builder` because Kubernetes v1.24.0 kubelet requires cgroup v1 during `kubeadm init`.
-
 ## for developers
 
 ```dockerfile
@@ -74,14 +74,10 @@ RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbi
 
 ## Tricks
 
-### cgroup v1
+### cgroup driver: systemd
 
-Kubernetes v1.24.0 kubelet only supports cgroup v1. On GitHub-hosted runners, this env declares `CI_DQD_BUILDER=dqd/cgroup-v1-builder`, so CI starts that dqd runtime and runs the `ctr` build there before continuing the VM and DQD image build on the host runner.
+Kubernetes v1.24.0 kubelet and containerd both use the `systemd` cgroup driver. `kubeadm.conf` sets `cgroupDriver: systemd` and the Dockerfile writes `/etc/containerd/config.toml` with `SystemdCgroup = true`. The two must agree or kubelet crash-loops and `kubeadm init` never completes. This matches docker_archive v1.24.0 exactly and builds on the GitHub-hosted runner directly (no `cgroup-v1-builder` needed).
 
 ### cache mount
 
 This build uses a BuildKit cache mount for containerd snapshots so kubeadm writes under an ext4-backed cache instead of overlayfs-on-overlayfs.
-
-### pin buildkit to v0.30.0
-
-`build.sh` pins `BUILDX_IMAGE="moby/buildkit:v0.30.0"`. BuildKit v0.31 moved to runc v1.3, which masks `/proc/acpi` and is rejected by the cgroup-v1-builder VM's kernel 5.4; v0.30.0 keeps the older runc that allows `/proc/acpi`.
