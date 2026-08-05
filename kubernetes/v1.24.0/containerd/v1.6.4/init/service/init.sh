@@ -12,16 +12,6 @@ set_hostname() {
     hostnamectl set-hostname "${HOSTNAME}" > /dev/kmsg 2>&1
 }
 
-mount_devices_cgroup() {
-    log "Mounting cgroup v1 devices controller"
-    if mountpoint -q /sys/fs/cgroup/devices; then
-        umount /sys/fs/cgroup/devices > /dev/kmsg 2>&1 || true
-    fi
-    if ! mountpoint -q /sys/fs/cgroup/devices; then
-        mount -t cgroup -o devices none /sys/fs/cgroup/devices > /dev/kmsg 2>&1
-    fi
-}
-
 init_kubernetes() {
     log "kubeadm init"
     kubeadm init --skip-phases=preflight --config=/kind/kubeadm.conf --skip-token-print --v=6 > /dev/kmsg 2>&1
@@ -74,7 +64,6 @@ graceful_exit() {
 }
 
 set_hostname
-mount_devices_cgroup
 init_kubernetes
 remove_master_taint
 wait_kube_system_pods_created

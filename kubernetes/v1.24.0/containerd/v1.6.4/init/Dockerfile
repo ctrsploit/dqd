@@ -33,6 +33,10 @@ RUN apt update && \
     apt install -y apparmor-utils && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+# k8s control-plane containers always restart when kubelet and containerd use different cgroup drivers.
+RUN mkdir -p /etc/containerd && \
+    containerd config default > /etc/containerd/config.toml && \
+    sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
 
 FROM pre AS kube_init
 # kubeadm init
