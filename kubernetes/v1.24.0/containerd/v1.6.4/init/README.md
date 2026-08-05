@@ -2,9 +2,11 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:latest | -> v0.1.0 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:v0.1.0 | migrate from docker_archive |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:latest | -> v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:v0.1.1 | fix: cgroup driver mismatch — kubelet cgroupfs vs containerd SystemdCgroup=true caused kubeadm init to hang |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:v0.1.0 | cgroup driver mismatch (kubelet cgroupfs, containerd systemd) → kubeadm init never completes, CI hangs |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.24.0_v0.1.0 | source |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.24.0_containerd-v1.6.4_init:ctr_v0.1.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.24.0_v0.1.0 | source |
 
