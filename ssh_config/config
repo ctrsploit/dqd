@@ -1183,6 +1183,9 @@ Host dqd-kubernetes-v1.25.0_containerd-v1.6.7_init
 Host dqd-kubernetes-v1.25.0_containerd-v1.6.7_calico
     Port 12506
 
+Host dqd-kubernetes-v1.26.0_containerd-v1.6.9_init
+    Port 12604
+
 Host dqd-kubernetes-v1.23.0_containerd-v1.5.2_init
     Port 12130
 
