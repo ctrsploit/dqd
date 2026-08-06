@@ -566,7 +566,8 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image | note |
 |-----|------|
-| [kubernetes-v1.24.0_containerd-v1.6.4_init](./kubernetes/v1.24.0/containerd/v1.6.4/init/) | kubeadm init, requires cgroup v1 |
+| [kubernetes-v1.24.0_containerd-v1.6.4_calico](./kubernetes/v1.24.0/containerd/v1.6.4/calico/default/) | calico installed |
+| [kubernetes-v1.24.0_containerd-v1.6.4_init](./kubernetes/v1.24.0/containerd/v1.6.4/init/) | kubeadm init |
 | [kubernetes-v1.24.0_containerd-v1.6.4_base](./kubernetes/v1.24.0/containerd/v1.6.4/base/) | k8s v1.24.0 components installed |
 
 #### v1.23.0
