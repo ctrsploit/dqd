@@ -566,6 +566,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.28.0_containerd-v1.6.21_calico](./kubernetes/v1.28.0/containerd/v1.6.21/calico/default/) | k8s v1.28.0 with calico |
 | [kubernetes-v1.28.0_containerd-v1.6.21_init](./kubernetes/v1.28.0/containerd/v1.6.21/init/) | kubeadm init |
 | [kubernetes-v1.28.0_containerd-v1.6.21_base](./kubernetes/v1.28.0/containerd/v1.6.21/base/) | k8s v1.28.0 components installed |
 
