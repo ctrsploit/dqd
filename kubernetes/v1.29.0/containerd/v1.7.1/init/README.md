@@ -2,9 +2,11 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:latest | -> v0.1.0 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:v0.1.0 | migrate from docker_archive |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:latest | -> v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:v0.1.1 | preserve file capabilities (xattrs) in snapshot-restore tar; fixes coredns v1.11.1 nonroot :53 bind |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:v0.1.0 | migrate from docker_archive (coredns CrashLoopBackOff: CAP_NET_BIND_SERVICE stripped) |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.29.0_v0.1.0 | source |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:ctr_v0.1.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.29.0_v0.1.0 | source |
 
