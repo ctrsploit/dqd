@@ -53,10 +53,13 @@ RUN --mount=type=cache,id=kubernetes-v1.29.0_containerd-v1.7.1-snapshots,target=
     --security=insecure \
     ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # restore snapshots from cache, skipping overlayfs whiteout files (c 0,0)
+# use --xattrs --xattrs-include='*' to preserve file capabilities (e.g. coredns
+# CAP_NET_BIND_SERVICE), without which coredns v1.11.1 (k8s >= v1.29.0) nonroot
+# bind to :53 fails with "listen tcp :53: bind: permission denied".
 RUN --mount=type=cache,id=kubernetes-v1.29.0_containerd-v1.7.1-snapshots,target=/trick \
     --security=insecure \
     find /trick/snapshots -type c -delete && \
-    tar -C /trick -cf - . | tar -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
+    tar --xattrs --xattrs-include='*' -C /trick -cf - . | tar --xattrs --xattrs-include='*' -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
 
 FROM kube_init AS final
 RUN mkdir -p /root/.kube && \
