@@ -33,14 +33,14 @@ $ ./ssh
 
 ```shell
 root@kubernetes-1-29-0-containerd-1-7-1:~# kubectl get pods -A
-NAMESPACE     NAME                                                         READY   STATUS    RESTARTS      AGE
-kube-system   coredns-76f75df574-kz22j                                     0/1     Pending   0             22m
-kube-system   coredns-76f75df574-w75kf                                     0/1     Pending   0             22m
-kube-system   etcd-kubernetes-1-29-0-containerd-1-7-1                      1/1     Running   1 (10m ago)   23m
-kube-system   kube-apiserver-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   1 (10m ago)   23m
-kube-system   kube-controller-manager-kubernetes-1-29-0-containerd-1-7-1   1/1     Running   1 (10m ago)   23m
-kube-system   kube-proxy-nb69n                                             1/1     Running   1 (10m ago)   22m
-kube-system   kube-scheduler-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   1 (10m ago)   23m
+NAMESPACE     NAME                                                         READY   STATUS    RESTARTS        AGE
+kube-system   coredns-76f75df574-kj27z                                     0/1     Pending   0               64m
+kube-system   coredns-76f75df574-lgm2v                                     0/1     Pending   0               64m
+kube-system   etcd-kubernetes-1-29-0-containerd-1-7-1                      1/1     Running   1 (64m ago)     65m
+kube-system   kube-apiserver-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   1 (64m ago)     65m
+kube-system   kube-controller-manager-kubernetes-1-29-0-containerd-1-7-1   1/1     Running   1 (64m ago)     65m
+kube-system   kube-proxy-9r7tv                                             1/1     Running   1 (5m16s ago)   64m
+kube-system   kube-scheduler-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   1 (64m ago)     65m
 ```
 
 ### versions
