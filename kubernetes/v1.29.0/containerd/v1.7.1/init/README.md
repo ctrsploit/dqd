@@ -31,24 +31,48 @@ $ ./ssh
 
 ```shell
 root@kubernetes-1-29-0-containerd-1-7-1:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE     NAME                                                         READY   STATUS    RESTARTS      AGE
+kube-system   coredns-76f75df574-kz22j                                     0/1     Pending   0             22m
+kube-system   coredns-76f75df574-w75kf                                     0/1     Pending   0             22m
+kube-system   etcd-kubernetes-1-29-0-containerd-1-7-1                      1/1     Running   1 (10m ago)   23m
+kube-system   kube-apiserver-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   1 (10m ago)   23m
+kube-system   kube-controller-manager-kubernetes-1-29-0-containerd-1-7-1   1/1     Running   1 (10m ago)   23m
+kube-system   kube-proxy-nb69n                                             1/1     Running   1 (10m ago)   22m
+kube-system   kube-scheduler-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   1 (10m ago)   23m
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-29-0-containerd-1-7-1:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.14.0", GitCommit:"3fc9f4b2638e76f26739cd77c7017139be81d0ea", GitTreeState:"clean", GoVersion:"go1.21.5"}
 root@kubernetes-1-29-0-containerd-1-7-1:~# kubectl version
-<!-- VERIFY -->
+Client Version: v1.29.0
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+Server Version: v1.29.0
 root@kubernetes-1-29-0-containerd-1-7-1:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.7.1 1677a17964311325ed1c31e2c0a3589ce6d5c30d
 root@kubernetes-1-29-0-containerd-1-7-1:~# runc --version
-<!-- VERIFY -->
+runc version 1.1.7
+commit: v1.1.7-0-g860f061b
+spec: 1.0.2-dev
+go: go1.20.3
+libseccomp: 2.5.4
 root@kubernetes-1-29-0-containerd-1-7-1:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
 root@kubernetes-1-29-0-containerd-1-7-1:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-29-0-containerd-1-7-1 5.15.0-187-generic #197-Ubuntu SMP Fri Jul 17 19:17:01 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
