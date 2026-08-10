@@ -59,6 +59,11 @@ When migrating one environment:
   - `depmod` calls after module install
   - Additional `RUN` commands in the same stage
   - ARG defaults that differ between versions
+- **Snapshot-restore `tar` must preserve xattrs on every k8s init/calico layer.** The init (and calico) Dockerfile restores containerd snapshots from the build cache with a `tar -C /trick -cf - . | tar -C … -xf -` pipeline. Always add `--xattrs --xattrs-include='*'` to **both** sides:
+  ```dockerfile
+  tar --xattrs --xattrs-include='*' -C /trick -cf - . | tar --xattrs --xattrs-include='*' -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
+  ```
+  Plain `tar` strips file capabilities (xattrs). coredns v1.11.1+ (k8s ≥ v1.29.0) runs nonroot and needs `CAP_NET_BIND_SERVICE` on its binary to bind :53; without the cap it CrashLoopBackOffs with `listen tcp :53: bind: permission denied`. Older coredns (k8s ≤ v1.28.0) doesn't need the cap, so the bug is **latent** there — apply the flag on all versions, not just v1.29.0+. This matches docker_archive's form. Do not "fix" this by setting `enable_unprivileged_ports=true` / `ip_unprivileged_port_start=0`; that masks the bug at the wrong layer.
 - After creating all files, run `make ctr ENV=<env-path>` to validate the Dockerfile builds (base image exists, URLs are reachable). Do not run `make vm` or `make dqd` locally — those steps require pushes and produce large artifacts; they belong to CI.
 
 For runc/containerd `-dbg` variants (application-level debugging with dlv wrapper):
