@@ -33,24 +33,55 @@ $ ./ssh
 
 ```shell
 root@kubernetes-1-29-0-containerd-1-7-1:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE          NAME                                                         READY   STATUS    RESTARTS        AGE
+calico-apiserver   calico-apiserver-66fbc88969-btdwk                            1/1     Running   1 (10m ago)     11h
+calico-apiserver   calico-apiserver-66fbc88969-xlr8z                            1/1     Running   1 (11h ago)     11h
+calico-system      calico-kube-controllers-6dc6547b65-zsnfl                     1/1     Running   1               11h
+calico-system      calico-node-pjpkb                                            1/1     Running   1 (10m ago)     11h
+calico-system      calico-typha-755754d7c5-b4fhd                                1/1     Running   1 (11h ago)     11h
+calico-system      csi-node-driver-89kvp                                        2/2     Running   2 (10m ago)     11h
+kube-system        coredns-76f75df574-kj27z                                     1/1     Running   1 (11h ago)     25h
+kube-system        coredns-76f75df574-lgm2v                                     1/1     Running   1 (11h ago)     25h
+kube-system        etcd-kubernetes-1-29-0-containerd-1-7-1                      1/1     Running   2 (11h ago)     25h
+kube-system        kube-apiserver-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   2 (11h ago)     25h
+kube-system        kube-controller-manager-kubernetes-1-29-0-containerd-1-7-1   1/1     Running   2 (10m ago)     25h
+kube-system        kube-proxy-9r7tv                                             1/1     Running   2 (11h ago)     25h
+kube-system        kube-scheduler-kubernetes-1-29-0-containerd-1-7-1            1/1     Running   2 (11h ago)     25h
+tigera-operator    tigera-operator-79f59b7cb7-4mf4m                             1/1     Running   2 (8m53s ago)   11h
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-29-0-containerd-1-7-1:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.14.0", GitCommit:"3fc9f4b2638e76f26739cd77c7017139be81d0ea", GitTreeState:"clean", GoVersion:"go1.21.5"}
 root@kubernetes-1-29-0-containerd-1-7-1:~# kubectl version
-<!-- VERIFY -->
+Client Version: v1.29.0
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+Server Version: v1.29.0
 root@kubernetes-1-29-0-containerd-1-7-1:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.7.1 1677a17964311325ed1c31e2c0a3589ce6d5c30d
 root@kubernetes-1-29-0-containerd-1-7-1:~# runc --version
-<!-- VERIFY -->
+runc version 1.1.7
+commit: v1.1.7-0-g860f061b
+spec: 1.0.2-dev
+go: go1.20.3
+libseccomp: 2.5.4
 root@kubernetes-1-29-0-containerd-1-7-1:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
 root@kubernetes-1-29-0-containerd-1-7-1:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-29-0-containerd-1-7-1 5.15.0-187-generic #197-Ubuntu SMP Fri Jul 17 19:17:01 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
