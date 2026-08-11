@@ -5,7 +5,7 @@
 # ============================================================================
 ARG VERSION_K8S=1.29.0
 ARG VERSION_CONTAINERD=1.7.1
-ARG VERSION_IMAGE=0.1.0
+ARG VERSION_IMAGE=0.1.1
 
 # ============================================================================
 # Internal variables
@@ -35,8 +35,10 @@ RUN --mount=type=cache,id=kubernetes-v1.29.0_containerd-v1.7.1-calico-snapshots,
 # fail recreating them.
 RUN --mount=type=cache,id=kubernetes-v1.29.0_containerd-v1.7.1-calico-snapshots,target=/trick \
     find /trick -type c -delete && \
-    # use tar to preserve file capabilities
-    tar -C /trick -cf - . | tar -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
+    # use --xattrs --xattrs-include='*' to preserve file capabilities (e.g. coredns
+    # CAP_NET_BIND_SERVICE), without which coredns v1.11.1 (k8s >= v1.29.0) nonroot
+    # bind to :53 fails with "listen tcp :53: bind: permission denied".
+    tar --xattrs --xattrs-include='*' -C /trick -cf - . | tar --xattrs --xattrs-include='*' -C /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/ -xf -
 
 FROM calico AS final
 RUN rm /usr/lib/systemd/system/init.service /init.sh

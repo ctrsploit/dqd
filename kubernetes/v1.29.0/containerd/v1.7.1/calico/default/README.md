@@ -2,9 +2,11 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_calico:latest | -> v0.1.0 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_calico:v0.1.0 | migrate from docker_archive |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_calico:latest | -> v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_calico:v0.1.1 | FROM init ctr_v0.1.1 (xattrs fix); add --xattrs --xattrs-include='*' to snapshot-restore tar |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_calico:v0.1.0 | migrate from docker_archive (FROM init ctr_v0.1.0, coredns CrashLoopBackOff: CAP_NET_BIND_SERVICE stripped) |
 | dqd | ssst0n3/docker_archive:kubernetes-v1.29.0-calico_v0.1.0 | source |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_calico:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_calico:ctr_v0.1.0 | - |
 | ctr | ssst0n3/docker_archive:ctr_kubernetes-v1.29.0-calico_v0.1.0 | source |
 
@@ -61,7 +63,7 @@ make all ENV=kubernetes/v1.29.0/containerd/v1.7.1/calico/default
 
 ```dockerfile
 # syntax=docker/dockerfile:1-labs
-FROM ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:ctr_v0.1.0
+FROM ghcr.io/ctrsploit/kubernetes-v1.29.0_containerd-v1.7.1_init:ctr_v0.1.1
 ...
 RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 ```
