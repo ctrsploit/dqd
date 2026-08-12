@@ -566,6 +566,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.31.0_containerd-v1.7.18_init](./kubernetes/v1.31.0/containerd/v1.7.18/init/) | kubeadm init |
 | [kubernetes-v1.31.0_containerd-v1.7.18_base](./kubernetes/v1.31.0/containerd/v1.7.18/base/) | k8s v1.31.0 components installed |
 
 #### v1.30.0
