@@ -31,33 +31,68 @@ $ ./ssh
 
 ```shell
 root@kubernetes-1-33-1-containerd-2-1-0:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE          NAME                                                         READY   STATUS    RESTARTS       AGE
+calico-apiserver   calico-apiserver-68f888cfb-btnvj                             1/1     Running   1 (113s ago)   48m
+calico-apiserver   calico-apiserver-68f888cfb-gzwsb                             1/1     Running   1 (113s ago)   48m
+calico-system      calico-kube-controllers-7599c95f78-tlvnf                     1/1     Running   1 (113s ago)   48m
+calico-system      calico-node-2g8t4                                            1/1     Running   1 (113s ago)   48m
+calico-system      calico-typha-7c747697f-8lnlx                                 1/1     Running   1 (113s ago)   48m
+calico-system      csi-node-driver-9ssw7                                        2/2     Running   2 (113s ago)   48m
+calico-system      goldmane-86cd9d999d-6pcnd                                    1/1     Running   1 (113s ago)   48m
+calico-system      whisker-7f7c56bfb5-5mdzx                                     2/2     Running   2 (113s ago)   48m
+kube-system        coredns-674b8bbfcf-pclnm                                     1/1     Running   1 (113s ago)   12h
+kube-system        coredns-674b8bbfcf-w2kxj                                     1/1     Running   1 (113s ago)   12h
+kube-system        etcd-kubernetes-1-33-1-containerd-2-1-0                      1/1     Running   2 (113s ago)   12h
+kube-system        kube-apiserver-kubernetes-1-33-1-containerd-2-1-0            1/1     Running   2 (113s ago)   12h
+kube-system        kube-controller-manager-kubernetes-1-33-1-containerd-2-1-0   1/1     Running   2 (113s ago)   12h
+kube-system        kube-proxy-vksb8                                             1/1     Running   2 (113s ago)   12h
+kube-system        kube-scheduler-kubernetes-1-33-1-containerd-2-1-0            1/1     Running   2 (112s ago)   12h
+tigera-operator    tigera-operator-68f7c7984d-94csl                             1/1     Running   1 (112s ago)   48m
 ```
 
 ### Deploy a pod
 
 ```shell
 root@kubernetes-1-33-1-containerd-2-1-0:~# kubectl run --image=docker.io/library/nginx:latest nginx
-<!-- VERIFY -->
+pod/nginx created
 root@kubernetes-1-33-1-containerd-2-1-0:~# kubectl get pods
-<!-- VERIFY -->
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          28s
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-33-1-containerd-2-1-0:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.18.3", GitCommit:"6838ebcf265a3842d1433956e8a622e3290cf324", GitTreeState:"clean", GoVersion:"go1.24.4"}
 root@kubernetes-1-33-1-containerd-2-1-0:~# kubectl version
-<!-- VERIFY -->
+Client Version: v1.33.1
+Kustomize Version: v5.6.0
+Server Version: v1.33.1
 root@kubernetes-1-33-1-containerd-2-1-0:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd/v2 v2.1.0 061792f0ecf3684fb30a3a0eb006799b8c6638a7
 root@kubernetes-1-33-1-containerd-2-1-0:~# runc --version
-<!-- VERIFY -->
+runc version 1.3.0
+commit: v1.3.0-0-g4ca628d1
+spec: 1.2.1
+go: go1.23.8
+libseccomp: 2.5.6
 root@kubernetes-1-33-1-containerd-2-1-0:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@kubernetes-1-33-1-containerd-2-1-0:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-33-1-containerd-2-1-0 6.8.0-137-generic #137-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 17 20:28:23 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
