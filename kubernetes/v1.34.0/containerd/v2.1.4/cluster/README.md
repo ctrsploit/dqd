@@ -2,12 +2,14 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-master:latest | point to v0.1.0 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-master:latest | point to v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-master:v0.1.1 | first CI-built image (v0.1.0 never published: CI healthz probe bug) |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-master:v0.1.0 | migrate from docker_archive |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-worker:latest | point to v0.1.0 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-worker:latest | point to v0.1.1 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-worker:v0.1.1 | first CI-built image (v0.1.0 never published: CI healthz probe bug) |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.34.0-worker:v0.1.0 | migrate from docker_archive |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.34.0-master:ctr_v0.1.0 | - |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.34.0-worker:ctr_v0.1.0 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.34.0-master:ctr_v0.1.1 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.34.0-worker:ctr_v0.1.1 | - |
 
 source: `ssst0n3/docker_archive:kubernetes-v1.34.0-master_v0.1.0` / `ssst0n3/docker_archive:kubernetes-v1.34.0-worker_v0.1.0`
 
