@@ -1,5 +1,8 @@
 #!/bin/bash
 HOSTNAME="kubernetes-1-34-0"
+# the dqd base image's kube configs point at this hostname (its build-time
+# name); map both so in-VM kubectl works at runtime
+DQD_HOSTNAME="kubernetes-1-34-0-containerd-2-1-4"
 
 IP=$(ip -4 addr show eth1 2>/dev/null | awk '/inet / {print $2}' | cut -d/ -f1 | head -n1)
 if [ -z "$IP" ]; then
@@ -10,5 +13,7 @@ if [ -z "$IP" ]; then
   exit 1
 fi
 sed -i "/[[:space:]]${HOSTNAME}$/d" /etc/hosts
+sed -i "/[[:space:]]${DQD_HOSTNAME}$/d" /etc/hosts
 echo "$IP ${HOSTNAME}" >> /etc/hosts
-echo "setup-hosts.sh: Successfully mapped second IP $IP to $HOSTNAME in /etc/hosts"
+echo "$IP ${DQD_HOSTNAME}" >> /etc/hosts
+echo "setup-hosts.sh: Successfully mapped second IP $IP to $HOSTNAME and $DQD_HOSTNAME in /etc/hosts"

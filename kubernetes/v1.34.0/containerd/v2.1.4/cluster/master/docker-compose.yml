@@ -1,6 +1,6 @@
 services:
   master:
-    image: ghcr.io/ctrsploit/kubernetes-v1.34.0-master:v0.1.1
+    image: ghcr.io/ctrsploit/kubernetes-v1.34.0-master:v0.1.2
     environment:
       - "QEMU_HOSTFWD=hostfwd=tcp::6443-:6443"
       - "QEMU_DUAL_NET=1"
