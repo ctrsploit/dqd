@@ -498,6 +498,7 @@ dqd up runc/v1.3.0 --kvm=false
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.33.1_containerd-v2.1.0_calico_apparmor](./kubernetes/v1.33.1/containerd/v2.1.0/calico/apparmor) | calico + apparmor installed |
 | [kubernetes-v1.33.1_containerd-v2.1.0_calico](./kubernetes/v1.33.1/containerd/v2.1.0/calico/default) | kubeadm init, with calico |
 | [kubernetes-v1.33.1_containerd-v2.1.0_init](./kubernetes/v1.33.1/containerd/v2.1.0/init) | kubeadm init, without CNI |
 | [kubernetes-v1.33.1_containerd-v2.1.0_base](./kubernetes/v1.33.1/containerd/v2.1.0/base) | k8s components installed |
