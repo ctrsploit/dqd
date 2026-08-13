@@ -66,7 +66,19 @@ jobs:
 
           declare -A ENV_DIRS=()
           for file in "${ENV_FILES[@]}"; do
-            ENV_DIRS["$(dirname "${file}")"]=1
+            dir="$(dirname "${file}")"
+            # Cluster envs (kubernetes master+worker) must build in a single
+            # job: the worker's kubeadm join targets the master's buildkit
+            # sandbox at 10.0.2.16 on the same docker daemon. Collapse the two
+            # sub-env dirs into their parent cluster dir.
+            case "${dir}" in
+              */cluster/master|*/cluster/worker)
+                ENV_DIRS["${dir%/*}"]=1
+                ;;
+              *)
+                ENV_DIRS["${dir}"]=1
+                ;;
+            esac
           done
 
           if [[ ${#ENV_DIRS[@]} -eq 0 ]]; then

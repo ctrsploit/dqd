@@ -95,6 +95,13 @@ wait_for_ssh() {
 }
 
 run_direct_ci() {
+    # Cluster envs (kubernetes master+worker) need a coordinated dual build in
+    # one job: the master ctr build hangs until the worker joins it. Detect them
+    # by the absence of IMAGE in the top-level .env plus master/ worker/ subdirs.
+    if [[ -z "$(env_value IMAGE)" && -d "${ENV_DIR}/master" && -d "${ENV_DIR}/worker" ]]; then
+        bash script/ci_cluster.sh "${ENV_DIR}"
+        return
+    fi
     make ci ENV="${ENV_DIR}"
 }
 
