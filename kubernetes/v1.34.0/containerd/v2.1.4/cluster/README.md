@@ -24,7 +24,9 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 
 ```shell
 $ kubectl --kubeconfig=kubeconfig get nodes -o wide
-<!-- VERIFY -->
+NAME                                 STATUS   ROLES           AGE    VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+kubernetes-1-34-0-containerd-2-1-4   Ready    control-plane   31d    v1.34.0   10.0.2.16     <none>        Ubuntu 24.04.4 LTS   6.8.0-137-generic   containerd://2.1.4
+kubernetes-1-34-0-worker             Ready    <none>          131m   v1.34.0   10.0.2.17     <none>        Ubuntu 24.04.4 LTS   6.8.0-137-generic   containerd://2.1.4
 ```
 
 Connect to master or worker:
@@ -38,24 +40,61 @@ $ ./worker/ssh
 
 ```shell
 root@kubernetes-1-34-0:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE          NAME                                                         READY   STATUS    RESTARTS         AGE
+calico-apiserver   calico-apiserver-799fdf64b5-5hdd9                            1/1     Running   2 (64m ago)      30d
+calico-apiserver   calico-apiserver-799fdf64b5-sqvmv                            1/1     Running   2 (64m ago)      30d
+calico-system      calico-kube-controllers-679897cb9c-6mkkx                     1/1     Running   2 (64m ago)      30d
+calico-system      calico-node-fq6pp                                            1/1     Running   0                131m
+calico-system      calico-node-pjv9d                                            1/1     Running   2 (64m ago)      30d
+calico-system      calico-typha-789987d96-l2mc8                                 1/1     Running   17 (6m21s ago)   30d
+calico-system      csi-node-driver-7hk9p                                        2/2     Running   4 (64m ago)      30d
+calico-system      csi-node-driver-lx22n                                        2/2     Running   0                131m
+calico-system      goldmane-64654bd66b-ccsr7                                    1/1     Running   2 (64m ago)      30d
+calico-system      whisker-7f7c65ff79-jfwws                                     2/2     Running   4 (64m ago)      30d
+kube-system        coredns-66bc5c9577-kwsw2                                     1/1     Running   2 (64m ago)      31d
+kube-system        coredns-66bc5c9577-kzk86                                     1/1     Running   2 (64m ago)      31d
+kube-system        etcd-kubernetes-1-34-0-containerd-2-1-4                      1/1     Running   3 (64m ago)      31d
+kube-system        kube-apiserver-kubernetes-1-34-0-containerd-2-1-4            1/1     Running   3 (64m ago)      31d
+kube-system        kube-controller-manager-kubernetes-1-34-0-containerd-2-1-4   1/1     Running   3 (64m ago)      31d
+kube-system        kube-proxy-mm5rn                                             1/1     Running   0                3m48s
+kube-system        kube-proxy-pvrq6                                             1/1     Running   0                3m48s
+kube-system        kube-scheduler-kubernetes-1-34-0-containerd-2-1-4            1/1     Running   3 (64m ago)      31d
+tigera-operator    tigera-operator-65cdcdfd6d-25768                             1/1     Running   2 (64m ago)      30d
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-34-0:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.19.0", GitCommit:"3d8990f0836691f0229297773f3524598f46bda6", GitTreeState:"clean", GoVersion:"go1.24.7"}
 root@kubernetes-1-34-0:~# kubectl version
-<!-- VERIFY -->
+Client Version: v1.34.0
+Kustomize Version: v5.7.1
+Server Version: v1.34.0
 root@kubernetes-1-34-0:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd/v2 v2.1.4 75cb2b7193e4e490e9fbdc236c0e811ccaba3376
 root@kubernetes-1-34-0:~# runc --version
-<!-- VERIFY -->
+runc version 1.3.0
+commit: v1.3.0-0-g4ca628d1
+spec: 1.2.1
+go: go1.23.8
+libseccomp: 2.5.6
 root@kubernetes-1-34-0:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@kubernetes-1-34-0:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-34-0-containerd-2-1-4 6.8.0-137-generic #137-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 17 20:28:23 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
