@@ -37,15 +37,18 @@ make ctr ENV="${MASTER}" &
 MASTER_CTR_PID=$!
 
 # ---------------------------------------------------------------------------
-# 2. Wait until the master sandbox API server answers /healthz
-#    (anonymous access to /healthz requires no credentials)
+# 2. Wait until the master sandbox API server answers /healthz.
+#    Probe from inside the docker-archive-bridge network with a throwaway
+#    container: the buildkit sandbox shares the builder container's network
+#    stack, whose IP is the first address of the bridge's ip-range (10.0.2.16).
+#    This avoids depending on the buildx container naming scheme.
 # ---------------------------------------------------------------------------
 wait_api_ready() {
     local deadline now
     deadline=$((SECONDS + API_READY_TIMEOUT))
     while true; do
-        if docker exec "${MASTER_BUILDER}0" \
-            wget -qO- --timeout=5 --no-check-certificate \
+        if docker run --rm --network docker-archive-bridge \
+            curlimages/curl:8.9.1 -sk --max-time 5 \
             "https://${MASTER_API}/healthz" 2>/dev/null | grep -q ok; then
             log "master API is ready"
             return 0
