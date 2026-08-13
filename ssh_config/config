@@ -724,6 +724,12 @@ Host dqd-kubernetes-v1.35.0_containerd-v2.2.0_calico_nerdctl-v2.2.0
 Host dqd-kubernetes-v1.34.0_containerd-v2.1.4_init
     Port 13400
 
+Host dqd-kubernetes-v1.34.0-master
+    Port 13404
+
+Host dqd-kubernetes-v1.34.0-worker
+    Port 13406
+
 Host dqd-kubernetes-v1.34.0_containerd-v2.1.4_calico
     Port 13402
 
