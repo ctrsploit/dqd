@@ -980,6 +980,12 @@ Host dqd-cve-2026-46300
 Host dqd-kubernetes-v1.18.2_containerd-v1.3.3_init
     Port 11820
 
+Host dqd-kubernetes-v1.18.2-master
+    Port 11824
+
+Host dqd-kubernetes-v1.18.2-worker
+    Port 11826
+
 Host dqd-kubernetes-v1.18.2_containerd-v1.3.3_calico
     Port 11822
 
