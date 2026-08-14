@@ -7,6 +7,12 @@
 # at 10.0.2.16). This script runs them sequentially-in-parallel: master in the
 # background, then worker once the master API answers /healthz.
 #
+# Nested mode: if cluster/master/.env sets CI_DQD_BUILDER (old k8s releases
+# need a cgroup-v1 builder VM), the ctr coordination runs inside that builder
+# VM; the vm/dqd/push stages then run on the CI host. Inside the builder VM the
+# script is re-invoked with CI_CLUSTER_DIRECT=1 CI_CLUSTER_STAGES='ctr push-ctr'
+# to avoid recursive nesting.
+#
 # The vm/dqd stages of master and worker are independent single-env builds and
 # run strictly one at a time to bound disk usage on the runner.
 set -euo pipefail
@@ -15,6 +21,13 @@ CLUSTER_DIR="${1:?cluster env dir is required}"
 MASTER="${CLUSTER_DIR}/master"
 WORKER="${CLUSTER_DIR}/worker"
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/ci_nested_lib.sh"
+
+CI_CLUSTER_STAGES="${CI_CLUSTER_STAGES:-all}"
+CI_CLUSTER_DIRECT="${CI_CLUSTER_DIRECT:-}"
+
 MASTER_BUILDER="${MASTER_BUILDER:-docker-archive-builder}"
 MASTER_API="10.0.2.16:6443"
 # The master sandbox API answers /healthz within ~2-5 minutes of the sandbox
@@ -22,33 +35,26 @@ MASTER_API="10.0.2.16:6443"
 # fast enough to keep CI debugging cheap.
 API_READY_TIMEOUT="${API_READY_TIMEOUT:-600}"
 PROBE_INTERVAL="${PROBE_INTERVAL:-15}"
+MASTER_CTR_LOG="${MASTER_CTR_LOG:-/tmp/cluster-master-ctr.log}"
 
 log() {
     echo "[ci_cluster] $1"
 }
 
 cleanup() {
-    kill "${MASTER_CTR_PID}" 2>/dev/null || true
-    wait "${MASTER_CTR_PID}" 2>/dev/null || true
+    kill "${MASTER_CTR_PID:-}" 2>/dev/null || true
+    wait "${MASTER_CTR_PID:-}" 2>/dev/null || true
+    # stop the builder VM if a nested build fails mid-way
+    stop_ci_dqd_env 2>/dev/null || true
 }
 trap cleanup EXIT
 
 # ---------------------------------------------------------------------------
-# 1. Start the master ctr build in the background (its init.sh waits for join).
-#    Its output is captured to a file so diagnostics can dump the tail on
-#    failure (the step log is only downloadable after the job completes).
-# ---------------------------------------------------------------------------
-MASTER_CTR_LOG="${MASTER_CTR_LOG:-/tmp/cluster-master-ctr.log}"
-log "starting master ctr build (background, log: ${MASTER_CTR_LOG}): ${MASTER}"
-make ctr ENV="${MASTER}" > "${MASTER_CTR_LOG}" 2>&1 &
-MASTER_CTR_PID=$!
-
-# ---------------------------------------------------------------------------
-# 2. Wait until the master sandbox API server answers /healthz.
-#    Probe from inside the docker-archive-bridge network with a throwaway
-#    container: the buildkit sandbox shares the builder container's network
-#    stack, whose IP is the first address of the bridge's ip-range (10.0.2.16).
-#    This avoids depending on the buildx container naming scheme.
+# Wait until the master sandbox API server answers /healthz.
+# Probe from inside the docker-archive-bridge network with a throwaway
+# container: the buildkit sandbox shares the builder container's network
+# stack, whose IP is the first address of the bridge's ip-range (10.0.2.16).
+# This avoids depending on the buildx container naming scheme.
 # ---------------------------------------------------------------------------
 wait_api_ready() {
     local deadline now probe_out last_err=0
@@ -86,34 +92,98 @@ wait_api_ready() {
         sleep "${PROBE_INTERVAL}"
     done
 }
-wait_api_ready
-
-# Give the master init.sh a moment to recreate the bootstrap token (it does
-# this first thing; the worker join has its own retry loop as a fallback).
-sleep 30
 
 # ---------------------------------------------------------------------------
-# 3. Build the worker (kubeadm join against the master sandbox)
+# The coordinated dual ctr build (+ optional push-ctr for nested mode)
 # ---------------------------------------------------------------------------
-log "starting worker ctr build (foreground): ${WORKER}"
-make ctr ENV="${WORKER}"
+run_ctr_coordination() {
+    log "starting master ctr build (background, log: ${MASTER_CTR_LOG}): ${MASTER}"
+    make ctr ENV="${MASTER}" > "${MASTER_CTR_LOG}" 2>&1 &
+    MASTER_CTR_PID=$!
+
+    wait_api_ready
+
+    # Give the master init.sh a moment to recreate the bootstrap token (it does
+    # this first thing; the worker join has its own retry loop as a fallback).
+    sleep 30
+
+    log "starting worker ctr build (foreground): ${WORKER}"
+    make ctr ENV="${WORKER}"
+
+    log "waiting for the master ctr build to finish"
+    wait "${MASTER_CTR_PID}"
+    MASTER_CTR_PID=""
+    trap - EXIT
+
+    if [[ "${CI_CLUSTER_STAGES}" == *push-ctr* ]]; then
+        make push-ctr ENV="${MASTER}"
+        make push-ctr ENV="${WORKER}"
+    fi
+}
 
 # ---------------------------------------------------------------------------
-# 4. The master build finishes on its own once it sees the worker Ready
+# vm/dqd/push for both envs, one at a time (bound runner disk usage)
 # ---------------------------------------------------------------------------
-log "waiting for the master ctr build to finish"
-wait "${MASTER_CTR_PID}"
-MASTER_CTR_PID=""
-trap - EXIT
+run_vm_dqd_phase() {
+    for env in "${MASTER}" "${WORKER}"; do
+        log "building vm/dqd for ${env}"
+        make ci ENV="${env}" CI_MAKE_TARGETS="clean vm dqd push post-clean"
+        docker image rm -f "$(sed -n 's/^image: *//p' "${env}/docker-compose.yml" | head -n1)" || true
+    done
+}
+
+pull_cluster_ctr_images() {
+    local image version ctr_tag
+    for env in "${MASTER}" "${WORKER}"; do
+        ENV_FILE="${env}/.env"
+        image="$(env_value IMAGE)"
+        version="$(env_value VERSION)"
+        ctr_tag="${REGISTRY}/${NAMESPACE}/${image}:ctr_${version}"
+        docker pull "${ctr_tag}"
+    done
+}
 
 # ---------------------------------------------------------------------------
-# 5. vm/dqd/push for both envs, one at a time (bound runner disk usage);
-#    each push is followed by cleanup of the local image/qcow2
+# Nested mode: coordinate the ctr builds inside the builder VM (cgroup-v1 for
+# old releases), then run vm/dqd/push on the host
 # ---------------------------------------------------------------------------
-for env in "${MASTER}" "${WORKER}"; do
-    log "building vm/dqd for ${env}"
-    make ci ENV="${env}" CI_MAKE_TARGETS="clean vm dqd push post-clean"
-    docker image rm -f "$(sed -n 's/^image: *//p' "${env}/docker-compose.yml" | head -n1)" || true
-done
+run_cluster_nested() {
+    ENV_FILE="${MASTER}/.env"
+    prepare_ssh_key
+    set_ci_dqd_builder
+    set_ci_dqd_ssh_port
 
+    log "running cluster ctr build inside ${CI_DQD_BUILDER}"
+    ensure_ci_dqd_builder_image
+    start_ci_dqd_env
+    wait_for_ssh
+    prepare_ci_dqd_env
+    login_to_ghcr_inside_dqd
+    sync_workspace
+    ssh_in_dqd "cd '${CI_DQD_WORKDIR}' && CI_CLUSTER_STAGES='ctr push-ctr' CI_CLUSTER_DIRECT=1 REGISTRY='${REGISTRY}' NAMESPACE='${NAMESPACE}' bash script/ci_cluster.sh '${CLUSTER_DIR}'"
+    stop_ci_dqd_env
+
+    pull_cluster_ctr_images
+    run_vm_dqd_phase
+}
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+if [[ -z "${CI_CLUSTER_DIRECT}" ]]; then
+    ENV_FILE="${MASTER}/.env"
+    require_env_file
+    if [[ -n "$(env_value CI_DQD_BUILDER)" ]]; then
+        run_cluster_nested
+        exit 0
+    fi
+fi
+
+if [[ "${CI_CLUSTER_STAGES}" != "all" ]]; then
+    run_ctr_coordination
+    exit 0
+fi
+
+run_ctr_coordination
+run_vm_dqd_phase
 log "cluster build complete"

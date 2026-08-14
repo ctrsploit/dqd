@@ -1,0 +1,13 @@
+services:
+  worker:
+    image: ghcr.io/ctrsploit/kubernetes-v1.18.2-worker:v0.1.0
+    environment:
+      - "QEMU_DUAL_NET=1"
+      - "QEMU_SOCKET_CONNECT=master:1234"
+      - "QEMU_SOCKET_IP=10.0.2.17"
+      - "QEMU_MAC_ADDR_0=52:54:00:12:34:58"
+      - "QEMU_MAC_ADDR_1=52:54:00:12:34:59"
+    ports:
+        - "11826:22"
+    tty: true
+    stdin_open: true
