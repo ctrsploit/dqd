@@ -26,9 +26,9 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 
 ```shell
 $ kubectl --kubeconfig=kubeconfig get nodes -o wide
-NAME                                 STATUS   ROLES           AGE    VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
-kubernetes-1-34-0-containerd-2-1-4   Ready    control-plane   31d    v1.34.0   10.0.2.16     <none>        Ubuntu 24.04.4 LTS   6.8.0-137-generic   containerd://2.1.4
-kubernetes-1-34-0-worker             Ready    <none>          131m   v1.34.0   10.0.2.17     <none>        Ubuntu 24.04.4 LTS   6.8.0-137-generic   containerd://2.1.4
+NAME                                 STATUS   ROLES           AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+kubernetes-1-34-0-containerd-2-1-4   Ready    control-plane   31d   v1.34.0   10.0.2.16     <none>        Ubuntu 24.04.4 LTS   6.8.0-137-generic   containerd://2.1.4
+kubernetes-1-34-0-worker             Ready    <none>          12h   v1.34.0   10.0.2.17     <none>        Ubuntu 24.04.4 LTS   6.8.0-137-generic   containerd://2.1.4
 ```
 
 Connect to master or worker:
@@ -42,26 +42,26 @@ $ ./worker/ssh
 
 ```shell
 root@kubernetes-1-34-0:~# kubectl get pods -A
-NAMESPACE          NAME                                                         READY   STATUS    RESTARTS         AGE
-calico-apiserver   calico-apiserver-799fdf64b5-5hdd9                            1/1     Running   2 (64m ago)      30d
-calico-apiserver   calico-apiserver-799fdf64b5-sqvmv                            1/1     Running   2 (64m ago)      30d
-calico-system      calico-kube-controllers-679897cb9c-6mkkx                     1/1     Running   2 (64m ago)      30d
-calico-system      calico-node-fq6pp                                            1/1     Running   0                131m
-calico-system      calico-node-pjv9d                                            1/1     Running   2 (64m ago)      30d
-calico-system      calico-typha-789987d96-l2mc8                                 1/1     Running   17 (6m21s ago)   30d
-calico-system      csi-node-driver-7hk9p                                        2/2     Running   4 (64m ago)      30d
-calico-system      csi-node-driver-lx22n                                        2/2     Running   0                131m
-calico-system      goldmane-64654bd66b-ccsr7                                    1/1     Running   2 (64m ago)      30d
-calico-system      whisker-7f7c65ff79-jfwws                                     2/2     Running   4 (64m ago)      30d
-kube-system        coredns-66bc5c9577-kwsw2                                     1/1     Running   2 (64m ago)      31d
-kube-system        coredns-66bc5c9577-kzk86                                     1/1     Running   2 (64m ago)      31d
-kube-system        etcd-kubernetes-1-34-0-containerd-2-1-4                      1/1     Running   3 (64m ago)      31d
-kube-system        kube-apiserver-kubernetes-1-34-0-containerd-2-1-4            1/1     Running   3 (64m ago)      31d
-kube-system        kube-controller-manager-kubernetes-1-34-0-containerd-2-1-4   1/1     Running   3 (64m ago)      31d
-kube-system        kube-proxy-mm5rn                                             1/1     Running   0                3m48s
-kube-system        kube-proxy-pvrq6                                             1/1     Running   0                3m48s
-kube-system        kube-scheduler-kubernetes-1-34-0-containerd-2-1-4            1/1     Running   3 (64m ago)      31d
-tigera-operator    tigera-operator-65cdcdfd6d-25768                             1/1     Running   2 (64m ago)      30d
+NAMESPACE          NAME                                                         READY   STATUS    RESTARTS        AGE
+calico-apiserver   calico-apiserver-799fdf64b5-5hdd9                            1/1     Running   2 (2m24s ago)   31d
+calico-apiserver   calico-apiserver-799fdf64b5-sqvmv                            1/1     Running   2 (2m24s ago)   31d
+calico-system      calico-kube-controllers-679897cb9c-6mkkx                     1/1     Running   2 (2m24s ago)   31d
+calico-system      calico-node-m4jv2                                            1/1     Running   1 (2m16s ago)   12h
+calico-system      calico-node-pjv9d                                            1/1     Running   2 (2m24s ago)   31d
+calico-system      calico-typha-789987d96-l2mc8                                 1/1     Running   2 (2m24s ago)   31d
+calico-system      csi-node-driver-7hk9p                                        2/2     Running   4 (2m24s ago)   31d
+calico-system      csi-node-driver-f7dmf                                        2/2     Running   0               12h
+calico-system      goldmane-64654bd66b-ccsr7                                    1/1     Running   2 (2m24s ago)   31d
+calico-system      whisker-7f7c65ff79-jfwws                                     2/2     Running   4 (2m24s ago)   31d
+kube-system        coredns-66bc5c9577-kwsw2                                     1/1     Running   2 (2m24s ago)   31d
+kube-system        coredns-66bc5c9577-kzk86                                     1/1     Running   2 (2m24s ago)   31d
+kube-system        etcd-kubernetes-1-34-0-containerd-2-1-4                      1/1     Running   3 (2m24s ago)   31d
+kube-system        kube-apiserver-kubernetes-1-34-0-containerd-2-1-4            1/1     Running   3 (2m24s ago)   31d
+kube-system        kube-controller-manager-kubernetes-1-34-0-containerd-2-1-4   1/1     Running   3 (2m24s ago)   31d
+kube-system        kube-proxy-m2hb2                                             1/1     Running   1 (2m16s ago)   12h
+kube-system        kube-proxy-wq5lv                                             1/1     Running   3 (2m24s ago)   31d
+kube-system        kube-scheduler-kubernetes-1-34-0-containerd-2-1-4            1/1     Running   3 (2m24s ago)   31d
+tigera-operator    tigera-operator-65cdcdfd6d-25768                             1/1     Running   2 (2m24s ago)   31d
 ```
 
 ### versions
