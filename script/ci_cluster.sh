@@ -44,6 +44,8 @@ log() {
 cleanup() {
     kill "${MASTER_CTR_PID:-}" 2>/dev/null || true
     wait "${MASTER_CTR_PID:-}" 2>/dev/null || true
+    # stop the builder VM if a nested build fails mid-way
+    stop_ci_dqd_env 2>/dev/null || true
 }
 trap cleanup EXIT
 
@@ -147,6 +149,7 @@ pull_cluster_ctr_images() {
 # ---------------------------------------------------------------------------
 run_cluster_nested() {
     ENV_FILE="${MASTER}/.env"
+    prepare_ssh_key
     set_ci_dqd_builder
     set_ci_dqd_ssh_port
 
@@ -157,7 +160,7 @@ run_cluster_nested() {
     prepare_ci_dqd_env
     login_to_ghcr_inside_dqd
     sync_workspace
-    ssh_in_dqd "cd '${CI_DQD_WORKDIR}' && CI_CLUSTER_STAGES='ctr push-ctr' CI_CLUSTER_DIRECT=1 bash script/ci_cluster.sh '${CLUSTER_DIR}' REGISTRY='${REGISTRY}' NAMESPACE='${NAMESPACE}'"
+    ssh_in_dqd "cd '${CI_DQD_WORKDIR}' && CI_CLUSTER_STAGES='ctr push-ctr' CI_CLUSTER_DIRECT=1 REGISTRY='${REGISTRY}' NAMESPACE='${NAMESPACE}' bash script/ci_cluster.sh '${CLUSTER_DIR}'"
     stop_ci_dqd_env
 
     pull_cluster_ctr_images
