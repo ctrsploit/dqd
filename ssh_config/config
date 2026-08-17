@@ -28,7 +28,7 @@ Host dqd-docker-v17.06.0
     Port 17060
 
 Host dqd-docker-v19.03.13
-    Port 19317
+    Port 19313
 
 Host dqd-docker-v19.03.13-debug
     Port 19310
