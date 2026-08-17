@@ -8,6 +8,10 @@ NETWORK_NAME="docker-archive-bridge"
 NETWORK_SUBNET="10.0.2.0/24"
 NETWORK_IP_RANGE="10.0.2.16/28"
 NETWORK_GATEWAY="10.0.2.1"
+# Pin buildkit: moby/buildkit:buildx-stable-1 is a moving tag that now points at
+# a version whose runc masks /proc/acpi in a way the cgroup-v1-builder VM's
+# kernel 5.4 rejects. v0.30.0 is what worked for the v1.18.2 series.
+BUILDX_IMAGE="moby/buildkit:v0.30.0"
 
 # ============================================================================
 # Functions
@@ -92,6 +96,7 @@ create_builder() {
     local builder_name="${BUILDER_NAME:?Error: BUILDER_NAME is required. Set it in .env}"
     docker buildx create \
         --driver-opt "network=${NETWORK_NAME}" \
+        --driver-opt "image=${BUILDX_IMAGE}" \
         --name "${builder_name}" \
         --buildkitd-flags "--allow-insecure-entitlement security.insecure" \
         2>/dev/null || true
