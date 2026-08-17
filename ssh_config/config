@@ -1261,3 +1261,6 @@ Host dqd-kubernetes-v1.22.0_containerd-v1.5.2_init
 
 Host dqd-kubernetes-v1.22.0_containerd-v1.5.2_calico
     Port 12122
+Host dqd-docker-v19.03.0
+    Port 19300
+

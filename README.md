@@ -361,6 +361,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v1.12.2](./docker/v1.12.2/) |
 | [docker-v1.12.1](./docker/v1.12.1/) |
 | [docker-v17.06.0](./docker/v17.06.0/) |
+| [docker-v19.03.0](./docker/v19.03.0/) |
 | [docker-v19.03.13](./docker/v19.03.13/) |
 | [docker-v19.03.13-debug](./docker/v19.03.13-debug/) |
 | [docker-v20.10.17](./docker/v20.10.17/) |
