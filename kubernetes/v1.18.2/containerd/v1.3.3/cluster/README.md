@@ -22,7 +22,9 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 
 ```shell
 $ kubectl --kubeconfig=kubeconfig get nodes -o wide
-<!-- VERIFY -->
+NAME                                 STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+kubernetes-1-18-2-containerd-1-3-3   Ready    master   73d   v1.18.2   10.0.2.16     <none>        Ubuntu 20.04.6 LTS   5.4.0-216-generic   containerd://1.3.3
+kubernetes-1-18-2-worker             Ready    <none>   31m   v1.18.2   <none>        <none>        Ubuntu 20.04.6 LTS   5.4.0-216-generic   containerd://1.3.3
 ```
 
 Connect to master or worker:
@@ -36,24 +38,51 @@ $ ./worker/ssh
 
 ```shell
 root@kubernetes-1-18-2:~# kubectl get pods -A
-<!-- VERIFY -->
+NAMESPACE         NAME                                                         READY   STATUS    RESTARTS   AGE
+calico-system     calico-kube-controllers-57f767d97b-tcf62                     1/1     Running   2          19d
+calico-system     calico-node-prwk8                                            1/1     Running   1          31m
+calico-system     calico-node-sz4zf                                            1/1     Running   2          19d
+calico-system     calico-typha-9cc6b5ffc-7b8gc                                 1/1     Running   3          19d
+calico-system     calico-typha-9cc6b5ffc-dqmh4                                 1/1     Running   2          31m
+kube-system       coredns-66bff467f8-ntd5z                                     1/1     Running   2          73d
+kube-system       coredns-66bff467f8-rzprn                                     1/1     Running   2          73d
+kube-system       etcd-kubernetes-1-18-2-containerd-1-3-3                      1/1     Running   3          73d
+kube-system       kube-apiserver-kubernetes-1-18-2-containerd-1-3-3            1/1     Running   3          73d
+kube-system       kube-controller-manager-kubernetes-1-18-2-containerd-1-3-3   1/1     Running   3          73d
+kube-system       kube-proxy-25jcz                                             1/1     Running   3          73d
+kube-system       kube-proxy-hg8wh                                             1/1     Running   1          31m
+kube-system       kube-scheduler-kubernetes-1-18-2-containerd-1-3-3            1/1     Running   3          73d
+tigera-operator   tigera-operator-6ddb54fbf5-pz878                             1/1     Running   3          19d
 ```
 
 ### versions
 
 ```shell
 root@kubernetes-1-18-2:~# helm version
-<!-- VERIFY -->
+version.BuildInfo{Version:"v3.2.4", GitCommit:"0ad800ef43d3b826f31a5ad8dfbb4fe05d143688", GitTreeState:"clean", GoVersion:"go1.13.12"}
 root@kubernetes-1-18-2:~# kubectl version
-<!-- VERIFY -->
+Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.2", GitCommit:"52c56ce7a8272c798dbc29846288d7cd9fbae032", GitTreeState:"clean", BuildDate:"2020-04-16T11:56:40Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.2", GitCommit:"52c56ce7a8272c798dbc29846288d7cd9fbae032", GitTreeState:"clean", BuildDate:"2020-04-16T11:48:36Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
 root@kubernetes-1-18-2:~# containerd --version
-<!-- VERIFY -->
+containerd github.com/containerd/containerd v1.3.3 d76c121f76a5fc8a462dc64594aea72fe18e1178
 root@kubernetes-1-18-2:~# runc --version
-<!-- VERIFY -->
+runc version 1.0.0-rc10
+spec: 1.0.1-dev
 root@kubernetes-1-18-2:~# cat /etc/os-release
-<!-- VERIFY -->
+NAME="Ubuntu"
+VERSION="20.04.6 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
 root@kubernetes-1-18-2:~# uname -a
-<!-- VERIFY -->
+Linux kubernetes-1-18-2-containerd-1-3-3 5.4.0-216-generic #236-Ubuntu SMP Fri Apr 11 19:53:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
