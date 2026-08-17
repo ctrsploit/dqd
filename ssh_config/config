@@ -1264,6 +1264,9 @@ Host dqd-kubernetes-v1.22.0_containerd-v1.5.2_calico
 Host dqd-docker-v19.03.0
     Port 19300
 
+Host dqd-docker-v19.03.1
+    Port 19301
+
 Host dqd-cve-2019-14271
     Port 14271
 
