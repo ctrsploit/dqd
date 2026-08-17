@@ -126,6 +126,7 @@ ci: env
 check-ssh-ports:
 	$(time_begin)
 	bash script/check_ssh_ports.sh
+	bash script/check_ssh_config_consistency.sh
 	$(time_end)
 
 generate_ssh_config: check-ssh-ports
