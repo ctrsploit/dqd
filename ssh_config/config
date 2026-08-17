@@ -1267,3 +1267,7 @@ Host dqd-docker-v19.03.0
 Host dqd-cve-2019-14271
     Port 14271
 
+Host dqd-ctf-cve-2019-14271
+    Port 25142
+    User ctf
+

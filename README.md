@@ -119,6 +119,7 @@ dqd up runc/v1.3.0 --kvm=false
 | image |
 |-----|
 | [Be-a-Docker-Escaper](./ctf/Be-a-Docker-Escaper/) |
+| [cve-2019-14271](./ctf/cve-2019-14271/) |
 | [your-gpu-my-shell](./ctf/your-gpu-my-shell/) |
 
 ### runc
