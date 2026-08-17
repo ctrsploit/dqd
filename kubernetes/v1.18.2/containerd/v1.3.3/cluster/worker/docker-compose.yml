@@ -1,6 +1,6 @@
 services:
   worker:
-    image: ghcr.io/ctrsploit/kubernetes-v1.18.2-worker:v0.1.1
+    image: ghcr.io/ctrsploit/kubernetes-v1.18.2-worker:v0.1.2
     environment:
       - "QEMU_DUAL_NET=1"
       - "QEMU_SOCKET_CONNECT=master:1234"

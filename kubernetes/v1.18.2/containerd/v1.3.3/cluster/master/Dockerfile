@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1-labs
 ARG VERSION_K8S=1.18.2
 ARG VERSION_CONTAINERD=1.3.3
-ARG VERSION_IMAGE=0.1.0
+# the calico base image is at v0.1.4 (its own bump history); not v0.1.0
+ARG VERSION_IMAGE=0.1.4
 ARG BASE_IMAGE=ghcr.io/ctrsploit/kubernetes-v${VERSION_K8S}_containerd-v${VERSION_CONTAINERD}_calico
 
 FROM ${BASE_IMAGE}:ctr_v${VERSION_IMAGE} AS pre
