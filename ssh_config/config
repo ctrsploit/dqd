@@ -1277,3 +1277,6 @@ Host dqd-ctf-cve-2019-14271
     Port 25142
     User ctf
 
+Host dqd-docker-v29.6.2
+    Port 29620
+
