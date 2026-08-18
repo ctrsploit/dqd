@@ -1280,3 +1280,6 @@ Host dqd-ctf-cve-2019-14271
 Host dqd-docker-v29.6.2
     Port 29620
 
+Host dqd-docker-v29.7.0
+    Port 29621
+
