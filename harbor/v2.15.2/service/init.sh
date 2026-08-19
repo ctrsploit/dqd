@@ -42,13 +42,15 @@ install_harbor() {
   # offline installer ships harbor.yml.tmpl only; install.sh/prepare need harbor.yml
   cp harbor.yml.tmpl harbor.yml
 
-  # official default deployment: only set hostname (install.sh requires a
-  # non-localhost hostname, but 127.0.0.1 satisfies the check and keeps the
-  # env self-contained). All other settings stay at template defaults:
-  # port 80, admin Harbor12345, project_creation_restriction everyone,
+  # official default deployment: set hostname to a non-localhost placeholder.
+  # Harbor's prepare step (Python) rejects 127.0.0.1/localhost as hostname
+  # ("can not be the hostname"), so use harbor.local. This only affects
+  # internal config generation; external access is via the host port mapping
+  # (21521 -> 80). All other settings stay at template defaults: port 80,
+  # admin Harbor12345, project_creation_restriction everyone,
   # no https/proxy/internal_tls.
-  log "configuring harbor.yml (hostname: 127.0.0.1, all else template defaults)..."
-  sed -i 's/^hostname: .*/hostname: 127.0.0.1/' harbor.yml
+  log "configuring harbor.yml (hostname: harbor.local, all else template defaults)..."
+  sed -i 's/^hostname: .*/hostname: harbor.local/' harbor.yml
 
   log "running official install.sh..."
   ./install.sh
