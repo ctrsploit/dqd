@@ -2,9 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.3` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.3 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.3 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.4` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.4 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.4 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.3 | superseded: tar extract failed, /var/lib/docker missing in base |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.2 | superseded: prepare rejected https block with placeholder cert paths |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.1 | superseded: hostname 127.0.0.1 rejected by prepare ("can not be the hostname") |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.0 | superseded: init.sh missing `cp harbor.yml.tmpl harbor.yml`, install.sh failed with status=2/INVALIDARGUMENT |

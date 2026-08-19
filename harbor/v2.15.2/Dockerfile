@@ -36,8 +36,11 @@ RUN --mount=type=cache,id=harbor-v2.15.2-snapshots,target=/var/lib/docker \
     ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # skip overlayfs whiteout files (char dev 0,0): buildkit exec lacks CAP_MKNOD,
 # so tar -xf would fail recreating them.
+# /var/lib/docker does not exist in the base image (dockerd creates it at
+# runtime), so mkdir it before extracting the snapshot.
 RUN --mount=type=cache,id=harbor-v2.15.2-snapshots,target=/trick \
     find /trick -type c -delete && \
+    mkdir -p /var/lib/docker && \
     # use tar to preserve file capabilities
     tar -C /trick -cf - . | tar -C /var/lib/docker/ -xf -
 
