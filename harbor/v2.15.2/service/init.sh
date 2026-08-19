@@ -39,6 +39,9 @@ install_harbor() {
 
   cd ${INSTALL_DIR}
 
+  # offline installer ships harbor.yml.tmpl only; install.sh/prepare need harbor.yml
+  cp harbor.yml.tmpl harbor.yml
+
   # official default deployment: only set hostname (install.sh requires a
   # non-localhost hostname, but 127.0.0.1 satisfies the check and keeps the
   # env self-contained). All other settings stay at template defaults:
