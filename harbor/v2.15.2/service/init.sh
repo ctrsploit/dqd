@@ -42,15 +42,19 @@ install_harbor() {
   # offline installer ships harbor.yml.tmpl only; install.sh/prepare need harbor.yml
   cp harbor.yml.tmpl harbor.yml
 
-  # official default deployment: set hostname to a non-localhost placeholder.
-  # Harbor's prepare step (Python) rejects 127.0.0.1/localhost as hostname
-  # ("can not be the hostname"), so use harbor.local. This only affects
-  # internal config generation; external access is via the host port mapping
-  # (21521 -> 80). All other settings stay at template defaults: port 80,
-  # admin Harbor12345, project_creation_restriction everyone,
-  # no https/proxy/internal_tls.
-  log "configuring harbor.yml (hostname: harbor.local, all else template defaults)..."
+  # official default deployment (http only, no https):
+  # - hostname: harbor.local (prepare rejects 127.0.0.1/localhost)
+  # - comment out the https block: the template ships https with placeholder
+  #   cert paths (/your/certificate/path), which prepare rejects with
+  #   "The protocol is https but attribute ssl_cert is not set". The official
+  #   http-only default is to remove the https block entirely.
+  # All other settings stay at template defaults: port 80, admin Harbor12345,
+  # project_creation_restriction everyone, no proxy/internal_tls.
+  log "configuring harbor.yml (hostname: harbor.local, http only)..."
   sed -i 's/^hostname: .*/hostname: harbor.local/' harbor.yml
+  # remove the https block (template ships placeholder cert paths that
+  # prepare rejects); keep the comment header for readability
+  sed -i '/^https:/,/^[^ #]/{/^https:/d; /^[^ #]/!d}' harbor.yml
 
   log "running official install.sh..."
   ./install.sh
