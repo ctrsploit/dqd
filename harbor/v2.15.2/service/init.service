@@ -1,0 +1,15 @@
+[Unit]
+Description=Install Harbor v2.15.2 (official default deployment)
+After=multi-user.target network.target docker.service
+Requires=network.target docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/init.sh
+User=root
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

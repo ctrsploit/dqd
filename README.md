@@ -427,6 +427,12 @@ dqd up runc/v1.3.0 --kvm=false
 | [ingress-nginx-v1.11.3](./ingress-nginx/v1.11.3/) |
 | [ingress-nginx-v1.11.4](./ingress-nginx/v1.11.4/) |
 
+### harbor
+
+| image |
+|-----|
+| [harbor-v2.15.2](./harbor/v2.15.2/) |
+
 ### docker-compose
 
 | image |
