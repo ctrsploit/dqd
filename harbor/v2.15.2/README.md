@@ -2,13 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.4` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.4 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.4 | base image for `vul/harbor-*` envs |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.3 | superseded: tar extract failed, /var/lib/docker missing in base |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.2 | superseded: prepare rejected https block with placeholder cert paths |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.1 | superseded: hostname 127.0.0.1 rejected by prepare ("can not be the hostname") |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.0 | superseded: init.sh missing `cp harbor.yml.tmpl harbor.yml`, install.sh failed with status=2/INVALIDARGUMENT |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.5` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.5 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.5 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.4 | superseded: added diagnose() + install.sh kmsg logging for CI crash-loop debugging |
 
 Reusable Harbor v2.15.2 runtime environment for `vul/harbor-*` reproduction envs to `FROM`. This image contains **only** a stock Harbor deployment — no vulnerability setup, no attacker accounts, no reproduction scripts. Those belong to the `vul` layer.
 
