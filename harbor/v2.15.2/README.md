@@ -27,7 +27,7 @@ $ docker compose -f docker-compose.yml -f docker-compose.kvm.yml up -d
 $ ./ssh
 ```
 
-Harbor is installed at first boot by a systemd oneshot service (`harbor-init.service`). First `dqd up` takes a few minutes while the installer downloads and starts the 9 Harbor containers; subsequent boots skip the install (the service is idempotent).
+Harbor is installed at **build time** via the overlayfs snapshot trick: the Dockerfile boots systemd under buildkit (`--security=insecure` + `exec /sbin/init`), `init.sh` runs the official `install.sh` (which `docker compose up -d`s 9 containers with `restart: always`), then the resulting `/var/lib/docker` state is snapshotted into the image. At runtime the 9 Harbor containers come up automatically via `restart: always` — no first-boot delay.
 
 ### Access Harbor
 
@@ -72,13 +72,17 @@ make all ENV=harbor/v2.15.2
 ## for developers
 
 ```dockerfile
+# syntax=docker/dockerfile:1-labs
 FROM ghcr.io/ctrsploit/docker-v28.2.2:ctr_v0.1.0
 ...
-COPY service/init.service /usr/lib/systemd/system/
-RUN systemctl enable harbor-init.service
+RUN --mount=type=cache,id=harbor-v2.15.2-snapshots,target=/var/lib/docker \
+    --security=insecure \
+    ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 ```
 
-* Harbor is installed at first boot via a systemd oneshot (`harbor-init.service` → `harbor-init.sh`), not at image build time. The official `install.sh` runs `docker compose up -d`, whose containers are not captured by the build-time overlayfs snapshot trick, so a boot-time install is the correct pattern (same approach as `ctf/cve-2019-14271`'s `setup-challenge.service`).
+* Harbor is installed at **build time** using the same overlayfs snapshot trick as `ingress-nginx` / k8s `init`/`calico`: systemd boots under buildkit, `init.sh` runs the official `install.sh`, and `/var/lib/docker` is snapshotted. This differs from k8s envs which snapshot containerd's `/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs` — Harbor uses dockerd, so we snapshot `/var/lib/docker` instead.
+* All 9 Harbor containers use `restart: always`, so they come up automatically at VM boot with no first-boot install delay.
 * `harbor.yml` is configured with only `hostname: 127.0.0.1`; all other settings are template defaults (port 80, `admin`/`Harbor12345`, `project_creation_restriction: everyone`, no https/proxy/internal_tls).
 * `SIZE=20G` — Harbor's 9 containers plus PostgreSQL/Redis data need more than the default 10G.
+* build logs (systemd + init.sh, written to `/dev/kmsg`) are surfaced to the build log via a backgrounded `cat /dev/kmsg`; use `dmesg -w` only when debugging interactively.
 * ssh root/root 10.0.2.16 to debug.
