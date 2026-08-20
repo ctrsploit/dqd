@@ -33,32 +33,6 @@ wait_docker() {
   log "docker daemon ready"
 }
 
-# harbor-log runs `sudo -u #10000 -E rsyslogd -n` → PAM → unix_chkpwd needs
-# dac_override to read /etc/shadow. On CI runners (Azure ubuntu kernel) the
-# host loads an AppArmor "unix-chkpwd" profile that denies dac_override;
-# combined with overlayfs (path rules can't match container /etc/shadow),
-# sudo fails ("a password is required") and harbor-log crash-loops.
-# We run inside the privileged buildkit exec container (--security=insecure),
-# so we can mount securityfs and set the profile to complain mode (log only,
-# don't deny). No-op when apparmor is absent (e.g. local dev).
-disable_apparmor() {
-  log "disabling AppArmor unix-chkpwd confinement..."
-  mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
-  if [[ ! -d /sys/kernel/security/apparmor ]]; then
-    log "apparmor not active on this host, skipping"
-    return 0
-  fi
-  if grep -q '^unix-chkpwd (enforce)' /sys/kernel/security/apparmor/profiles 2>/dev/null; then
-    if echo unix-chkpwd > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
-      log "set AppArmor unix-chkpwd to complain mode"
-    else
-      log "WARNING: could not set unix-chkpwd to complain mode"
-    fi
-  else
-    log "unix-chkpwd not in enforce mode, skipping"
-  fi
-}
-
 install_harbor() {
   log "downloading harbor offline installer v${HARBOR_VERSION}..."
   mkdir -p ${INSTALL_DIR}
@@ -160,7 +134,6 @@ graceful_exit() {
 }
 
 wait_docker
-disable_apparmor
 install_harbor
 wait_harbor_healthy
 diagnose
