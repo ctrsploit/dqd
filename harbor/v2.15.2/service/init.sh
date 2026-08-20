@@ -11,6 +11,7 @@ log() {
 fail_exit() {
   local exit_code=$?
   log "Harbor init failed with exit code ${exit_code}"
+  diagnose
   sync
   systemctl --force exit "${exit_code}"
 }
@@ -57,7 +58,12 @@ install_harbor() {
   sed -i '/^https:/,/^[^ #]/{/^https:/d; /^[^ #]/!d}' harbor.yml
 
   log "running official install.sh..."
-  ./install.sh > /dev/kmsg 2>&1
+  # Don't redirect install.sh stdout to /dev/kmsg: prepare (Python) writes
+  # to /dev/stdout which breaks with "write /dev/stdout: invalid argument"
+  # when stdout is a char device. systemd captures stdout/stderr to the
+  # journal; the backgrounded cat /dev/kmsg in the Dockerfile surfaces
+  # kmsg to buildkit, and journalctl -u init.service shows the rest.
+  ./install.sh
 }
 
 wait_harbor_healthy() {
@@ -87,6 +93,8 @@ diagnose() {
   done
   log "=== DIAGNOSE: docker compose ps ==="
   cd ${INSTALL_DIR} 2>/dev/null && docker compose ps > /dev/kmsg 2>&1 || true
+  log "=== DIAGNOSE: journalctl init.service (last 80 lines) ==="
+  journalctl -u init.service --no-pager -n 80 > /dev/kmsg 2>&1 || true
   log "=== DIAGNOSE done ==="
 }
 
