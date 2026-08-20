@@ -2,10 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.7` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.7 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.7 | base image for `vul/harbor-*` envs |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.6 | superseded: install.sh succeeded but systemd shutdown deadlocked on restart:always containers |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.8` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.8 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.8 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.7 | superseded: install.sh failed but output was invisible (journal-only, not kmsg); ERR trap never fired so fail_exit/diagnose never ran |
 
 Reusable Harbor v2.15.2 runtime environment for `vul/harbor-*` reproduction envs to `FROM`. This image contains **only** a stock Harbor deployment — no vulnerability setup, no attacker accounts, no reproduction scripts. Those belong to the `vul` layer.
 
@@ -83,7 +83,7 @@ RUN --mount=type=cache,id=harbor-v2.15.2-snapshots,target=/var/lib/docker \
 
 * Harbor is installed at **build time** using the same overlayfs snapshot trick as `ingress-nginx` / k8s `init`/`calico`: systemd boots under buildkit, `init.sh` runs the official `install.sh`, and `/var/lib/docker` is snapshotted. This differs from k8s envs which snapshot containerd's `/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs` — Harbor uses dockerd, so we snapshot `/var/lib/docker` instead.
 * All 9 Harbor containers use `restart: always`, so they come up automatically at VM boot with no first-boot install delay.
-* `harbor.yml` is configured with only `hostname: 127.0.0.1`; all other settings are template defaults (port 80, `admin`/`Harbor12345`, `project_creation_restriction: everyone`, no https/proxy/internal_tls).
+* `harbor.yml` is configured with only `hostname: harbor.local`; all other settings are template defaults (port 80, `admin`/`Harbor12345`, `project_creation_restriction: everyone`, no https/proxy/internal_tls).
 * `SIZE=20G` — Harbor's 9 containers plus PostgreSQL/Redis data need more than the default 10G.
 * build logs (systemd + init.sh, written to `/dev/kmsg`) are surfaced to the build log via a backgrounded `cat /dev/kmsg`; use `dmesg -w` only when debugging interactively.
 * ssh root/root 10.0.2.16 to debug.

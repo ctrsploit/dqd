@@ -12,6 +12,10 @@ fail_exit() {
   local exit_code=$?
   log "Harbor init failed with exit code ${exit_code}"
   diagnose
+  # Stop restart:always containers before systemctl exit, same as
+  # graceful_exit — otherwise dockerd races with the stop policy and
+  # deadlocks systemd shutdown, hanging the build until CI timeout.
+  docker stop $(docker ps -q) 2>/dev/null || true
   sync
   systemctl --force exit "${exit_code}"
 }
@@ -58,12 +62,21 @@ install_harbor() {
   sed -i '/^https:/,/^[^ #]/{/^https:/d; /^[^ #]/!d}' harbor.yml
 
   log "running official install.sh..."
-  # Don't redirect install.sh stdout to /dev/kmsg: prepare (Python) writes
-  # to /dev/stdout which breaks with "write /dev/stdout: invalid argument"
-  # when stdout is a char device. systemd captures stdout/stderr to the
-  # journal; the backgrounded cat /dev/kmsg in the Dockerfile surfaces
-  # kmsg to buildkit, and journalctl -u init.service shows the rest.
-  ./install.sh
+  # Surface install.sh stdout/stderr to CI by teeing to /dev/kmsg.
+  # We use a pipe (not a direct > /dev/kmsg redirect) so prepare's Python
+  # /dev/stdout sees a FIFO, not the /dev/kmsg char device — direct redirect
+  # causes "write /dev/stdout: invalid argument" inside prepare.
+  # Disable set -e around the pipeline so we can capture PIPESTATUS and log
+  # the real exit code instead of having bash exit silently (the ERR trap
+  # proved unreliable in this systemd-in-buildkit context).
+  set +e
+  ./install.sh 2>&1 | tee /dev/kmsg
+  local rc=${PIPESTATUS[0]}
+  set -e
+  if [ "${rc}" -ne 0 ]; then
+    log "install.sh failed with exit code ${rc}"
+    return "${rc}"
+  fi
 }
 
 wait_harbor_healthy() {
