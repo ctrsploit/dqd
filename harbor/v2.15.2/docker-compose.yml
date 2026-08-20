@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.7
+    image: ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.8
     ports:
         - "21520:22"
         - "21521:80"
