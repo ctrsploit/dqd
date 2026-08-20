@@ -2,10 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.8` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.8 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.8 | base image for `vul/harbor-*` envs |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.7 | superseded: install.sh failed but output was invisible (journal-only, not kmsg); ERR trap never fired so fail_exit/diagnose never ran |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.9` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.9 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.9 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.8 | superseded: harbor-log crash-looped (host AppArmor denied unix_chkpwd dac_override); added apparmor=unconfined override |
 
 Reusable Harbor v2.15.2 runtime environment for `vul/harbor-*` reproduction envs to `FROM`. This image contains **only** a stock Harbor deployment — no vulnerability setup, no attacker accounts, no reproduction scripts. Those belong to the `vul` layer.
 
