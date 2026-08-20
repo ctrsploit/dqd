@@ -57,19 +57,37 @@ install_harbor() {
   sed -i '/^https:/,/^[^ #]/{/^https:/d; /^[^ #]/!d}' harbor.yml
 
   log "running official install.sh..."
-  ./install.sh
+  ./install.sh > /dev/kmsg 2>&1
 }
 
 wait_harbor_healthy() {
   log "waiting for Harbor to become healthy..."
+  local healthy=false
   for i in $(seq 1 120); do
     status=$(curl -fsSL -o /dev/null -w "%{http_code}" http://127.0.0.1/api/v2.0/health 2>/dev/null || echo "000")
     if [ "${status}" = "200" ]; then
       log "Harbor health endpoint returned 200"
+      healthy=true
       break
     fi
     sleep 2
   done
+  if [ "${healthy}" = false ]; then
+    log "WARNING: Harbor did not become healthy within 240s"
+  fi
+}
+
+diagnose() {
+  log "=== DIAGNOSE: docker ps -a ==="
+  docker ps -a --format '{{.Names}}\t{{.Status}}\t{{.Image}}' > /dev/kmsg 2>&1
+  log "=== DIAGNOSE: container logs (last 10 lines each) ==="
+  for c in $(docker ps -a --format '{{.Names}}' 2>/dev/null); do
+    echo "--- ${c} ---" > /dev/kmsg 2>&1
+    docker logs --tail 10 "${c}" > /dev/kmsg 2>&1
+  done
+  log "=== DIAGNOSE: docker compose ps ==="
+  cd ${INSTALL_DIR} 2>/dev/null && docker compose ps > /dev/kmsg 2>&1 || true
+  log "=== DIAGNOSE done ==="
 }
 
 cleanup() {
@@ -91,6 +109,7 @@ graceful_exit() {
 wait_docker
 install_harbor
 wait_harbor_healthy
+diagnose
 cleanup
 sync_data
 graceful_exit
