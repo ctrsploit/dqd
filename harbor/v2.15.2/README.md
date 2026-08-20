@@ -2,10 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.6` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.6 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.6 | base image for `vul/harbor-*` envs |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.5 | superseded: install.sh > /dev/kmsg broke prepare ("write /dev/stdout: invalid argument") |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.7` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.7 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.7 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.6 | superseded: install.sh succeeded but systemd shutdown deadlocked on restart:always containers |
 
 Reusable Harbor v2.15.2 runtime environment for `vul/harbor-*` reproduction envs to `FROM`. This image contains **only** a stock Harbor deployment — no vulnerability setup, no attacker accounts, no reproduction scripts. Those belong to the `vul` layer.
 
