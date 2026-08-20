@@ -61,6 +61,51 @@ install_harbor() {
   # prepare rejects); keep the comment header for readability
   sed -i '/^https:/,/^[^ #]/{/^https:/d; /^[^ #]/!d}' harbor.yml
 
+  # Harbor containers (esp. harbor-log) run sudo + PAM (unix_chkpwd) which
+  # needs dac_override. On CI runners the host kernel loads an AppArmor
+  # "unix-chkpwd" profile that denies dac_override, causing harbor-log to
+  # crash-loop ("a password is required"), which makes `docker compose up -d`
+  # return 1 and install.sh fail. docker compose v2 auto-merges
+  # docker-compose.override.yml, so we drop one here to run all services
+  # with apparmor=unconfined, bypassing the host-level profile.
+  log "creating docker-compose.override.yml (apparmor=unconfined)..."
+  cat > docker-compose.override.yml <<'OVERRIDE'
+services:
+  log:
+    security_opt:
+      - apparmor=unconfined
+  registry:
+    security_opt:
+      - apparmor=unconfined
+  registryctl:
+    security_opt:
+      - apparmor=unconfined
+  postgresql:
+    security_opt:
+      - apparmor=unconfined
+  core:
+    security_opt:
+      - apparmor=unconfined
+  portal:
+    security_opt:
+      - apparmor=unconfined
+  jobservice:
+    security_opt:
+      - apparmor=unconfined
+  redis:
+    security_opt:
+      - apparmor=unconfined
+  proxy:
+    security_opt:
+      - apparmor=unconfined
+  trivy-adapter:
+    security_opt:
+      - apparmor=unconfined
+  exporter:
+    security_opt:
+      - apparmor=unconfined
+OVERRIDE
+
   log "running official install.sh..."
   # Surface install.sh stdout/stderr to CI by teeing to /dev/kmsg.
   # We use a pipe (not a direct > /dev/kmsg redirect) so prepare's Python
