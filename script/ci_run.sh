@@ -8,6 +8,26 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
 source "${SCRIPT_DIR}/ci_nested_lib.sh"
 
+# GitHub Actions ubuntu runners ship a host-level AppArmor "unix-chkpwd"
+# profile (enforce) that denies CAP_DAC_OVERRIDE to unix_chkpwd — the PAM
+# helper sudo invokes to read /etc/shadow. Builds that start nested
+# containers running `sudo -u <uid>` + PAM (e.g. Harbor's harbor-log) then
+# fail: unix_chkpwd is denied dac_override → sudo fails ("a password is
+# required") → the container crash-loops → the build fails. This is invisible
+# locally (no unix-chkpwd profile) and can't be fixed from inside the
+# buildkit exec container, whose AppArmor namespace can't see the host
+# profile. Neutralize it on the runner (root, before any make) instead.
+# No-op when AppArmor or the unix-chkpwd profile is absent.
+disable_unix_chkpwd_apparmor() {
+    [[ -d /sys/kernel/security/apparmor ]] || return 0
+    grep -q '^unix-chkpwd (enforce)' /sys/kernel/security/apparmor/profiles 2>/dev/null || return 0
+    if echo unix-chkpwd > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
+        echo "[ci] set AppArmor unix-chkpwd to complain mode"
+    else
+        echo "[ci] WARNING: could not set unix-chkpwd to complain mode" >&2
+    fi
+}
+
 run_direct_ci() {
     # Cluster envs (kubernetes master+worker) need a coordinated dual build in
     # one job: the master ctr build hangs until the worker joins it. Detect them
@@ -64,5 +84,6 @@ run_nested_ci() {
 
 require_env_file
 prepare_ssh_key
+disable_unix_chkpwd_apparmor
 trap stop_ci_dqd_env EXIT
 run_nested_ci

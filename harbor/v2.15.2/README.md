@@ -2,9 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.9` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.9 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.9 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.10` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.10 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.10 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.9 | superseded: in-buildkit AppArmor complain-mode fix failed (buildkit exec has its own AppArmor ns, can't see host unix-chkpwd profile); moved the neutralization to the CI runner root in script/ci_run.sh |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.8 | superseded: harbor-log crash-looped (host AppArmor denied unix_chkpwd dac_override); added apparmor=unconfined override |
 
 Reusable Harbor v2.15.2 runtime environment for `vul/harbor-*` reproduction envs to `FROM`. This image contains **only** a stock Harbor deployment — no vulnerability setup, no attacker accounts, no reproduction scripts. Those belong to the `vul` layer.
