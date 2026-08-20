@@ -110,6 +110,12 @@ sync_data() {
 }
 
 graceful_exit() {
+  log "stopping all docker containers (prevent restart: always from blocking systemd shutdown)..."
+  # Harbor containers use restart: always. When systemctl exit 0 stops
+  # docker.service, dockerd tries to stop containers but restart: always
+  # races with the stop, deadlocking systemd shutdown. Stop them first.
+  docker stop $(docker ps -q) 2>/dev/null || true
+  log "containers stopped"
   log "gracefully exiting systemd"
   systemctl exit 0
 }
