@@ -33,6 +33,32 @@ wait_docker() {
   log "docker daemon ready"
 }
 
+# harbor-log runs `sudo -u #10000 -E rsyslogd -n` → PAM → unix_chkpwd needs
+# dac_override to read /etc/shadow. On CI runners (Azure ubuntu kernel) the
+# host loads an AppArmor "unix-chkpwd" profile that denies dac_override;
+# combined with overlayfs (path rules can't match container /etc/shadow),
+# sudo fails ("a password is required") and harbor-log crash-loops.
+# We run inside the privileged buildkit exec container (--security=insecure),
+# so we can mount securityfs and set the profile to complain mode (log only,
+# don't deny). No-op when apparmor is absent (e.g. local dev).
+disable_apparmor() {
+  log "disabling AppArmor unix-chkpwd confinement..."
+  mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
+  if [[ ! -d /sys/kernel/security/apparmor ]]; then
+    log "apparmor not active on this host, skipping"
+    return 0
+  fi
+  if grep -q '^unix-chkpwd (enforce)' /sys/kernel/security/apparmor/profiles 2>/dev/null; then
+    if echo unix-chkpwd > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
+      log "set AppArmor unix-chkpwd to complain mode"
+    else
+      log "WARNING: could not set unix-chkpwd to complain mode"
+    fi
+  else
+    log "unix-chkpwd not in enforce mode, skipping"
+  fi
+}
+
 install_harbor() {
   log "downloading harbor offline installer v${HARBOR_VERSION}..."
   mkdir -p ${INSTALL_DIR}
@@ -60,51 +86,6 @@ install_harbor() {
   # remove the https block (template ships placeholder cert paths that
   # prepare rejects); keep the comment header for readability
   sed -i '/^https:/,/^[^ #]/{/^https:/d; /^[^ #]/!d}' harbor.yml
-
-  # Harbor containers (esp. harbor-log) run sudo + PAM (unix_chkpwd) which
-  # needs dac_override. On CI runners the host kernel loads an AppArmor
-  # "unix-chkpwd" profile that denies dac_override, causing harbor-log to
-  # crash-loop ("a password is required"), which makes `docker compose up -d`
-  # return 1 and install.sh fail. docker compose v2 auto-merges
-  # docker-compose.override.yml, so we drop one here to run all services
-  # with apparmor=unconfined, bypassing the host-level profile.
-  log "creating docker-compose.override.yml (apparmor=unconfined)..."
-  cat > docker-compose.override.yml <<'OVERRIDE'
-services:
-  log:
-    security_opt:
-      - apparmor=unconfined
-  registry:
-    security_opt:
-      - apparmor=unconfined
-  registryctl:
-    security_opt:
-      - apparmor=unconfined
-  postgresql:
-    security_opt:
-      - apparmor=unconfined
-  core:
-    security_opt:
-      - apparmor=unconfined
-  portal:
-    security_opt:
-      - apparmor=unconfined
-  jobservice:
-    security_opt:
-      - apparmor=unconfined
-  redis:
-    security_opt:
-      - apparmor=unconfined
-  proxy:
-    security_opt:
-      - apparmor=unconfined
-  trivy-adapter:
-    security_opt:
-      - apparmor=unconfined
-  exporter:
-    security_opt:
-      - apparmor=unconfined
-OVERRIDE
 
   log "running official install.sh..."
   # Surface install.sh stdout/stderr to CI by teeing to /dev/kmsg.
@@ -179,6 +160,7 @@ graceful_exit() {
 }
 
 wait_docker
+disable_apparmor
 install_harbor
 wait_harbor_healthy
 diagnose
