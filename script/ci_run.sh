@@ -19,13 +19,56 @@ source "${SCRIPT_DIR}/ci_nested_lib.sh"
 # profile. Neutralize it on the runner (root, before any make) instead.
 # No-op when AppArmor or the unix-chkpwd profile is absent.
 disable_unix_chkpwd_apparmor() {
-    [[ -d /sys/kernel/security/apparmor ]] || return 0
-    grep -q '^unix-chkpwd (enforce)' /sys/kernel/security/apparmor/profiles 2>/dev/null || return 0
-    if echo unix-chkpwd > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
-        echo "[ci] set AppArmor unix-chkpwd to complain mode"
-    else
-        echo "[ci] WARNING: could not set unix-chkpwd to complain mode" >&2
+    echo "[ci] === AppArmor unix-chkpwd neutralize (debug) ==="
+    # securityfs is usually mounted on ubuntu runners, but mount if not.
+    mountpoint -q /sys/kernel/security 2>/dev/null || \
+        mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
+
+    if [[ ! -d /sys/kernel/security/apparmor ]]; then
+        echo "[ci] apparmor not active on this runner, skipping"
+        return 0
     fi
+
+    echo "[ci] --- profiles matching unix-chkpwd ---"
+    grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
+        echo "[ci] (no unix-chkpwd entry in profiles file)"
+
+    # The profile name as it appears in the profiles file. ubuntu runners
+    # load it as "unix-chkpwd". Try that, then fall back to stripping a
+    # leading slash if present.
+    local profile="unix-chkpwd"
+    if ! grep -q "^${profile} " /sys/kernel/security/apparmor/profiles 2>/dev/null; then
+        if grep -q "/usr/sbin/unix_chkpwd " /sys/kernel/security/apparmor/profiles 2>/dev/null; then
+            profile="/usr/sbin/unix_chkpwd"
+        fi
+    fi
+    echo "[ci] target profile: ${profile}"
+
+    # Try complain mode first (logs only, doesn't deny).
+    if echo "${profile}" > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
+        echo "[ci] set ${profile} to complain mode"
+    else
+        echo "[ci] complain write failed, trying profile remove (apparmor_parser -R)"
+        if command -v apparmor_parser >/dev/null 2>&1; then
+            # Find the on-disk policy file for the profile and remove it.
+            local policy
+            policy="$(grep -rl "${profile}" /etc/apparmor.d/ 2>/dev/null | head -n1 || true)"
+            if [[ -n "${policy}" ]]; then
+                echo "[ci] removing policy file ${policy}"
+                apparmor_parser -R "${policy}" 2>&1 || \
+                    echo "[ci] WARNING: apparmor_parser -R failed"
+            else
+                echo "[ci] WARNING: no policy file found for ${profile}"
+            fi
+        else
+            echo "[ci] WARNING: no apparmor_parser, cannot remove profile"
+        fi
+    fi
+
+    echo "[ci] --- profiles after neutralize ---"
+    grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
+        echo "[ci] (no unix-chkpwd entry in profiles file)"
+    echo "[ci] === AppArmor neutralize done ==="
 }
 
 run_direct_ci() {
