@@ -8,28 +8,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
 source "${SCRIPT_DIR}/ci_nested_lib.sh"
 
-# GitHub Actions ubuntu runners ship a host-level AppArmor "unix-chkpwd"
-# profile (enforce) that denies CAP_DAC_OVERRIDE to unix_chkpwd. The runner
-# user (even with sudo) cannot modify AppArmor policy — the runner's AppArmor
-# is kernel-locked-down. The fix is build-time-only, applied inside the
-# buildkit exec container (which runs --security=insecure, i.e. privileged
-# with all capabilities and unconfined AppArmor): init.sh's disable_apparmor()
-# writes to /sys/kernel/security/apparmor/.disable or .complain. This affects
-# only the build kernel (the GHA runner), not the final VM image. This
-# function is a diagnostic no-op for observability.
-disable_unix_chkpwd_apparmor() {
-    echo "[ci] === AppArmor unix-chkpwd check ==="
-    if [[ ! -d /sys/kernel/security/apparmor ]]; then
-        echo "[ci] apparmor not active on this runner"
-        return 0
-    fi
-    echo "[ci] unix-chkpwd profile state:"
-    sudo grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
-        echo "[ci] (no unix-chkpwd entry visible)"
-    echo "[ci] note: fix is in init.sh (disable_apparmor, build-time only)"
-    echo "[ci] === AppArmor check done ==="
-}
-
 run_direct_ci() {
     # Cluster envs (kubernetes master+worker) need a coordinated dual build in
     # one job: the master ctr build hangs until the worker joins it. Detect them
@@ -86,6 +64,5 @@ run_nested_ci() {
 
 require_env_file
 prepare_ssh_key
-disable_unix_chkpwd_apparmor
 trap stop_ci_dqd_env EXIT
 run_nested_ci
