@@ -2,9 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.14` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.14 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.14 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.15` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.15 | official default Harbor v2.15.2 deployment; built locally (GHA runner AppArmor unix-chkpwd lockdown blocks CI build, see v0.1.8–v0.1.14 history) |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.15 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.14 | superseded: build-time disable_apparmor in init.sh also failed (buildkit exec has own AppArmor+mount ns, can't reach host securityfs; nsenter needs CAP_SYS_ADMIN which buildkit doesn't grant) |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.13 | superseded: runner AppArmor is fully locked down (sudo .complain write → Permission denied, apparmor_parser not available); pivoted to build-time-only disable_apparmor() in init.sh using buildkit exec's privileged context |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.12 | superseded: sudo .complain write still failed silently (2>/dev/null hid the real error); install apparmor-utils for aa-complain, show errors, and add aa-complain as method 1 |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.11 | superseded: runner runs as user "runner" not root, so .complain write and apparmor_parser -R both got "Access denied / not policy admin"; prefix neutralize with sudo (passwordless on GHA) |
