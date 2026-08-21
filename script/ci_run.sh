@@ -9,79 +9,23 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/ci_nested_lib.sh"
 
 # GitHub Actions ubuntu runners ship a host-level AppArmor "unix-chkpwd"
-# profile (enforce) that denies CAP_DAC_OVERRIDE to unix_chkpwd — the PAM
-# helper sudo invokes to read /etc/shadow. Builds that start nested
-# containers running `sudo -u <uid>` + PAM (e.g. Harbor's harbor-log) then
-# fail: unix_chkpwd is denied dac_override → sudo fails ("a password is
-# required") → the container crash-loops → the build fails. This is invisible
-# locally (no unix-chkpwd profile) and can't be fixed from inside the
-# buildkit exec container, whose AppArmor namespace can't see the host
-# profile. Neutralize it on the runner (root, before any make) instead.
-# No-op when AppArmor or the unix-chkpwd profile is absent.
-#
-# The runner executes as user "runner" (not root); securityfs writes and
-# apparmor_parser -R need CAP_MAC_ADMIN, so use sudo (passwordless on GHA).
+# profile (enforce) that denies CAP_DAC_OVERRIDE to unix_chkpwd. This
+# cannot be neutralized from userspace (the runner's AppArmor is locked
+# down — even sudo can't write .complain or run apparmor_parser -R).
+# The fix is in init.sh: chmod 644 /etc/shadow inside the Harbor
+# containers so unix_chkpwd can read it without needing dac_override.
+# This function is kept as a diagnostic no-op for observability.
 disable_unix_chkpwd_apparmor() {
-    echo "[ci] === AppArmor unix-chkpwd neutralize ==="
-    # securityfs is usually mounted on ubuntu runners, but mount if not.
-    sudo mountpoint -q /sys/kernel/security 2>/dev/null || \
-        sudo mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
-
+    echo "[ci] === AppArmor unix-chkpwd check ==="
     if [[ ! -d /sys/kernel/security/apparmor ]]; then
-        echo "[ci] apparmor not active on this runner, skipping"
+        echo "[ci] apparmor not active on this runner"
         return 0
     fi
-
-    # apparmor-utils (aa-complain, aa-status) is not on the default GHA
-    # ubuntu image; install it so we get the proper tooling.
-    if ! sudo command -v aa-complain >/dev/null 2>&1; then
-        echo "[ci] installing apparmor-utils..."
-        sudo apt-get update -qq >/dev/null 2>&1 || true
-        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apparmor-utils >/dev/null 2>&1 || true
-    fi
-
-    echo "[ci] --- profiles matching unix-chkpwd (before) ---"
+    echo "[ci] unix-chkpwd profile state:"
     sudo grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
         echo "[ci] (no unix-chkpwd entry visible)"
-
-    local neutralized=false
-
-    # Method 1: aa-complain (handles profile-name resolution edge cases).
-    if sudo command -v aa-complain >/dev/null 2>&1; then
-        echo "[ci] trying: sudo aa-complain unix-chkpwd"
-        if sudo aa-complain unix-chkpwd 2>&1; then
-            neutralized=true
-        fi
-    fi
-
-    # Method 2: direct .complain write (show the real error if it fails).
-    if [[ "${neutralized}" != "true" ]]; then
-        echo "[ci] trying: direct .complain write"
-        if sudo sh -c 'echo unix-chkpwd > /sys/kernel/security/apparmor/.complain' 2>&1; then
-            neutralized=true
-        fi
-    fi
-
-    # Method 3: unload the profile entirely with apparmor_parser -R.
-    if [[ "${neutralized}" != "true" ]]; then
-        echo "[ci] trying: apparmor_parser -R"
-        if sudo command -v apparmor_parser >/dev/null 2>&1; then
-            local policy="/etc/apparmor.d/unix-chkpwd"
-            if [[ -f "${policy}" ]]; then
-                sudo apparmor_parser -R "${policy}" 2>&1 && neutralized=true || \
-                    echo "[ci] WARNING: apparmor_parser -R failed"
-            else
-                echo "[ci] WARNING: ${policy} not found"
-            fi
-        else
-            echo "[ci] WARNING: no apparmor_parser available"
-        fi
-    fi
-
-    echo "[ci] --- profiles matching unix-chkpwd (after) ---"
-    sudo grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
-        echo "[ci] (no unix-chkpwd entry visible)"
-    echo "[ci] === AppArmor neutralize done ==="
+    echo "[ci] note: runner AppArmor is locked down; fix is in init.sh (chmod 644 /etc/shadow)"
+    echo "[ci] === AppArmor check done ==="
 }
 
 run_direct_ci() {

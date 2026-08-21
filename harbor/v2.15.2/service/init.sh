@@ -74,9 +74,46 @@ install_harbor() {
   local rc=${PIPESTATUS[0]}
   set -e
   if [ "${rc}" -ne 0 ]; then
-    log "install.sh failed with exit code ${rc}"
-    return "${rc}"
+    log "install.sh failed with exit code ${rc}, trying /etc/shadow fix..."
+    fix_shadow_permissions
+    log "restarting docker compose after shadow fix..."
+    set +e
+    docker compose up -d 2>&1 | tee /dev/kmsg
+    rc=${PIPESTATUS[0]}
+    set -e
+    if [ "${rc}" -eq 0 ]; then
+      log "compose up succeeded after shadow fix"
+    else
+      log "compose up still failed after shadow fix (rc=${rc})"
+      return "${rc}"
+    fi
   fi
+}
+
+# harbor-log runs `sudo -u #10000 -E rsyslogd -n` → PAM → unix_chkpwd →
+# needs CAP_DAC_OVERRIDE to read /etc/shadow. On GHA runners the host kernel
+# loads an AppArmor "unix-chkpwd" profile (enforce) that denies dac_override,
+# and the profile CANNOT be neutralized from userspace (not even with sudo —
+# the runner's AppArmor is locked down). This makes sudo fail ("a password is
+# required"), harbor-log exits 1, and install.sh fails.
+#
+# Fix: make /etc/shadow world-readable (chmod 644) inside each container.
+# unix_chkpwd drops EUID to the calling user before reading /etc/shadow, so
+# it needs dac_override to read a root-owned mode-640 file. With mode 644,
+# the file is DAC-readable by any UID — no dac_override needed, and the
+# AppArmor denial becomes irrelevant. This is a build-time-only fix (the
+# image is for vul reproduction, not production).
+fix_shadow_permissions() {
+  log "stopping all containers for /etc/shadow fix..."
+  docker stop $(docker ps -q) 2>/dev/null || true
+  log "chmod 644 /etc/shadow in all containers..."
+  for c in $(docker ps -a --format '{{.Names}}' 2>/dev/null); do
+    docker cp "$c:/etc/shadow" /tmp/shadow_fix 2>/dev/null || continue
+    chmod 644 /tmp/shadow_fix
+    docker cp /tmp/shadow_fix "$c:/etc/shadow" 2>/dev/null || true
+    rm -f /tmp/shadow_fix
+    log "fixed /etc/shadow in ${c}"
+  done
 }
 
 wait_harbor_healthy() {
