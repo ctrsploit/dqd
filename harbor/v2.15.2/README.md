@@ -2,9 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.11` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.11 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.11 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.12` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.12 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.12 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.11 | superseded: runner runs as user "runner" not root, so .complain write and apparmor_parser -R both got "Access denied / not policy admin"; prefix neutralize with sudo (passwordless on GHA) |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.10 | superseded: runner-level AppArmor complain write didn't stop the DENIED (profile likely in a nested/loaded form the .complain write missed); added apparmor_parser -R fallback + diagnostic logging in script/ci_run.sh |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.9 | superseded: in-buildkit AppArmor complain-mode fix failed (buildkit exec has its own AppArmor ns, can't see host unix-chkpwd profile); moved the neutralization to the CI runner root in script/ci_run.sh |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.8 | superseded: harbor-log crash-looped (host AppArmor denied unix_chkpwd dac_override); added apparmor=unconfined override |

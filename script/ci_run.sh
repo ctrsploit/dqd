@@ -18,56 +18,46 @@ source "${SCRIPT_DIR}/ci_nested_lib.sh"
 # buildkit exec container, whose AppArmor namespace can't see the host
 # profile. Neutralize it on the runner (root, before any make) instead.
 # No-op when AppArmor or the unix-chkpwd profile is absent.
+#
+# The runner executes as user "runner" (not root); securityfs writes and
+# apparmor_parser -R need CAP_MAC_ADMIN, so use sudo (passwordless on GHA).
 disable_unix_chkpwd_apparmor() {
-    echo "[ci] === AppArmor unix-chkpwd neutralize (debug) ==="
+    echo "[ci] === AppArmor unix-chkpwd neutralize ==="
     # securityfs is usually mounted on ubuntu runners, but mount if not.
-    mountpoint -q /sys/kernel/security 2>/dev/null || \
-        mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
+    sudo mountpoint -q /sys/kernel/security 2>/dev/null || \
+        sudo mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
 
     if [[ ! -d /sys/kernel/security/apparmor ]]; then
         echo "[ci] apparmor not active on this runner, skipping"
         return 0
     fi
 
-    echo "[ci] --- profiles matching unix-chkpwd ---"
-    grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
-        echo "[ci] (no unix-chkpwd entry in profiles file)"
+    echo "[ci] --- profiles matching unix-chkpwd (before) ---"
+    sudo grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
+        echo "[ci] (no unix-chkpwd entry visible)"
 
-    # The profile name as it appears in the profiles file. ubuntu runners
-    # load it as "unix-chkpwd". Try that, then fall back to stripping a
-    # leading slash if present.
-    local profile="unix-chkpwd"
-    if ! grep -q "^${profile} " /sys/kernel/security/apparmor/profiles 2>/dev/null; then
-        if grep -q "/usr/sbin/unix_chkpwd " /sys/kernel/security/apparmor/profiles 2>/dev/null; then
-            profile="/usr/sbin/unix_chkpwd"
-        fi
-    fi
-    echo "[ci] target profile: ${profile}"
-
-    # Try complain mode first (logs only, doesn't deny).
-    if echo "${profile}" > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
-        echo "[ci] set ${profile} to complain mode"
+    # Try complain mode first (logs only, doesn't deny). Needs root.
+    if sudo sh -c 'echo unix-chkpwd > /sys/kernel/security/apparmor/.complain' 2>/dev/null; then
+        echo "[ci] set unix-chkpwd to complain mode"
     else
-        echo "[ci] complain write failed, trying profile remove (apparmor_parser -R)"
-        if command -v apparmor_parser >/dev/null 2>&1; then
-            # Find the on-disk policy file for the profile and remove it.
-            local policy
-            policy="$(grep -rl "${profile}" /etc/apparmor.d/ 2>/dev/null | head -n1 || true)"
-            if [[ -n "${policy}" ]]; then
-                echo "[ci] removing policy file ${policy}"
-                apparmor_parser -R "${policy}" 2>&1 || \
+        echo "[ci] complain write failed, trying apparmor_parser -R"
+        if sudo command -v apparmor_parser >/dev/null 2>&1; then
+            local policy="/etc/apparmor.d/unix-chkpwd"
+            if [[ -f "${policy}" ]]; then
+                echo "[ci] removing policy ${policy}"
+                sudo apparmor_parser -R "${policy}" 2>&1 || \
                     echo "[ci] WARNING: apparmor_parser -R failed"
             else
-                echo "[ci] WARNING: no policy file found for ${profile}"
+                echo "[ci] WARNING: ${policy} not found"
             fi
         else
-            echo "[ci] WARNING: no apparmor_parser, cannot remove profile"
+            echo "[ci] WARNING: no apparmor_parser available"
         fi
     fi
 
-    echo "[ci] --- profiles after neutralize ---"
-    grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
-        echo "[ci] (no unix-chkpwd entry in profiles file)"
+    echo "[ci] --- profiles matching unix-chkpwd (after) ---"
+    sudo grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
+        echo "[ci] (no unix-chkpwd entry visible)"
     echo "[ci] === AppArmor neutralize done ==="
 }
 
