@@ -32,20 +32,43 @@ disable_unix_chkpwd_apparmor() {
         return 0
     fi
 
+    # apparmor-utils (aa-complain, aa-status) is not on the default GHA
+    # ubuntu image; install it so we get the proper tooling.
+    if ! sudo command -v aa-complain >/dev/null 2>&1; then
+        echo "[ci] installing apparmor-utils..."
+        sudo apt-get update -qq >/dev/null 2>&1 || true
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apparmor-utils >/dev/null 2>&1 || true
+    fi
+
     echo "[ci] --- profiles matching unix-chkpwd (before) ---"
     sudo grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
         echo "[ci] (no unix-chkpwd entry visible)"
 
-    # Try complain mode first (logs only, doesn't deny). Needs root.
-    if sudo sh -c 'echo unix-chkpwd > /sys/kernel/security/apparmor/.complain' 2>/dev/null; then
-        echo "[ci] set unix-chkpwd to complain mode"
-    else
-        echo "[ci] complain write failed, trying apparmor_parser -R"
+    local neutralized=false
+
+    # Method 1: aa-complain (handles profile-name resolution edge cases).
+    if sudo command -v aa-complain >/dev/null 2>&1; then
+        echo "[ci] trying: sudo aa-complain unix-chkpwd"
+        if sudo aa-complain unix-chkpwd 2>&1; then
+            neutralized=true
+        fi
+    fi
+
+    # Method 2: direct .complain write (show the real error if it fails).
+    if [[ "${neutralized}" != "true" ]]; then
+        echo "[ci] trying: direct .complain write"
+        if sudo sh -c 'echo unix-chkpwd > /sys/kernel/security/apparmor/.complain' 2>&1; then
+            neutralized=true
+        fi
+    fi
+
+    # Method 3: unload the profile entirely with apparmor_parser -R.
+    if [[ "${neutralized}" != "true" ]]; then
+        echo "[ci] trying: apparmor_parser -R"
         if sudo command -v apparmor_parser >/dev/null 2>&1; then
             local policy="/etc/apparmor.d/unix-chkpwd"
             if [[ -f "${policy}" ]]; then
-                echo "[ci] removing policy ${policy}"
-                sudo apparmor_parser -R "${policy}" 2>&1 || \
+                sudo apparmor_parser -R "${policy}" 2>&1 && neutralized=true || \
                     echo "[ci] WARNING: apparmor_parser -R failed"
             else
                 echo "[ci] WARNING: ${policy} not found"
