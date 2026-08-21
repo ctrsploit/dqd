@@ -9,25 +9,55 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/ci_nested_lib.sh"
 
 # GitHub Actions ubuntu runners ship a host-level AppArmor "unix-chkpwd"
-# profile (enforce) that denies CAP_DAC_OVERRIDE to unix_chkpwd. The runner
-# user (even with sudo) cannot modify AppArmor policy — the runner's AppArmor
-# is kernel-locked-down. The fix is build-time-only, applied inside the
-# buildkit exec container (which runs --security=insecure, i.e. privileged
-# with all capabilities and unconfined AppArmor): init.sh's disable_apparmor()
-# writes to /sys/kernel/security/apparmor/.disable or .complain. This affects
-# only the build kernel (the GHA runner), not the final VM image. This
-# function is a diagnostic no-op for observability.
+# profile (enforce) that denies CAP_DAC_OVERRIDE to unix_chkpwd — the PAM
+# helper sudo invokes to read /etc/shadow. harbor-log runs
+# `sudo -u #10000 -E rsyslogd -n` → PAM → unix_chkpwd → denied → sudo fails
+# → harbor-log crash-loops → install.sh fails.
+#
+# The runner user can't write securityfs (no CAP_MAC_ADMIN, AppArmor locked
+# down). The buildkit exec container can't reach host securityfs (own mount
+# ns). BUT the runner user CAN `docker run --privileged` on GHA. A
+# --privileged container gets all capabilities + apparmor=unconfined, can
+# mount securityfs (same kernel object as host), and write .complain to
+# modify the HOST kernel's AppArmor state — which the nested buildkit exec
+# and Harbor containers share (Docker doesn't create new AA namespaces).
+#
+# Build-time only (runner is ephemeral). No Harbor container changes.
+# No-op when AppArmor or the unix-chkpwd profile is absent (local dev).
 disable_unix_chkpwd_apparmor() {
-    echo "[ci] === AppArmor unix-chkpwd check ==="
-    if [[ ! -d /sys/kernel/security/apparmor ]]; then
-        echo "[ci] apparmor not active on this runner"
-        return 0
-    fi
-    echo "[ci] unix-chkpwd profile state:"
-    sudo grep -E 'unix-chkpwd|unix_chkpwd' /sys/kernel/security/apparmor/profiles 2>/dev/null || \
-        echo "[ci] (no unix-chkpwd entry visible)"
-    echo "[ci] note: fix is in init.sh (disable_apparmor, build-time only)"
-    echo "[ci] === AppArmor check done ==="
+    echo "[ci] === AppArmor unix-chkpwd neutralize (privileged container) ==="
+    docker run --rm --privileged ubuntu:24.04 bash -c '
+        mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
+        if [ ! -d /sys/kernel/security/apparmor ]; then
+            echo "apparmor not active on this runner"
+            exit 0
+        fi
+        echo "profiles (before):"
+        grep -E "unix-chkpwd|unix_chkpwd" /sys/kernel/security/apparmor/profiles 2>/dev/null || echo "(none visible)"
+
+        # Method 1: disable AppArmor entirely (build-time only)
+        if [ -f /sys/kernel/security/apparmor/.disable ]; then
+            if echo 1 > /sys/kernel/security/apparmor/.disable 2>/dev/null; then
+                echo "AppArmor disabled via .disable"
+                exit 0
+            fi
+            echo ".disable write failed"
+        fi
+
+        # Method 2: set unix-chkpwd to complain mode (log only, do not deny)
+        if [ -f /sys/kernel/security/apparmor/.complain ]; then
+            if echo unix-chkpwd > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
+                echo "unix-chkpwd set to complain mode"
+                exit 0
+            fi
+            echo ".complain write failed"
+        fi
+
+        echo "WARNING: all methods failed"
+        echo "profiles (after):"
+        grep -E "unix-chkpwd|unix_chkpwd" /sys/kernel/security/apparmor/profiles 2>/dev/null || echo "(none visible)"
+    ' 2>&1 | sed 's/^/[ci] /'
+    echo "[ci] === done ==="
 }
 
 run_direct_ci() {
