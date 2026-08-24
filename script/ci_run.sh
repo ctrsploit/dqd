@@ -116,5 +116,6 @@ run_nested_ci() {
 
 require_env_file
 prepare_ssh_key
+disable_unix_chkpwd_apparmor
 trap stop_ci_dqd_env EXIT
 run_nested_ci
