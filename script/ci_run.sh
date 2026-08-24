@@ -34,8 +34,19 @@ disable_unix_chkpwd_apparmor() {
         fi
         echo "profiles (before):"
         grep -E "unix-chkpwd|unix_chkpwd" /sys/kernel/security/apparmor/profiles 2>/dev/null || echo "(none visible)"
+        echo "control files available:"
+        ls -la /sys/kernel/security/apparmor/ 2>/dev/null
 
-        # Method 1: disable AppArmor entirely (build-time only)
+        # Method 1: remove the profile from the kernel entirely
+        if [ -f /sys/kernel/security/apparmor/.remove ]; then
+            if echo unix-chkpwd > /sys/kernel/security/apparmor/.remove 2>/dev/null; then
+                echo "unix-chkpwd profile removed via .remove"
+                exit 0
+            fi
+            echo ".remove write failed"
+        fi
+
+        # Method 2: disable AppArmor entirely (build-time only)
         if [ -f /sys/kernel/security/apparmor/.disable ]; then
             if echo 1 > /sys/kernel/security/apparmor/.disable 2>/dev/null; then
                 echo "AppArmor disabled via .disable"
@@ -44,7 +55,7 @@ disable_unix_chkpwd_apparmor() {
             echo ".disable write failed"
         fi
 
-        # Method 2: set unix-chkpwd to complain mode (log only, do not deny)
+        # Method 3: set unix-chkpwd to complain mode (log only, do not deny)
         if [ -f /sys/kernel/security/apparmor/.complain ]; then
             if echo unix-chkpwd > /sys/kernel/security/apparmor/.complain 2>/dev/null; then
                 echo "unix-chkpwd set to complain mode"
