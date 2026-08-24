@@ -45,15 +45,15 @@ Or from inside the VM:
 ```shell
 $ ssh dqd-harbor-v2.15.2
 root@harbor-v2-15-2:~# docker ps --format '{{.Names}}\t{{.Status}}'
-harbor-log	Up 17 minutes (healthy)
-nginx	Up 17 minutes (healthy)
-harbor-portal	Up 17 minutes (healthy)
-harbor-core	Up 17 minutes (healthy)
-registry	Up 17 minutes (healthy)
-registryctl	Up 17 minutes (healthy)
-harbor-db	Up 17 minutes (healthy)
-redis	Up 17 minutes (healthy)
-harbor-jobservice	Up 17 minutes (healthy)
+harbor-log	Up 3 minutes (healthy)
+nginx	Up 3 minutes (healthy)
+harbor-portal	Up 3 minutes (healthy)
+harbor-core	Up 3 minutes (healthy)
+registry	Up 3 minutes (healthy)
+registryctl	Up 3 minutes (healthy)
+harbor-db	Up 3 minutes (healthy)
+redis	Up 3 minutes (healthy)
+harbor-jobservice	Up 3 minutes (healthy)
 root@harbor-v2-15-2:~# curl -fsSL http://127.0.0.1/api/v2.0/health
 {"status":"healthy","components":[{"name":"core","status":"healthy"},{"name":"database","status":"healthy"},{"name":"jobservice","status":"healthy"},{"name":"portal","status":"healthy"},{"name":"redis","status":"healthy"},{"name":"registry","status":"healthy"},{"name":"registryctl","status":"healthy"}]}
 ```
