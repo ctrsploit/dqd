@@ -2,9 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.16` |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.16 | official default Harbor v2.15.2 deployment |
-| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.16 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.17` |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.17 | official default Harbor v2.15.2 deployment |
+| ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.17 | base image for `vul/harbor-*` envs |
+| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.16 | superseded: the privileged container neutralizer ran but `echo 1 > .disable` and `echo unix-chkpwd > .complain` both failed silently (write returned error despite CAP_MAC_ADMIN in the privileged container); unix-chkpwd stayed (enforce) and harbor-log still crash-looped; v0.1.17 adds `.remove` (unload the profile from the kernel) as method 1 and an `ls -la` diagnostic of the securityfs control files |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.15 | superseded: the merge `dc856e9` dropped the `disable_unix_chkpwd_apparmor` call from `script/ci_run.sh` (function defined but never invoked) and VERSION stayed v0.1.15 so CI never re-triggered; v0.1.16 re-adds the call and bumps VERSION |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.14 | superseded: init.sh still called disable_apparmor() after the function was deleted → command not found under set -e → fail_exit at boot; AppArmor neutralize moved entirely to ci_run.sh (privileged container) so init.sh no longer touches AppArmor |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.13 | superseded: runner AppArmor is fully locked down (sudo .complain write → Permission denied, apparmor_parser not available); pivoted to build-time-only disable_apparmor() in init.sh using buildkit exec's privileged context |
