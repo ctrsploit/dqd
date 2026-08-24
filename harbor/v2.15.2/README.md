@@ -5,17 +5,6 @@
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:latest | points to `v0.1.19` |
 | dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.19 | official default Harbor v2.15.2 deployment |
 | ctr | ghcr.io/ctrsploit/harbor-v2.15.2:ctr_v0.1.19 | base image for `vul/harbor-*` envs |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.18 | superseded: `sudo echo unix-chkpwd > .remove` on the runner failed with ENOENT — the profile lives in a parent/peer AppArmor namespace that the runner shell can't target by name; v0.1.19 disables AppArmor entirely (unload ALL profiles via systemctl stop apparmor + aa-teardown + .remove loop) so no profile remains to enforce |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.17 | superseded: the privileged container could SEE host unix-chkpwd (enforce) but .remove/.disable/.complain writes all failed — the runner kernel uses namespaced AppArmor (securityfs has .ns_level/.ns_name/.ns_stacked, no .disable/.complain); `docker run --privileged` lands in a CHILD AppArmor namespace so .remove can't touch host-namespace profiles; v0.1.18 runs `sudo .remove` directly on the runner (host namespace) instead |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.16 | superseded: the privileged container neutralizer ran but `echo 1 > .disable` and `echo unix-chkpwd > .complain` both failed silently (write returned error despite CAP_MAC_ADMIN in the privileged container); unix-chkpwd stayed (enforce) and harbor-log still crash-looped; v0.1.17 adds `.remove` (unload the profile from the kernel) as method 1 and an `ls -la` diagnostic of the securityfs control files |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.15 | superseded: the merge `dc856e9` dropped the `disable_unix_chkpwd_apparmor` call from `script/ci_run.sh` (function defined but never invoked) and VERSION stayed v0.1.15 so CI never re-triggered; v0.1.16 re-adds the call and bumps VERSION |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.14 | superseded: init.sh still called disable_apparmor() after the function was deleted → command not found under set -e → fail_exit at boot; AppArmor neutralize moved entirely to ci_run.sh (privileged container) so init.sh no longer touches AppArmor |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.13 | superseded: runner AppArmor is fully locked down (sudo .complain write → Permission denied, apparmor_parser not available); pivoted to build-time-only disable_apparmor() in init.sh using buildkit exec's privileged context |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.12 | superseded: sudo .complain write still failed silently (2>/dev/null hid the real error); install apparmor-utils for aa-complain, show errors, and add aa-complain as method 1 |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.11 | superseded: runner runs as user "runner" not root, so .complain write and apparmor_parser -R both got "Access denied / not policy admin"; prefix neutralize with sudo (passwordless on GHA) |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.10 | superseded: runner-level AppArmor complain write didn't stop the DENIED (profile likely in a nested/loaded form the .complain write missed); added apparmor_parser -R fallback + diagnostic logging in script/ci_run.sh |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.9 | superseded: in-buildkit AppArmor complain-mode fix failed (buildkit exec has its own AppArmor ns, can't see host unix-chkpwd profile); moved the neutralization to the CI runner root in script/ci_run.sh |
-| dqd | ghcr.io/ctrsploit/harbor-v2.15.2:v0.1.8 | superseded: harbor-log crash-looped (host AppArmor denied unix_chkpwd dac_override); added apparmor=unconfined override |
 
 Reusable Harbor v2.15.2 runtime environment for `vul/harbor-*` reproduction envs to `FROM`. This image contains **only** a stock Harbor deployment — no vulnerability setup, no attacker accounts, no reproduction scripts. Those belong to the `vul` layer.
 
@@ -46,9 +35,9 @@ The Harbor web UI and API are exposed on host port `21521` (container port 80):
 
 ```shell
 $ curl -fsSL http://127.0.0.1:21521/api/v2.0/health
-<!-- VERIFY -->
+{"status":"healthy","components":[{"name":"core","status":"healthy"},{"name":"database","status":"healthy"},{"name":"jobservice","status":"healthy"},{"name":"portal","status":"healthy"},{"name":"redis","status":"healthy"},{"name":"registry","status":"healthy"},{"name":"registryctl","status":"healthy"}]}
 $ curl -fsSL -u admin:Harbor12345 http://127.0.0.1:21521/api/v2.0/users/current
-<!-- VERIFY -->
+{"user_id":1,"username":"admin","realname":"system admin","comment":"admin user","sysadmin_flag":true,"admin_role_in_auth":false,"creation_time":"2026-08-24T02:01:55.083Z","update_time":"2026-08-24T02:01:55.559Z"}
 ```
 
 Or from inside the VM:
@@ -56,9 +45,17 @@ Or from inside the VM:
 ```shell
 $ ssh dqd-harbor-v2.15.2
 root@harbor-v2-15-2:~# docker ps --format '{{.Names}}\t{{.Status}}'
-<!-- VERIFY -->
+harbor-log	Up 14 minutes (healthy)
+redis	Up 2 minutes (healthy)
+harbor-portal	Up 2 minutes (healthy)
+harbor-db	Up 2 minutes (healthy)
+registry	Up 2 minutes (healthy)
+registryctl	Up 2 minutes (healthy)
+harbor-core	Up 2 minutes (healthy)
+nginx	Up 2 minutes (healthy)
+harbor-jobservice	Up About a minute (healthy)
 root@harbor-v2-15-2:~# curl -fsSL http://127.0.0.1/api/v2.0/health
-<!-- VERIFY -->
+{"status":"healthy","components":[{"name":"core","status":"healthy"},{"name":"database","status":"healthy"},{"name":"jobservice","status":"healthy"},{"name":"portal","status":"healthy"},{"name":"redis","status":"healthy"},{"name":"registry","status":"healthy"},{"name":"registryctl","status":"healthy"}]}
 ```
 
 Default credentials: `admin` / `Harbor12345` (official Harbor default).
@@ -67,11 +64,49 @@ Default credentials: `admin` / `Harbor12345` (official Harbor default).
 
 ```shell
 root@harbor-v2-15-2:~# docker version
-<!-- VERIFY -->
+Client: Docker Engine - Community
+ Version:           28.2.2
+ API version:       1.50
+ Go version:        go1.24.3
+ Git commit:        e6534b4
+ Built:             Fri May 30 12:07:27 2025
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          28.2.2
+  API version:      1.50 (minimum version 1.24)
+  Go version:       go1.24.3
+  Git commit:       45873be
+  Built:            Fri May 30 12:07:27 2025
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.7.27
+  GitCommit:        05044ec0a9a75232cad458027ca83437aae3f4da
+ runc:
+  Version:          1.2.5
+  GitCommit:        v1.2.5-0-g59923ef
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
 root@harbor-v2-15-2:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@harbor-v2-15-2:~# uname -a
-<!-- VERIFY -->
+Linux docker-28-2-2 6.8.0-138-generic #138-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 31 22:41:49 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
