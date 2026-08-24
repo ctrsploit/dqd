@@ -15,22 +15,20 @@ source "${SCRIPT_DIR}/ci_nested_lib.sh"
 # → harbor-log crash-loops → install.sh fails.
 #
 # This kernel (Ubuntu 24.04 GHA runner) uses namespaced AppArmor: securityfs
-# has .remove/.replace/.load but NO .disable/.complain. The .ns_* files
-# confirm namespace stacking. A `docker run --privileged` container lands in
-# a CHILD AppArmor namespace — it can SEE unix-chkpwd (profile visibility
-# crosses namespaces) but .remove fails because the profile lives in the
-# HOST namespace and .remove only affects the current namespace. --privileged
-# grants all caps but does NOT pierce AppArmor namespace isolation.
+# has .remove/.replace/.load but NO .disable/.complain, and .ns_* files prove
+# namespace stacking. Writing a single profile name to .remove fails with
+# ENOENT because the profile lives in a parent/peer namespace the runner shell
+# can't target directly.
 #
-# The fix: run directly on the runner via sudo (passwordless on GHA). The
-# runner is in the HOST AppArmor namespace, so .remove can actually unload
-# unix-chkpwd. Earlier sudo attempts (v0.1.11-v0.1.13) failed because they
-# targeted .complain/.disable which don't exist on this kernel — not because
-# sudo lacked caps.
-#
+# The fix: disable AppArmor ENTIRELY by unloading all profiles. The LSM is
+# compiled into the kernel so it can't be unloaded, but with zero profiles
+# loaded it enforces nothing — effectively a no-op. Methods tried in order:
+#   1. systemctl stop apparmor.service (service stop sequence unloads all)
+#   2. aa-teardown (apparmor-utils bulk-unload, install if missing)
+#   3. loop: write every profile name from `profiles` to `.remove`
 # Build-time only (runner is ephemeral). No-op when AppArmor absent (dev).
 disable_unix_chkpwd_apparmor() {
-    echo "[ci] === AppArmor unix-chkpwd neutralize (direct on runner) ==="
+    echo "[ci] === AppArmor disable entirely (unload all profiles) ==="
     sudo bash -c '
         mount -t securityfs securityfs /sys/kernel/security 2>/dev/null || true
         if [ ! -d /sys/kernel/security/apparmor ]; then
@@ -38,25 +36,45 @@ disable_unix_chkpwd_apparmor() {
             exit 0
         fi
         echo "profiles (before):"
-        grep -E "unix-chkpwd|unix_chkpwd" /sys/kernel/security/apparmor/profiles 2>/dev/null || echo "(none visible)"
-        echo "control files available:"
-        ls -la /sys/kernel/security/apparmor/ 2>/dev/null
+        wc -l < /sys/kernel/security/apparmor/profiles 2>/dev/null || echo 0
+        grep -E "unix-chkpwd|unix_chkpwd" /sys/kernel/security/apparmor/profiles 2>/dev/null || echo "(unix-chkpwd not visible)"
 
-        # .remove unloads the profile from the kernel. We are in the host
-        # AppArmor namespace (running directly on the runner, not in a
-        # container), so this can remove host-loaded profiles. No 2>/dev/null
-        # — let the actual error surface if it fails.
-        if [ -f /sys/kernel/security/apparmor/.remove ]; then
-            if echo unix-chkpwd > /sys/kernel/security/apparmor/.remove; then
-                echo "unix-chkpwd profile removed via .remove"
-                exit 0
-            fi
-            echo ".remove write failed (error above)"
+        # Method 1: stop the apparmor systemd service — its stop sequence
+        # unloads all profiles the service manages.
+        if systemctl stop apparmor.service 2>/dev/null; then
+            echo "apparmor.service stopped"
+        else
+            echo "apparmor.service stop failed (not loaded or no unit)"
         fi
 
-        echo "WARNING: all methods failed"
+        # Method 2: aa-teardown bulk-unloads every profile. Install
+        # apparmor-utils if the command is missing.
+        if ! command -v aa-teardown >/dev/null 2>&1; then
+            apt-get update -qq >/dev/null 2>&1 && apt-get install -y -qq apparmor-utils >/dev/null 2>&1 || true
+        fi
+        if command -v aa-teardown >/dev/null 2>&1; then
+            aa-teardown 2>/dev/null && echo "aa-teardown ran" || echo "aa-teardown failed"
+        else
+            echo "aa-teardown unavailable"
+        fi
+
+        # Method 3: brute-force — write every profile name to .remove.
+        if [ -f /sys/kernel/security/apparmor/.remove ]; then
+            removed=0
+            while IFS= read -r line; do
+                # profiles format: "name (mode)" — extract the name
+                pname="${line%% *}"
+                [ -n "$pname" ] || continue
+                if echo "$pname" > /sys/kernel/security/apparmor/.remove 2>/dev/null; then
+                    removed=$((removed + 1))
+                fi
+            done < /sys/kernel/security/apparmor/profiles 2>/dev/null
+            echo ".remove loop: $removed profiles removed"
+        fi
+
         echo "profiles (after):"
-        grep -E "unix-chkpwd|unix_chkpwd" /sys/kernel/security/apparmor/profiles 2>/dev/null || echo "(none visible)"
+        wc -l < /sys/kernel/security/apparmor/profiles 2>/dev/null || echo 0
+        grep -E "unix-chkpwd|unix_chkpwd" /sys/kernel/security/apparmor/profiles 2>/dev/null || echo "(unix-chkpwd gone or not visible)"
     ' 2>&1 | sed 's/^/[ci] /'
     echo "[ci] === done ==="
 }
