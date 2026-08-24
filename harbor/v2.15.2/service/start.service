@@ -1,0 +1,15 @@
+[Unit]
+Description=Start Harbor v2.15.2 containers at boot
+After=multi-user.target docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/start.sh
+User=root
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
