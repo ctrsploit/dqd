@@ -47,5 +47,5 @@ RUN --mount=type=cache,id=harbor-v2.15.2-snapshots,target=/trick \
     tar -C /trick -cf - . | tar -C /var/lib/docker/ -xf -
 
 FROM harbor AS final
-RUN rm /usr/lib/systemd/system/init.service /usr/lib/systemd/system/start.service /init.sh
-# start.sh is kept — it runs at VM boot to start the 9 Harbor containers.
+RUN rm /usr/lib/systemd/system/init.service /init.sh
+# start.sh + start.service are kept — they run at VM boot to start the 9 Harbor containers.
