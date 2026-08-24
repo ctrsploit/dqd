@@ -35,9 +35,9 @@ The Harbor web UI and API are exposed on host port `21521` (container port 80):
 
 ```shell
 $ curl -fsSL http://127.0.0.1:21521/api/v2.0/health
-<!-- VERIFY -->
+{"status":"healthy","components":[{"name":"core","status":"healthy"},{"name":"database","status":"healthy"},{"name":"jobservice","status":"healthy"},{"name":"portal","status":"healthy"},{"name":"redis","status":"healthy"},{"name":"registry","status":"healthy"},{"name":"registryctl","status":"healthy"}]}
 $ curl -fsSL -u admin:Harbor12345 http://127.0.0.1:21521/api/v2.0/users/current
-<!-- VERIFY -->
+{"user_id":1,"username":"admin","realname":"system admin","comment":"admin user","sysadmin_flag":true,"admin_role_in_auth":false,"creation_time":"2026-08-24T06:34:34.708Z","update_time":"2026-08-24T06:34:35.188Z"}
 ```
 
 Or from inside the VM:
@@ -45,9 +45,17 @@ Or from inside the VM:
 ```shell
 $ ssh dqd-harbor-v2.15.2
 root@harbor-v2-15-2:~# docker ps --format '{{.Names}}\t{{.Status}}'
-<!-- VERIFY -->
+harbor-log	Up 17 minutes (healthy)
+nginx	Up 17 minutes (healthy)
+harbor-portal	Up 17 minutes (healthy)
+harbor-core	Up 17 minutes (healthy)
+registry	Up 17 minutes (healthy)
+registryctl	Up 17 minutes (healthy)
+harbor-db	Up 17 minutes (healthy)
+redis	Up 17 minutes (healthy)
+harbor-jobservice	Up 17 minutes (healthy)
 root@harbor-v2-15-2:~# curl -fsSL http://127.0.0.1/api/v2.0/health
-<!-- VERIFY -->
+{"status":"healthy","components":[{"name":"core","status":"healthy"},{"name":"database","status":"healthy"},{"name":"jobservice","status":"healthy"},{"name":"portal","status":"healthy"},{"name":"redis","status":"healthy"},{"name":"registry","status":"healthy"},{"name":"registryctl","status":"healthy"}]}
 ```
 
 Default credentials: `admin` / `Harbor12345` (official Harbor default).
@@ -56,11 +64,49 @@ Default credentials: `admin` / `Harbor12345` (official Harbor default).
 
 ```shell
 root@harbor-v2-15-2:~# docker version
-<!-- VERIFY -->
+Client: Docker Engine - Community
+ Version:           28.2.2
+ API version:       1.50
+ Go version:        go1.24.3
+ Git commit:        e6534b4
+ Built:             Fri May 30 12:07:27 2025
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          28.2.2
+  API version:      1.50 (minimum version 1.24)
+  Go version:       go1.24.3
+  Git commit:       45873be
+  Built:            Fri May 30 12:07:27 2025
+  OS/Arch:           linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.7.27
+  GitCommit:        05044ec0a9a75232cad458027ca83437aae3f4da
+ runc:
+  Version:          1.2.5
+  GitCommit:        v1.2.5-0-g59923ef
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
 root@harbor-v2-15-2:~# cat /etc/os-release
-<!-- VERIFY -->
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
 root@harbor-v2-15-2:~# uname -a
-<!-- VERIFY -->
+Linux docker-28-2-2 6.8.0-138-generic #138-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 31 22:41:49 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## build
