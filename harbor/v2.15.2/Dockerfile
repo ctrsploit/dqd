@@ -17,8 +17,10 @@ ARG BASE_IMAGE=ghcr.io/ctrsploit/docker-v28.2.2:ctr_v${VERSION_IMAGE}
 # ============================================================================
 FROM ${BASE_IMAGE} AS pre
 COPY --chmod=755 service/init.sh /init.sh
+COPY --chmod=755 service/start.sh /start.sh
 COPY service/init.service /usr/lib/systemd/system/
-RUN systemctl enable init.service
+COPY service/start.service /usr/lib/systemd/system/
+RUN systemctl enable init.service && systemctl enable start.service
 
 FROM pre AS harbor
 ARG CACHE_BUST
@@ -45,4 +47,5 @@ RUN --mount=type=cache,id=harbor-v2.15.2-snapshots,target=/trick \
     tar -C /trick -cf - . | tar -C /var/lib/docker/ -xf -
 
 FROM harbor AS final
-RUN rm /usr/lib/systemd/system/init.service /init.sh
+RUN rm /usr/lib/systemd/system/init.service /usr/lib/systemd/system/start.service /init.sh
+# start.sh is kept — it runs at VM boot to start the 9 Harbor containers.
