@@ -2,9 +2,11 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/docker-v29.5.0:latest | points to `v0.1.0` |
-| dqd | ghcr.io/ctrsploit/docker-v29.5.0:v0.1.0 | - |
-| ctr | ghcr.io/ctrsploit/docker-v29.5.0:ctr_v0.1.0 | - |
+| dqd | ghcr.io/ctrsploit/docker-v29.5.0:latest | points to `v0.1.1` |
+| dqd | ghcr.io/ctrsploit/docker-v29.5.0:v0.1.1 | - |
+| ctr | ghcr.io/ctrsploit/docker-v29.5.0:ctr_v0.1.1 | - |
+| dqd | ghcr.io/ctrsploit/docker-v29.5.0:v0.1.0 | superseded: CI AppArmor workaround broke non-harbor builds |
+| ctr | ghcr.io/ctrsploit/docker-v29.5.0:ctr_v0.1.0 | not published (build failed) |
 
 ## usage
 
@@ -52,5 +54,5 @@ make all ENV=docker/v29.5.0
 for developers:
 
 ```dockerfile
-FROM ghcr.io/ctrsploit/docker-v29.5.0:ctr_v0.1.0
+FROM ghcr.io/ctrsploit/docker-v29.5.0:ctr_v0.1.1
 ```
