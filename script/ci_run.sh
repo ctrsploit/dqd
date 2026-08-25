@@ -135,6 +135,18 @@ run_nested_ci() {
 
 require_env_file
 prepare_ssh_key
-disable_unix_chkpwd_apparmor
+
+# The GHA ubuntu runner ships a host-level AppArmor "unix-chkpwd" profile
+# (enforce) that breaks harbor's `sudo -u #10000 -E rsyslogd -n` PAM path.
+# Only harbor/v2.15.2 is affected; other envs build fine with AppArmor
+# active, and unloading profiles globally can leave the runner's runc
+# unable to apply the default AppArmor profile during `docker build`
+# (`write fsmount:fscontext:proc/thread-self/attr/apparmor/exec: no such
+# file or directory`). Gate the workaround on the harbor env so non-harbor
+# builds keep working.
+if [[ "${ENV_DIR}" == "harbor/"* ]]; then
+    disable_unix_chkpwd_apparmor
+fi
+
 trap stop_ci_dqd_env EXIT
 run_nested_ci
