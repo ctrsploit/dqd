@@ -1270,6 +1270,9 @@ Host dqd-docker-v19.03.0
 Host dqd-docker-v19.03.1
     Port 19301
 
+Host dqd-cve-2026-41567
+    Port 41567
+
 Host dqd-cve-2019-14271
     Port 14271
 
