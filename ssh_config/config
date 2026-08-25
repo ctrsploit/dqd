@@ -591,6 +591,9 @@ Host dqd-runc-v0.1.1
 Host dqd-docker-v29.4.1
     Port 29410
 
+Host dqd-docker-v29.5.0
+    Port 29500
+
 Host dqd-docker-v29.5.2
     Port 29520
 
