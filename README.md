@@ -410,6 +410,7 @@ dqd up runc/v1.3.0 --kvm=false
 | [docker-v29.4.1](./docker/v29.4.1/) |
 | [docker-v29.4.1-debian](./docker/v29.4.1-debian/) |
 | [docker-v29.5.0](./docker/v29.5.0/) |
+| [docker-v29.5.1](./docker/v29.5.1/) |
 | [docker-v29.5.2](./docker/v29.5.2/) |
 | [docker-v29.5.2-criu](./docker/v29.5.2-criu/) |
 | [docker-v29.6.2](./docker/v29.6.2/) |
