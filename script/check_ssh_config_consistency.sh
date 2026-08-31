@@ -20,7 +20,10 @@ set -euo pipefail
 # that maps container port 22 must still be reachable through ssh_config.
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-project_dir="$(dirname "$script_dir")"
+# Target repository root: positional override (the Makefile passes
+# $(CURDIR) when this toolchain is included from a sibling repository);
+# defaults to the repository this script lives in.
+project_dir="${1:-$(dirname "$script_dir")}"
 ssh_config="$project_dir/ssh_config/config"
 
 if [ ! -f "$ssh_config" ]; then
