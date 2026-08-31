@@ -3,9 +3,9 @@
 //
 //	dqd-gen catalog   write catalog.json (committed at the repo root;
 //	                  the remote source for CLI update checks)
-//	dqd-gen embed     write cli/embed/{index.json,tree.tar} (the
-//	                  self-contained config snapshot baked into the
-//	                  binary at build time; not committed)
+//	dqd-gen embed     write cli/internal/embedded/live/{index.json,tree.json}
+//	                  (the self-contained config snapshot baked into the
+//	                  binary at build time; committed with catalog.json)
 //	dqd-gen check     verify the committed catalog.json matches the
 //	                  checkout (CI freshness gate)
 package main
@@ -27,7 +27,7 @@ const usage = `usage: dqd-gen <command> [flags]
 
 commands:
   catalog   write catalog.json from the repo tree
-  embed     write cli/embed/{index.json,tree.tar} for go:embed
+  embed     write cli/internal/embedded/live/{index.json,tree.json} for go:embed
   check     fail when committed catalog.json is stale
 `
 
@@ -90,7 +90,7 @@ func runEmbed(args []string) error {
 	var repo, outDir string
 	fs := flag.NewFlagSet("", flag.ExitOnError)
 	fs.StringVar(&repo, "repo", ".", "dqd repository checkout root")
-	fs.StringVar(&outDir, "out", "cli/embed", "output directory for index.json and tree.tar")
+	fs.StringVar(&outDir, "out", filepath.Join("cli", "internal", "embedded", "live"), "output directory for the embedded snapshot")
 	_ = fs.Parse(args)
 
 	ix, err := catalog.Generate(repo)
