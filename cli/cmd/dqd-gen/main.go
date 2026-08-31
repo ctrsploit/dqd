@@ -157,6 +157,13 @@ func runCheck(args []string) error {
 	// The embedded snapshot must also match: index envs (commit field
 	// aside) and a byte-identical tree.tar (deterministic by design).
 	embedDir := filepath.Join(repo, "cli", "internal", "embedded", "live")
+	if _, statErr := os.Stat(embedDir); os.IsNotExist(statErr) {
+		// Foreign checkout reusing this toolchain (Makefile TOOLCHAIN_DIR):
+		// it has no CLI and therefore no embedded snapshot to verify.
+		// catalog.json above is its only committed artifact.
+		fmt.Printf("OK: no embedded snapshot under %s (no cli/); skipped\n", repo)
+		return nil
+	}
 	snapData, err := os.ReadFile(filepath.Join(embedDir, catalog.EmbedIndexName))
 	if err != nil {
 		return fmt.Errorf("embedded index.json missing (run `dqd-gen embed` and commit cli/internal/embedded/live): %w", err)

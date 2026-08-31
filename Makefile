@@ -17,6 +17,18 @@ PUSH_RETRIES ?= 3
 PUSH_RETRY_DELAY ?= 10
 
 # ------------------------------------------------------------------------------
+# Toolchain location
+# ------------------------------------------------------------------------------
+# Directory of this Makefile (no trailing slash). Toolchain assets
+# (script/, cli/, dqd/workspace) resolve relative to it, while
+# environment paths and generated artifacts resolve relative to the
+# invocation directory ($(CURDIR)). This lets a sibling repository
+# (e.g. a private dqd-pro) `include` this Makefile and reuse the build
+# pipeline without forking it; invoked directly in this checkout the
+# two directories coincide and behavior is unchanged.
+TOOLCHAIN_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+
+# ------------------------------------------------------------------------------
 # Command helpers
 # ------------------------------------------------------------------------------
 D2VM := docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.7
@@ -128,8 +140,8 @@ ci: env
 
 check-ssh-ports:
 	$(time_begin)
-	bash script/check_ssh_ports.sh
-	bash script/check_ssh_config_consistency.sh
+	bash $(TOOLCHAIN_DIR)/script/check_ssh_ports.sh
+	bash $(TOOLCHAIN_DIR)/script/check_ssh_config_consistency.sh
 	$(time_end)
 
 # Catalog freshness: catalog.json AND the committed embedded snapshot
@@ -138,31 +150,45 @@ check-ssh-ports:
 # CI catches stale catalogs.
 check-catalog:
 	$(time_begin)
-	cd cli && go run ./cmd/dqd-gen check --repo ..
+	cd $(TOOLCHAIN_DIR)/cli && go run ./cmd/dqd-gen check --repo $(CURDIR)
 	$(time_end)
 
 # Regenerate both committed artifacts: catalog.json and the embedded
 # config snapshot (so `go install` builds a current self-contained
 # binary). Run this in every change that touches environment files.
+# When included from a foreign checkout (TOOLCHAIN_DIR != CURDIR), only
+# catalog.json is refreshed: the embedded snapshot belongs to this
+# repository's CLI and must never embed foreign (possibly private)
+# environments.
 generate-catalog:
 	$(time_begin)
-	cd cli && go run ./cmd/dqd-gen catalog --repo ..
-	cd cli && go run ./cmd/dqd-gen embed --repo .. --out internal/embedded/live
+	cd $(TOOLCHAIN_DIR)/cli && go run ./cmd/dqd-gen catalog --repo $(CURDIR)
+ifeq ($(abspath $(TOOLCHAIN_DIR)),$(abspath $(CURDIR)))
+	cd $(TOOLCHAIN_DIR)/cli && go run ./cmd/dqd-gen embed --repo $(CURDIR) --out internal/embedded/live
+else
+	@echo "note: foreign checkout ($(CURDIR)) — refreshed catalog.json only; the embedded snapshot belongs to $(abspath $(TOOLCHAIN_DIR))"
+endif
 	$(time_end)
 
 # Build the Go dqd CLI into bin/dqd. The embedded snapshot is
 # committed, so a plain `go build`/`go install` works too; this
 # target just refreshes it first so the binary matches this exact
 # tree. (The legacy bash CLI lives in bin/dqd-sh, deprecated.)
+# dqd-CLI-specific: refused when this Makefile is included from a
+# foreign checkout (the embed step must never capture foreign envs).
 cli:
 	$(time_begin)
-	cd cli && go run ./cmd/dqd-gen embed --repo .. --out internal/embedded/live
-	cd cli && go build -trimpath -ldflags "-X main.version=$$(git describe --tags --always --dirty 2>/dev/null || echo dev)" -o ../bin/dqd ./cmd/dqd
+ifeq ($(abspath $(TOOLCHAIN_DIR)),$(abspath $(CURDIR)))
+	cd $(TOOLCHAIN_DIR)/cli && go run ./cmd/dqd-gen embed --repo $(CURDIR) --out internal/embedded/live
+	cd $(TOOLCHAIN_DIR)/cli && go build -trimpath -ldflags "-X main.version=$$(git describe --tags --always --dirty 2>/dev/null || echo dev)" -o ../bin/dqd ./cmd/dqd
+else
+	$(error the cli target builds dqd's own CLI and embeds this checkout's environments; run it from $(abspath $(TOOLCHAIN_DIR)), not from a foreign checkout)
+endif
 	$(time_end)
 
 generate_ssh_config: check-ssh-ports
 	$(time_begin)
-	bash script/generate_ssh_config.sh
+	bash $(TOOLCHAIN_DIR)/script/generate_ssh_config.sh
 	$(time_end)
 
 ctr: env
@@ -189,7 +215,7 @@ dqd: env
 	$(time_begin)
 	@TMP_DIR=$$(mktemp -d -t dqd-build-XXXXXX); \
 	trap 'rm -rf "$$TMP_DIR"' EXIT; \
-	cp -r dqd/workspace/* $$TMP_DIR; \
+	cp -r $(TOOLCHAIN_DIR)/dqd/workspace/* $$TMP_DIR; \
 	cp $(ENV)/vm.qcow2 $$TMP_DIR; \
 	docker build -t $(DQD_VERSION) $$TMP_DIR
 	$(time_end)
