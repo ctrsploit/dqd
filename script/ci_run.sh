@@ -133,8 +133,19 @@ run_nested_ci() {
     make ci ENV="${ENV_DIR}" CI_MAKE_TARGETS="clean ${host_targets}"
 }
 
+# Disk-budget observability: GitHub-hosted runners expose ~10-20G free on /
+# (plus a mostly-empty ~70G volume at /mnt). The vm target (d2vm convert +
+# virt-sparsify) is the disk-hungriest step and fails as an opaque
+# "virt-sparsify: exception: End_of_file" when the runner runs out — log the
+# budget up front so failed runs show how much was actually left.
+log_disk_budget() {
+    echo "[ci] disk budget at job start:"
+    df -h / /mnt 2>/dev/null | sed 's/^/[ci]     /'
+}
+
 require_env_file
 prepare_ssh_key
+log_disk_budget
 
 # The GHA ubuntu runner ships a host-level AppArmor "unix-chkpwd" profile
 # (enforce) that breaks harbor's `sudo -u #10000 -E rsyslogd -n` PAM path.
