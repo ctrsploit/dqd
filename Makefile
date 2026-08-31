@@ -32,7 +32,7 @@ TOOLCHAIN_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 # Command helpers
 # ------------------------------------------------------------------------------
 D2VM := docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.7
-VIRT_SPARSIFY := docker run -i --rm -v $(PWD)/$(ENV):/data -w /data --device=/dev/kvm ghcr.io/ssst0n3/libguestfs:latest virt-sparsify
+LIBGUESTFS_IMAGE ?= ghcr.io/ssst0n3/libguestfs:latest
 
 # ------------------------------------------------------------------------------
 # Derived values
@@ -57,8 +57,22 @@ $(eval include $(ENV_FILE))
 $(eval export $(shell sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\)=.*/\1/p' $(ENV_FILE)))
 endef
 
+# virt-sparsify copy mode zeroes the guest's free space through a qcow2
+# overlay it creates in TMPDIR; the zero writes are not compacted, so the
+# overlay transiently grows to ~the guest's free space (= ~SIZE). When /tmp
+# is too small the appliance hits ENOSPC and dies with
+# "virt-sparsify: error: exception: End_of_file" (observed on GitHub-hosted
+# runners: "Max needed: 10.0G.  Free: 10.0G."). So point TMPDIR at the
+# largest filesystem (script/sparsify_tmpdir.sh, mounted as the container's
+# /tmp), and let virt-sparsify's own check fail loudly if even that is tight.
+# Pick the temp dir BEFORE cd $(ENV): TOOLCHAIN_DIR is relative to the
+# invocation directory and would not resolve after the cd.
 define sparsify_qcow2
-cd $(ENV) && $(VIRT_SPARSIFY) --compress vm.qcow2 shrunk.qcow2 && mv -f shrunk.qcow2 vm.qcow2
+SPARSIFY_TMP=$$(bash $(TOOLCHAIN_DIR)/script/sparsify_tmpdir.sh $(SIZE)) && \
+trap 'rm -rf "$$SPARSIFY_TMP"' EXIT && \
+cd $(ENV) && \
+docker run -i --rm -v $(PWD)/$(ENV):/data -v "$$SPARSIFY_TMP":/tmp -w /data --device=/dev/kvm $(LIBGUESTFS_IMAGE) virt-sparsify --check-tmpdir=fail --compress vm.qcow2 shrunk.qcow2 && \
+mv -f shrunk.qcow2 vm.qcow2
 endef
 
 define docker_push
@@ -204,6 +218,11 @@ ctr: env
 
 vm: env
 	$(time_begin)
+	# Free the buildkit cache left by the ctr build before the disk-hungry
+	# d2vm convert + sparsify steps (the cache alone is often several GB, and
+	# GitHub-hosted runners only have ~10-20G free). CI only: local builds
+	# keep their cache for incremental rebuilds.
+	$(if $(filter true,$(CI)),docker builder prune -af,)
 	# Add -v to show verbose info.
 	# --append-to-cmdline is only passed when APPEND_TO_CMDLINE is non-empty,
 	# so the default flow is unchanged.
