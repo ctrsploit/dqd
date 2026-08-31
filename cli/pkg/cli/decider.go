@@ -48,7 +48,7 @@ func (d *updateDecider) Decide(e *catalog.Env) (string, *catalog.Env) {
 		return "", nil
 	}
 	var embeddedCommit string
-	if ix := embeddedIndex(); ix != nil {
+	if ix := d.app.Identity.Index; ix != nil {
 		embeddedCommit = ix.Commit
 	}
 	d.app.printf("remote config differs for %s (embedded %s, remote %s)\n",
@@ -83,7 +83,7 @@ func (d *updateDecider) MissingEnv(p string) (string, *catalog.Env) {
 	if re == nil {
 		return "", nil
 	}
-	d.app.eprintf("dqd: %s is not in the embedded snapshot; fetching from remote\n", p)
+	d.app.eprintf("%s: %s is not in the embedded snapshot; fetching from remote\n", d.app.Identity.Name, p)
 	return d.fetch(re)
 }
 
@@ -114,21 +114,21 @@ func (d *updateDecider) fetch(re *catalog.Env) (string, *catalog.Env) {
 		return "", nil
 	}
 	if err := remote.FetchEnv(d.app.Remote, re, root); err != nil {
-		d.app.eprintf("dqd: fetching remote config for %s failed (%v); using embedded\n", re.Path, err)
+		d.app.eprintf("%s: fetching remote config for %s failed (%v); using embedded\n", d.app.Identity.Name, re.Path, err)
 		return "", nil
 	}
 	return filepath.Join(root, filepath.FromSlash(re.Path)), re
 }
 
 func (d *updateDecider) noticeStale(rix *catalog.Index, path string) {
-	d.app.eprintf("dqd: remote config for %s differs from this binary's snapshot (remote %s); run `dqd update` to switch\n",
-		path, shortCommit(rix.Commit))
+	d.app.eprintf("%s: remote config for %s differs from this binary's snapshot (remote %s); run `%s update` to switch\n",
+		d.app.Identity.Name, path, shortCommit(rix.Commit), d.app.Identity.Name)
 }
 
 func (d *updateDecider) savePolicy(p string) {
 	d.app.Prefs.Update = p
 	if err := d.app.Prefs.Save(); err != nil {
-		d.app.eprintf("dqd: saving preference failed: %v\n", err)
+		d.app.eprintf("%s: saving preference failed: %v\n", d.app.Identity.Name, err)
 	}
 }
 

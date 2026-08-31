@@ -27,7 +27,7 @@ func (a *App) updateCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			local := embeddedIndex()
+			local := a.Identity.Index
 			if local == nil {
 				local = &catalog.Index{}
 			}
@@ -79,7 +79,7 @@ func (a *App) updateCmd() *cobra.Command {
 					continue
 				}
 				if err := remote.FetchEnv(a.Remote, &e, remoteRoot); err != nil {
-					a.eprintf("dqd: refresh %s failed: %v\n", e.Path, err)
+					a.eprintf("%s: refresh %s failed: %v\n", a.Identity.Name, e.Path, err)
 					continue
 				}
 				refreshed++

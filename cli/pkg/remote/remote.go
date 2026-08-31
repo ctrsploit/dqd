@@ -29,11 +29,13 @@ type Config struct {
 	Client *http.Client
 }
 
-// ConfigFromEnv builds a Config from environment variables.
-func ConfigFromEnv() Config {
+// ConfigFromEnv builds a Config from environment variables; defaultBase
+// (from the assembling binary's cli.Identity) applies when DQD_RAW_BASE
+// is unset, so downstream CLIs can default to their own repository.
+func ConfigFromEnv(defaultBase string) Config {
 	cfg := Config{Base: os.Getenv("DQD_RAW_BASE"), Ref: os.Getenv("DQD_REF"), Token: os.Getenv("GITHUB_TOKEN")}
 	if cfg.Base == "" {
-		cfg.Base = DefaultRawBase
+		cfg.Base = defaultBase
 	}
 	if cfg.Ref == "" {
 		cfg.Ref = DefaultRef

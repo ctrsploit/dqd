@@ -1,4 +1,7 @@
-// Package cli wires the dqd commands together.
+// Package cli wires the environment engine commands together. The
+// engine is brand-agnostic: the assembling binary supplies an Identity
+// (name, remote default, state dirs, registry fallback and the embedded
+// config snapshot) so downstream CLIs can reuse the command tree.
 package cli
 
 import (
@@ -12,7 +15,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/ctrsploit/dqd/cli/pkg/catalog"
-	"github.com/ctrsploit/dqd/cli/internal/embedded"
+	"github.com/ctrsploit/dqd/cli/pkg/dqdpaths"
 	"github.com/ctrsploit/dqd/cli/pkg/prefs"
 	"github.com/ctrsploit/dqd/cli/pkg/remote"
 	"github.com/ctrsploit/dqd/cli/pkg/resolve"
@@ -25,8 +28,23 @@ var version = "dev"
 // SetVersion sets the CLI version string (called from main).
 func SetVersion(v string) { version = v }
 
+// Identity brands one build of the engine. The dqd binary fills it with
+// dqd's defaults; downstream CLIs (e.g. a private dqd-pro) supply their
+// own name, remote source, state directories and embedded snapshot.
+type Identity struct {
+	Name             string         // binary name in help/error prefixes, e.g. "dqd"
+	Short            string         // cobra Short description
+	Long             string         // cobra Long description
+	RawBaseDefault   string         // DQD_RAW_BASE fallback (remote source)
+	StateDirName     string         // ~/.cache and ~/.config subdirectory
+	RegistryFallback string         // image prefix used when compose is absent
+	Index            *catalog.Index // embedded catalog snapshot (content)
+	Tree             *catalog.Tree  // embedded config snapshot (content)
+}
+
 // App carries the shared state of one CLI invocation.
 type App struct {
+	Identity Identity
 	Stdout   io.Writer
 	Stderr   io.Writer
 	Stdin    *os.File
@@ -36,19 +54,21 @@ type App struct {
 	Tree     *catalog.Tree
 }
 
-// NewApp assembles the app from the embedded snapshot, environment
-// variables and persisted preferences.
-func NewApp() (*App, error) {
+// NewApp assembles the app from the identity's embedded snapshot,
+// environment variables and persisted preferences.
+func NewApp(id Identity) (*App, error) {
+	dqdpaths.StateDirName = id.StateDirName
 	app := &App{
-		Stdout: os.Stdout,
-		Stderr: os.Stderr,
-		Stdin:  os.Stdin,
-		Remote: remote.ConfigFromEnv(),
-		Prefs:  prefs.Load(),
-		Tree:   embeddedTree(),
+		Identity: id,
+		Stdout:   os.Stdout,
+		Stderr:   os.Stderr,
+		Stdin:    os.Stdin,
+		Remote:   remote.ConfigFromEnv(id.RawBaseDefault),
+		Prefs:    prefs.Load(),
+		Tree:     id.Tree,
 	}
 	resolver, err := resolve.New(resolve.Options{
-		Index:  embeddedIndex(),
+		Index:  id.Index,
 		Tree:   app.Tree,
 		Remote: &updateDecider{app: app},
 	})
@@ -74,23 +94,21 @@ func (a *App) eprintf(format string, args ...any) {
 }
 
 // Execute runs the CLI; it returns the process exit code.
-func Execute() int {
+func Execute(id Identity) int {
 	noUpdate := false
 	root := &cobra.Command{
-		Use:   "dqd",
-		Short: "Operate dqd (debugging with qemu in docker) environments",
-		Long: "dqd runs reproducible container runtime debugging environments.\n" +
-			"Environments are identified by their repository path (e.g. ubuntu/24.04)\n" +
-			"and execute their own docker-compose.yml verbatim.",
+		Use:           id.Name,
+		Short:         id.Short,
+		Long:          id.Long,
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}
 	root.PersistentFlags().BoolVar(&noUpdate, "no-update", false,
 		"never contact the remote repository this run")
 
-	app, err := NewApp()
+	app, err := NewApp(id)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "dqd: %v\n", err)
+		fmt.Fprintf(os.Stderr, "%s: %v\n", id.Name, err)
 		return 1
 	}
 	// flags are only parsed during Execute; apply --no-update from a
@@ -121,18 +139,8 @@ func Execute() int {
 	}
 
 	if err := root.Execute(); err != nil {
-		fmt.Fprintf(os.Stderr, "dqd: %v\n", err)
+		fmt.Fprintf(os.Stderr, "%s: %v\n", id.Name, err)
 		return 1
 	}
 	return 0
 }
-
-// embeddedIndex and embeddedTree are indirections over the embedded
-// package so tests can swap in fixtures.
-var (
-	embeddedIndexFn = func() *catalog.Index { return embedded.Index }
-	embeddedTreeFn  = func() *catalog.Tree { return embedded.Tree }
-)
-
-func embeddedIndex() *catalog.Index { return embeddedIndexFn() }
-func embeddedTree() *catalog.Tree   { return embeddedTreeFn() }

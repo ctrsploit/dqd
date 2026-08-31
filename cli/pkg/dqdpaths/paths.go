@@ -9,7 +9,12 @@ import (
 	"path/filepath"
 )
 
-// CacheDir returns ~/.cache/dqd (or $DQD_CACHE).
+// StateDirName is the ~/.cache and ~/.config subdirectory for this
+// build (default "dqd"). The assembling binary sets it once at startup
+// via cli.Identity so downstream CLIs get isolated state directories.
+var StateDirName = "dqd"
+
+// CacheDir returns ~/.cache/<StateDirName> (or $DQD_CACHE).
 func CacheDir() (string, error) {
 	if dir := os.Getenv("DQD_CACHE"); dir != "" {
 		return dir, nil
@@ -18,7 +23,7 @@ func CacheDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(base, "dqd"), nil
+	return filepath.Join(base, StateDirName), nil
 }
 
 // ConfigDir returns ~/.config/dqd (or $DQD_CONFIG).
@@ -30,7 +35,7 @@ func ConfigDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(base, "dqd"), nil
+	return filepath.Join(base, StateDirName), nil
 }
 
 // TreeCacheDir is where the embedded snapshot is materialized.

@@ -28,7 +28,7 @@ func (a *App) psCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			ix := embeddedIndex()
+			ix := a.Identity.Index
 			if ix == nil {
 				return fmt.Errorf("no embedded snapshot in this build (run `make cli`)")
 			}

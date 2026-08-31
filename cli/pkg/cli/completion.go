@@ -10,11 +10,11 @@ import (
 // (offline, instant). Wired into every command that takes an
 // environment path; later positional arguments (e.g. the remote
 // command of `dqd ssh <env> -- cmd`) disable file completion too.
-func envCompletion(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+func (a *App) envCompletion(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 	if len(args) != 0 {
 		return nil, cobra.ShellCompDirectiveNoFileComp
 	}
-	ix := embeddedIndex()
+	ix := a.Identity.Index
 	if ix == nil {
 		return nil, cobra.ShellCompDirectiveNoFileComp
 	}
