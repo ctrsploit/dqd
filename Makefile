@@ -1,4 +1,4 @@
-.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean preclean post-clean all dbg check-ssh-ports generate_ssh_config
+.PHONY: help env ci ctr vm dqd push push-ctr push-dqd clean preclean post-clean all dbg check-ssh-ports generate_ssh_config cli generate-catalog check-catalog
 
 # ------------------------------------------------------------------------------
 # Config
@@ -100,6 +100,9 @@ help:
 	  '  push-dqd - push DQD versioned and latest tags' \
 	  '  push   - push ctr and DQD tags' \
 	  '  check-ssh-ports - verify SSH host ports are unique across environments' \
+	  '  check-catalog - verify catalog.json matches the checkout' \
+	  '  generate-catalog - regenerate catalog.json from the checkout' \
+	  '  cli - build the Go dqd CLI into bin/dqd' \
 	  '  generate_ssh_config - generate ssh_config/config and per-env ssh helpers' \
 	  '  clean  - remove generated vm.qcow2' \
 	  '  post-clean - run cleanup after build flow' \
@@ -127,6 +130,34 @@ check-ssh-ports:
 	$(time_begin)
 	bash script/check_ssh_ports.sh
 	bash script/check_ssh_config_consistency.sh
+	$(time_end)
+
+# Catalog freshness: catalog.json AND the committed embedded snapshot
+# (cli/internal/embedded/live) must be regenerated whenever
+# environment files change. Enforced alongside the SSH port checks so
+# CI catches stale catalogs.
+check-catalog:
+	$(time_begin)
+	cd cli && go run ./cmd/dqd-gen check --repo ..
+	$(time_end)
+
+# Regenerate both committed artifacts: catalog.json and the embedded
+# config snapshot (so `go install` builds a current self-contained
+# binary). Run this in every change that touches environment files.
+generate-catalog:
+	$(time_begin)
+	cd cli && go run ./cmd/dqd-gen catalog --repo ..
+	cd cli && go run ./cmd/dqd-gen embed --repo .. --out internal/embedded/live
+	$(time_end)
+
+# Build the Go dqd CLI into bin/dqd. The embedded snapshot is
+# committed, so a plain `go build`/`go install` works too; this
+# target just refreshes it first so the binary matches this exact
+# tree. (The legacy bash CLI lives in bin/dqd-sh, deprecated.)
+cli:
+	$(time_begin)
+	cd cli && go run ./cmd/dqd-gen embed --repo .. --out internal/embedded/live
+	cd cli && go build -trimpath -ldflags "-X main.version=$$(git describe --tags --always --dirty 2>/dev/null || echo dev)" -o ../bin/dqd ./cmd/dqd
 	$(time_end)
 
 generate_ssh_config: check-ssh-ports

@@ -9,42 +9,50 @@ Use this skill for runtime operations on existing dqd environments. Do not use i
 
 ## CLI First
 
-Prefer the CLI over direct `docker compose` commands:
+The `dqd` command is the Go CLI (`cli/`, built into `bin/dqd` by `make cli`). It works both inside a checkout and standalone (it embeds a config snapshot of all environments). The legacy bash CLI lives at `bin/dqd-sh` — deprecated, avoid it.
 
 ```bash
 dqd list [prefix]
 dqd ps [prefix]
 dqd info <env-path>
 dqd up <env-path> [--kvm=true|false]
-dqd ssh <env-path>
+dqd ready <env-path>
+dqd ssh <env-path> [command...]
 dqd down <env-path>
+dqd update [--check]
 ```
 
-If `dqd` is not in `PATH`, install it from the repository:
+If `dqd` is not in `PATH`, install it (no checkout needed):
 
 ```bash
-script/install_cli.sh
-export PATH="$HOME/.local/bin:$PATH"
+go install github.com/ctrsploit/dqd/cli/cmd/dqd@latest
 rehash
 ```
 
-The CLI can also be run directly from the repository:
+From a checkout you can also build and run it directly:
 
 ```bash
+make cli          # builds bin/dqd
 ./bin/dqd list
 ./bin/dqd info runc/v0.0.5
 ```
 
+(`script/install_cli.sh` and `bin/dqd-sh` are deprecated.)
+
 ## Command Semantics
 
-- `dqd list [prefix]`: list known environments, grouped by top-level path; examples: `dqd list`, `dqd list vul`, `dqd list runc/v0.0.5`.
-- `dqd ps [prefix]`: show running dqd environments only. If no matching environment is running, it prints `No running dqd environments.`
-- `dqd info <env>`: show image, version, compose project, dqd image tag, and SSH port.
+- `dqd list`: per-component summary (component, env count). `dqd list <component-or-prefix>` expands to grouped paths; `dqd list --all` dumps everything. Entries without a compose file are suffixed `(build-only)`.
+- `dqd ps [prefix]`: show running dqd environments. If no matching environment is running, it prints `No running dqd environments.`
+- `dqd info <env>`: show image, ssh alias, version, compose project, dqd image tag, SSH port and live status.
 - `dqd up <env>`: start an environment. It auto-enables the KVM overlay when `/dev/kvm` exists and `<env>/docker-compose.kvm.yml` exists.
 - `dqd up <env> --kvm=true`: require KVM; fail if `/dev/kvm` or the KVM compose overlay is unavailable.
 - `dqd up <env> --kvm=false`: force non-KVM startup.
-- `dqd ssh <env>`: SSH into the environment.
+- `dqd ready <env>`: wait until the VM's SSH endpoint answers (default 3s interval, 300s timeout).
+- `dqd ssh <env>`: interactive shell (native SSH, no sshpass). `dqd ssh <env> -- cmd` runs a remote command.
 - `dqd down <env>`: stop the environment.
+- `dqd update`: refresh the remote catalog; `--check` only reports differences from the embedded snapshot.
+
+Environment arguments resolve in order: local directory (repo/dev mode) → remote cache → embedded snapshot → remote fetch.
 
 ## Direct Fallback
 
@@ -64,3 +72,5 @@ Only use `docker-compose.kvm.yml` directly when `/dev/kvm` exists.
 - Build and development workflows stay in `Makefile`.
 - The source of truth for SSH ports is `<env>/docker-compose.yml`.
 - A local process occupying a configured SSH port is a runtime issue; do not change repository port config solely for that.
+- Remote-update prompts never block non-interactive runs; disable remote checks with `--no-update`.
+- When environment files change, regenerate and commit `catalog.json` via `make generate-catalog` (CI-facing freshness gate: `make check-catalog`).

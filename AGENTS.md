@@ -56,6 +56,17 @@ Notes:
 - `clean` removes `<ENV>/vm.qcow2`.
 - `post-clean` removes `<ENV>/1` after `clean`.
 - `check-ssh-ports` verifies SSH host ports are unique across all environments.
+
+### 2.3.1 CLI and catalog helpers
+```bash
+make cli               # build the Go dqd CLI into bin/dqd (embeds a config snapshot)
+make generate-catalog  # regenerate catalog.json from the checkout
+make check-catalog     # fail when committed catalog.json is stale
+```
+Notes:
+- The Go CLI source is the `cli/` module (standalone operation; see `README.md` → "Standalone CLI (Go)"); it is installable via `go install github.com/ctrsploit/dqd/cli/cmd/dqd@latest`.
+- `catalog.json` AND the embedded snapshot (`cli/internal/embedded/live/{index.json,tree.json}`, generated text) are committed like `ssh_config/config`; `make generate-catalog` regenerates both in the same change that touches environment files, `make check-catalog` verifies both.
+- Release binaries are built from `cli-v*` tags via `.github/workflows/cli-release.yml`.
 ### 2.4 CI entrypoint
 ```bash
 make ci ENV=<env-path>

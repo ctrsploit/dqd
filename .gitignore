@@ -2,3 +2,4 @@
 *.qcow2
 modules
 .docker-buildx/
+bin/dqd
