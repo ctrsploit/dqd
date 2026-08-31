@@ -140,8 +140,8 @@ ci: env
 
 check-ssh-ports:
 	$(time_begin)
-	bash $(TOOLCHAIN_DIR)/script/check_ssh_ports.sh
-	bash $(TOOLCHAIN_DIR)/script/check_ssh_config_consistency.sh
+	bash $(TOOLCHAIN_DIR)/script/check_ssh_ports.sh "$(CURDIR)"
+	bash $(TOOLCHAIN_DIR)/script/check_ssh_config_consistency.sh "$(CURDIR)"
 	$(time_end)
 
 # Catalog freshness: catalog.json AND the committed embedded snapshot
@@ -156,9 +156,9 @@ check-catalog:
 # Regenerate both committed artifacts: catalog.json and the embedded
 # config snapshot (so `go install` builds a current self-contained
 # binary). Run this in every change that touches environment files.
-# When included from a foreign checkout (TOOLCHAIN_DIR != CURDIR), only
+# When included from a sibling checkout (TOOLCHAIN_DIR != CURDIR), only
 # catalog.json is refreshed: the embedded snapshot belongs to this
-# repository's CLI and must never embed foreign (possibly private)
+# repository's CLI and must never embed another repository's (possibly private)
 # environments.
 generate-catalog:
 	$(time_begin)
@@ -166,7 +166,7 @@ generate-catalog:
 ifeq ($(abspath $(TOOLCHAIN_DIR)),$(abspath $(CURDIR)))
 	cd $(TOOLCHAIN_DIR)/cli && go run ./cmd/dqd-gen embed --repo $(CURDIR) --out internal/embedded/live
 else
-	@echo "note: foreign checkout ($(CURDIR)) — refreshed catalog.json only; the embedded snapshot belongs to $(abspath $(TOOLCHAIN_DIR))"
+	@echo "note: sibling checkout ($(CURDIR)) — refreshed catalog.json only; the embedded snapshot belongs to $(abspath $(TOOLCHAIN_DIR))"
 endif
 	$(time_end)
 
@@ -175,20 +175,20 @@ endif
 # target just refreshes it first so the binary matches this exact
 # tree. (The legacy bash CLI lives in bin/dqd-sh, deprecated.)
 # dqd-CLI-specific: refused when this Makefile is included from a
-# foreign checkout (the embed step must never capture foreign envs).
+# sibling checkout (the embed step must never capture another's environments).
 cli:
 	$(time_begin)
 ifeq ($(abspath $(TOOLCHAIN_DIR)),$(abspath $(CURDIR)))
 	cd $(TOOLCHAIN_DIR)/cli && go run ./cmd/dqd-gen embed --repo $(CURDIR) --out internal/embedded/live
 	cd $(TOOLCHAIN_DIR)/cli && go build -trimpath -ldflags "-X main.version=$$(git describe --tags --always --dirty 2>/dev/null || echo dev)" -o ../bin/dqd ./cmd/dqd
 else
-	$(error the cli target builds dqd's own CLI and embeds this checkout's environments; run it from $(abspath $(TOOLCHAIN_DIR)), not from a foreign checkout)
+	$(error the cli target builds dqd's own CLI and embeds this checkout's environments; run it from $(abspath $(TOOLCHAIN_DIR)), not from a sibling checkout)
 endif
 	$(time_end)
 
 generate_ssh_config: check-ssh-ports
 	$(time_begin)
-	bash $(TOOLCHAIN_DIR)/script/generate_ssh_config.sh
+	bash $(TOOLCHAIN_DIR)/script/generate_ssh_config.sh "$(CURDIR)"
 	$(time_end)
 
 ctr: env

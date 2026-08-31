@@ -1,7 +1,10 @@
 #!/bin/bash
 set -e
 
-PROJECT_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
+# Target repository root: positional override (dqd-pro style sibling
+# repositories keep their own ssh_config while running this script from
+# the dqd checkout); defaults to the repository this script lives in.
+PROJECT_DIR="${1:-$(dirname "$(dirname "$(realpath "$0")")")}"
 SSH_DIR=~/.ssh
 KEYS_DIR=${SSH_DIR}/keys
 CONFIG_FILE=${SSH_DIR}/config

@@ -57,9 +57,12 @@ NC='\033[0m' # No Color
 
 # Determine the directory where this script is located.
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-project_dir="$(dirname "$script_dir")"
+# Target repository root: positional override (the Makefile passes
+# $(CURDIR) when this toolchain is included from a sibling repository);
+# defaults to the repository this script lives in.
+project_dir="${1:-$(dirname "$script_dir")}"
 
-# Define the absolute output file path relative to the script's location.
+# Define the absolute output file path relative to the project directory.
 output_file="$project_dir/ssh_config/config"
 
 # Create the output directory if it doesn't exist.

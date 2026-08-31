@@ -158,7 +158,7 @@ func runCheck(args []string) error {
 	// aside) and a byte-identical tree.tar (deterministic by design).
 	embedDir := filepath.Join(repo, "cli", "internal", "embedded", "live")
 	if _, statErr := os.Stat(embedDir); os.IsNotExist(statErr) {
-		// Foreign checkout reusing this toolchain (Makefile TOOLCHAIN_DIR):
+		// Sibling checkout reusing this toolchain (Makefile TOOLCHAIN_DIR):
 		// it has no CLI and therefore no embedded snapshot to verify.
 		// catalog.json above is its only committed artifact.
 		fmt.Printf("OK: no embedded snapshot under %s (no cli/); skipped\n", repo)

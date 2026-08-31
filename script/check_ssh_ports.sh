@@ -4,7 +4,10 @@ set -euo pipefail
 # Check that every docker-compose.yml short-form SSH mapping uses a unique host port.
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-project_dir="$(dirname "$script_dir")"
+# Target repository root: positional override (the Makefile passes
+# $(CURDIR) when this toolchain is included from a sibling repository);
+# defaults to the repository this script lives in.
+project_dir="${1:-$(dirname "$script_dir")}"
 ports_file="$(mktemp -t dqd-ssh-ports.XXXXXX)"
 
 trap 'rm -f "$ports_file"' EXIT
