@@ -1,0 +1,55 @@
+name: cli-release
+
+# Build and publish the standalone Go dqd CLI. The binary embeds a
+# config snapshot (compose files + catalog index) generated fresh from
+# the tagged checkout, so each release is self-contained.
+on:
+  push:
+    tags:
+      - "cli-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { goos: linux, goarch: amd64 }
+          - { goos: linux, goarch: arm64 }
+          - { goos: darwin, goarch: amd64 }
+          - { goos: darwin, goarch: arm64 }
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: cli/go.mod
+
+      - name: Generate embedded config snapshot
+        run: cd cli && go run ./cmd/dqd-gen embed --repo .. --out internal/embedded/live
+
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: "0"
+        run: |
+          VERSION="${GITHUB_REF_NAME#cli-v}"
+          cd cli && go build -tags dqdlive -trimpath \
+            -ldflags "-s -w -X main.version=${VERSION}" \
+            -o "../dist/dqd_${GOOS}_${GOARCH}" ./cmd/dqd
+
+      - name: Generate checksums
+        run: cd dist && sha256sum dqd_* | tee checksums.txt
+
+      - name: Upload release artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true

@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# DEPRECATED: this bash CLI is superseded by the Go CLI (built by
+# `make cli` into bin/dqd, also installable from GitHub releases).
+# Kept temporarily for compatibility; will be removed.
+deprecated_notice() {
+    echo "dqd: WARNING: bin/dqd-sh is deprecated and will be removed;" >&2
+    echo "dqd:          use the Go CLI instead: make cli && ./bin/dqd" >&2
+}
+
 usage() {
     cat <<'EOF'
-Usage:
-  dqd list [prefix]
-  dqd ps [prefix]
-  dqd info <env>
-  dqd up <env> [--kvm=true|false]
-  dqd down <env>
-  dqd ssh <env>
-  dqd help
+Usage (DEPRECATED — see bin/dqd):
+  dqd-sh list [prefix]
+  dqd-sh ps [prefix]
+  dqd-sh info <env>
+  dqd-sh up <env> [--kvm=true|false]
+  dqd-sh down <env>
+  dqd-sh ssh <env>
+  dqd-sh help
 
 Notes:
   Build and development workflows stay in Makefile.
@@ -198,6 +206,7 @@ cmd_ssh() {
 main() {
     local root cmd
     root="$(repo_root)"
+    deprecated_notice
     cmd="${1:-help}"
 
     case "$cmd" in
