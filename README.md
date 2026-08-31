@@ -463,6 +463,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [docker-v29.5.2-criu](./docker/v29.5.2-criu/) |
 | [docker-v29.6.2](./docker/v29.6.2/) |
 | [docker-v29.7.0](./docker/v29.7.0/) |
+| [docker-v29.7.1](./docker/v29.7.1/) |
 | [docker-v29.7.2](./docker/v29.7.2/) |
 
 ### podman
