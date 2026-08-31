@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
-	"github.com/ctrsploit/dqd/cli/internal/remote"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/remote"
 )
 
 // listCmd lists environments. Default is a per-component summary

@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"reflect"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
 )
 
 const usage = `usage: dqd-gen <command> [flags]

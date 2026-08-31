@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/docker"
+	"github.com/ctrsploit/dqd/cli/pkg/docker"
 )
 
 // psCmd shows running environments. Unlike bin/dqd — which spawned

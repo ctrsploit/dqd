@@ -7,10 +7,10 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
-	"github.com/ctrsploit/dqd/cli/internal/dqdpaths"
-	"github.com/ctrsploit/dqd/cli/internal/prefs"
-	"github.com/ctrsploit/dqd/cli/internal/remote"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/dqdpaths"
+	"github.com/ctrsploit/dqd/cli/pkg/prefs"
+	"github.com/ctrsploit/dqd/cli/pkg/remote"
 )
 
 // updateDecider implements resolve.RemoteDecider: it fetches the

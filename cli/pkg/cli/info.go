@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/docker"
+	"github.com/ctrsploit/dqd/cli/pkg/docker"
 )
 
 // infoCmd shows an environment's catalog entry plus live status.

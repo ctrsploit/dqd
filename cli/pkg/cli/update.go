@@ -7,9 +7,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
-	"github.com/ctrsploit/dqd/cli/internal/dqdpaths"
-	"github.com/ctrsploit/dqd/cli/internal/remote"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/dqdpaths"
+	"github.com/ctrsploit/dqd/cli/pkg/remote"
 )
 
 // updateCmd refreshes the remote-side knowledge: it fetches the

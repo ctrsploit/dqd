@@ -8,8 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/docker"
-	"github.com/ctrsploit/dqd/cli/internal/sshclient"
+	"github.com/ctrsploit/dqd/cli/pkg/docker"
+	"github.com/ctrsploit/dqd/cli/pkg/sshclient"
 )
 
 // sshCmd connects to a running environment via its actual published

@@ -11,11 +11,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
 	"github.com/ctrsploit/dqd/cli/internal/embedded"
-	"github.com/ctrsploit/dqd/cli/internal/prefs"
-	"github.com/ctrsploit/dqd/cli/internal/remote"
-	"github.com/ctrsploit/dqd/cli/internal/resolve"
+	"github.com/ctrsploit/dqd/cli/pkg/prefs"
+	"github.com/ctrsploit/dqd/cli/pkg/remote"
+	"github.com/ctrsploit/dqd/cli/pkg/resolve"
 )
 
 // version is injected at build time (main sets it via SetVersion,

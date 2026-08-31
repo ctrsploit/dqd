@@ -15,8 +15,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
-	"github.com/ctrsploit/dqd/cli/internal/dqdpaths"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/dqdpaths"
 )
 
 // Source names the channel a resolution came from.

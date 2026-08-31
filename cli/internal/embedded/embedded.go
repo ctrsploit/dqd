@@ -6,7 +6,7 @@
 package embedded
 
 import (
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
 )
 
 // Index is the embedded catalog.

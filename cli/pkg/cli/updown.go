@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/compose"
-	"github.com/ctrsploit/dqd/cli/internal/resolve"
+	"github.com/ctrsploit/dqd/cli/pkg/compose"
+	"github.com/ctrsploit/dqd/cli/pkg/resolve"
 )
 
 // upCmd runs an environment through its own compose files, adding the

@@ -6,7 +6,7 @@ package main
 import (
 	"os"
 
-	"github.com/ctrsploit/dqd/cli/internal/cli"
+	"github.com/ctrsploit/dqd/cli/pkg/cli"
 )
 
 // version is set at build time via -ldflags "-X main.version=...".

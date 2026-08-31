@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ctrsploit/dqd/cli/internal/dqdpaths"
+	"github.com/ctrsploit/dqd/cli/pkg/dqdpaths"
 )
 
 // KeyPEM returns the dqd private key, materializing it from the

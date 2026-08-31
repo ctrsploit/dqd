@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
 )
 
 // Defaults; overridable for mirrors/proxies and tests.
