@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/ctrsploit/dqd/cli/pkg/dqdpaths"
 )
 
 // Update policies.
@@ -77,13 +79,4 @@ func (p Prefs) Save() error {
 	return os.WriteFile(filepath.Join(dir, "config.toml"), []byte(b.String()), 0o644)
 }
 
-func configDir() (string, error) {
-	if dir := os.Getenv("DQD_CONFIG"); dir != "" {
-		return dir, nil
-	}
-	base, err := os.UserConfigDir()
-	if err != nil {
-		return "", err
-	}
-	return filepath.Join(base, "dqd"), nil
-}
+func configDir() (string, error) { return dqdpaths.ConfigDir() }

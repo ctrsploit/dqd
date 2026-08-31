@@ -8,8 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/docker"
-	"github.com/ctrsploit/dqd/cli/internal/sshclient"
+	"github.com/ctrsploit/dqd/cli/pkg/docker"
+	"github.com/ctrsploit/dqd/cli/pkg/sshclient"
 )
 
 // sshCmd connects to a running environment via its actual published
@@ -19,7 +19,7 @@ func (a *App) sshCmd() *cobra.Command {
 		Use:               "ssh <env> [command...]",
 		Short:             "SSH into a running environment (or run a remote command)",
 		Args:              cobra.MinimumNArgs(1),
-		ValidArgsFunction: envCompletion,
+		ValidArgsFunction: a.envCompletion,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			res, err := a.Resolver.Resolve(args[0])
 			if err != nil {
@@ -34,8 +34,8 @@ func (a *App) sshCmd() *cobra.Command {
 			containers := byProject[e.Project]
 			pick := docker.PickServiceContainer(containers)
 			if pick == nil {
-				return fmt.Errorf("%s is not running (project %q); start it with `dqd up %s`",
-					args[0], e.Project, args[0])
+				return fmt.Errorf("%s is not running (project %q); start it with `%s up %s`",
+					args[0], e.Project, a.Identity.Name, args[0])
 			}
 			port, err := docker.HostPort(ctx(), pick.Name, "22")
 			if err != nil {
@@ -50,8 +50,8 @@ func (a *App) sshCmd() *cobra.Command {
 			}
 			client, err := sshclient.Dial(cfg)
 			if err != nil {
-				return fmt.Errorf("%w (user %s, port %s; try `dqd ready %s` if the VM is still booting)",
-					err, e.SSHUser, port, args[0])
+				return fmt.Errorf("%w (user %s, port %s; try `%s ready %s` if the VM is still booting)",
+					err, e.SSHUser, port, a.Identity.Name, args[0])
 			}
 			defer client.Close()
 
@@ -72,7 +72,7 @@ func (a *App) readyCmd() *cobra.Command {
 		Use:               "ready <env>",
 		Short:             "Wait until an environment's SSH endpoint answers",
 		Args:              cobra.ExactArgs(1),
-		ValidArgsFunction: envCompletion,
+		ValidArgsFunction: a.envCompletion,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			res, err := a.Resolver.Resolve(args[0])
 			if err != nil {

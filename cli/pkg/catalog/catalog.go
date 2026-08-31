@@ -17,7 +17,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ctrsploit/dqd/cli/internal/envfile"
+	"github.com/ctrsploit/dqd/cli/pkg/envfile"
 )
 
 // Env describes one environment directory (<ENV> with a .env file).

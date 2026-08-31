@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
-	"github.com/ctrsploit/dqd/cli/internal/remote"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/remote"
 )
 
 // listCmd lists environments. Default is a per-component summary
@@ -18,13 +18,13 @@ func (a *App) listCmd() *cobra.Command {
 		Use:               "list [prefix]",
 		Short:             "List environments: component summary by default, full paths with a prefix or --all",
 		Args:              cobra.MaximumNArgs(1),
-		ValidArgsFunction: envCompletion,
+		ValidArgsFunction: a.envCompletion,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			prefix := ""
 			if len(args) == 1 {
 				prefix = args[0]
 			}
-			ix := embeddedIndex()
+			ix := a.Identity.Index
 			if useRemote {
 				var err error
 				ix, err = remote.FetchIndex(a.Remote)
@@ -64,7 +64,7 @@ func printSummary(a *App, ix *catalog.Index) {
 		a.printf("%-24s %5d\n", g, counts[g])
 	}
 	a.printf("\n%d environments in %d components\n", len(ix.Envs), len(order))
-	a.printf("expand: dqd list <component>   dump all: dqd list --all\n")
+	a.printf("expand: %s list <component>   dump all: %s list --all\n", a.Identity.Name, a.Identity.Name)
 }
 
 // printEnvs renders the grouped path list.

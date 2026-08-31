@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/compose"
-	"github.com/ctrsploit/dqd/cli/internal/resolve"
+	"github.com/ctrsploit/dqd/cli/pkg/compose"
+	"github.com/ctrsploit/dqd/cli/pkg/resolve"
 )
 
 // upCmd runs an environment through its own compose files, adding the
@@ -20,7 +20,7 @@ func (a *App) upCmd() *cobra.Command {
 		Use:               "up <env>",
 		Short:             "Start an environment (docker compose up -d)",
 		Args:              cobra.ExactArgs(1),
-		ValidArgsFunction: envCompletion,
+		ValidArgsFunction: a.envCompletion,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if kvm != "" && kvm != "true" && kvm != "false" {
 				return fmt.Errorf("use --kvm=true or --kvm=false")
@@ -42,7 +42,7 @@ func (a *App) upCmd() *cobra.Command {
 			}
 			a.printf("started %s (project %s)\n", args[0], res.Env.Project)
 			if res.Env.SSHPort != "" {
-				a.printf("connect: dqd ssh %s  (port %s)\n", args[0], res.Env.SSHPort)
+				a.printf("connect: %s ssh %s  (port %s)\n", a.Identity.Name, args[0], res.Env.SSHPort)
 			}
 			return nil
 		},
@@ -58,7 +58,7 @@ func (a *App) downCmd() *cobra.Command {
 		Use:               "down <env>",
 		Short:             "Stop and remove an environment (docker compose down)",
 		Args:              cobra.ExactArgs(1),
-		ValidArgsFunction: envCompletion,
+		ValidArgsFunction: a.envCompletion,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			res, err := a.Resolver.Resolve(args[0])
 			if err != nil {

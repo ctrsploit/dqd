@@ -20,8 +20,8 @@ func (a *App) versionCmd() *cobra.Command {
 					v = info.Main.Version
 				}
 			}
-			a.printf("dqd %s\n", v)
-			if ix := embeddedIndex(); ix != nil {
+			a.printf("%s %s\n", a.Identity.Name, v)
+			if ix := a.Identity.Index; ix != nil {
 				snapshot := "none (placeholder build; run `make cli` for a self-contained binary)"
 				if len(ix.Envs) > 0 {
 					snapshot = fmt.Sprintf("%d environments, commit %s", len(ix.Envs), shortCommit(ix.Commit))

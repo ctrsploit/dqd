@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/docker"
+	"github.com/ctrsploit/dqd/cli/pkg/docker"
 )
 
 // infoCmd shows an environment's catalog entry plus live status.
@@ -14,7 +14,7 @@ func (a *App) infoCmd() *cobra.Command {
 		Use:               "info <env>",
 		Short:             "Show image, project, ports and live status of an environment",
 		Args:              cobra.ExactArgs(1),
-		ValidArgsFunction: envCompletion,
+		ValidArgsFunction: a.envCompletion,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			res, err := a.Resolver.Resolve(args[0])
 			if err != nil {
@@ -24,7 +24,7 @@ func (a *App) infoCmd() *cobra.Command {
 
 			image := e.Image
 			if image == "" && e.EnvImage != "" && e.EnvVersion != "" {
-				image = fmt.Sprintf("ghcr.io/ctrsploit/%s:%s", e.EnvImage, e.EnvVersion)
+				image = fmt.Sprintf("%s/%s:%s", a.Identity.RegistryFallback, e.EnvImage, e.EnvVersion)
 			}
 			if image == "" {
 				image = "-"
@@ -37,7 +37,7 @@ func (a *App) infoCmd() *cobra.Command {
 			}
 			a.printf("version: %s\n", dash(e.EnvVersion))
 			a.printf("project: %s\n", e.Project)
-			a.printf("dqd image: %s\n", image)
+			a.printf("%s image: %s\n", a.Identity.Name, image)
 			a.printf("ssh port: %s\n", dash(e.SSHPort))
 			if len(e.Services) > 1 {
 				a.printf("services: %v\n", e.Services)

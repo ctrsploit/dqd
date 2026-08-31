@@ -7,9 +7,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ctrsploit/dqd/cli/internal/catalog"
-	"github.com/ctrsploit/dqd/cli/internal/dqdpaths"
-	"github.com/ctrsploit/dqd/cli/internal/remote"
+	"github.com/ctrsploit/dqd/cli/pkg/catalog"
+	"github.com/ctrsploit/dqd/cli/pkg/dqdpaths"
+	"github.com/ctrsploit/dqd/cli/pkg/remote"
 )
 
 // updateCmd refreshes the remote-side knowledge: it fetches the
@@ -27,7 +27,7 @@ func (a *App) updateCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			local := embeddedIndex()
+			local := a.Identity.Index
 			if local == nil {
 				local = &catalog.Index{}
 			}
@@ -79,7 +79,7 @@ func (a *App) updateCmd() *cobra.Command {
 					continue
 				}
 				if err := remote.FetchEnv(a.Remote, &e, remoteRoot); err != nil {
-					a.eprintf("dqd: refresh %s failed: %v\n", e.Path, err)
+					a.eprintf("%s: refresh %s failed: %v\n", a.Identity.Name, e.Path, err)
 					continue
 				}
 				refreshed++
