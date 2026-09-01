@@ -27,17 +27,7 @@ func (a *App) sshCmd() *cobra.Command {
 			}
 			e := res.Env
 
-			byProject, err := docker.RunningByProject(ctx())
-			if err != nil {
-				return err
-			}
-			containers := byProject[e.Project]
-			pick := docker.PickServiceContainer(containers)
-			if pick == nil {
-				return fmt.Errorf("%s is not running (project %q); start it with `%s up %s`",
-					args[0], e.Project, a.Identity.Name, args[0])
-			}
-			port, err := docker.HostPort(ctx(), pick.Name, "22")
+			port, err := a.liveSSHPort(args[0], e)
 			if err != nil {
 				return err
 			}
