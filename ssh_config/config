@@ -1308,3 +1308,6 @@ Host dqd-docker-v29.7.2
 Host dqd-docker-v29.7.1
     Port 29710
 
+Host dqd-docker-v29.8.0-rc.1
+    Port 29801
+
