@@ -143,9 +143,40 @@ log_disk_budget() {
     df -h / /mnt 2>/dev/null | sed 's/^/[ci]     /'
 }
 
+# GitHub-hosted runners: the root fs starts with only ~10-20G free and the
+# vm step (d2vm convert + virt-sparsify overlay of ~SIZE) is the disk-
+# hungriest consumer — it fails either the tmpdir free-space check or the
+# opaque "virt-sparsify: exception: End_of_file" when it doesn't fit.
+# Two levers, both GHA-only (no-op everywhere else):
+#   1. delete preinstalled SDKs no build here uses (~20G back on /)
+#   2. claim the mostly-empty ~70G volume at /mnt — root-owned on runners,
+#      so sparsify_tmpdir.sh skips it — and point TMPDIR at it; the widest
+#      filesystem then hosts the virt-sparsify overlay.
+reclaim_runner_disk() {
+    if [[ "${GITHUB_ACTIONS:-}" != "true" ]]; then
+        return 0
+    fi
+
+    echo "[ci] reclaiming runner disk (preinstalled SDKs, dangling images)"
+    sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+        /usr/local/.ghcup /opt/hostedtoolcache/CodeQL 2>/dev/null || true
+    docker image prune -f >/dev/null 2>&1 || true
+
+    if [[ -d /mnt && ! -w /mnt ]]; then
+        if sudo -n install -d -m 0755 -o "$(id -un)" -g "$(id -gn)" /mnt/dqd-tmp 2>/dev/null; then
+            export TMPDIR=/mnt/dqd-tmp
+            echo "[ci] TMPDIR=${TMPDIR} (claimed /mnt for the sparsify overlay)"
+        fi
+    fi
+
+    echo "[ci] disk budget after reclaim:"
+    df -h / /mnt 2>/dev/null | sed 's/^/[ci]     /'
+}
+
 require_env_file
 prepare_ssh_key
 log_disk_budget
+reclaim_runner_disk
 
 # The GHA ubuntu runner ships a host-level AppArmor "unix-chkpwd" profile
 # (enforce) that breaks harbor's `sudo -u #10000 -E rsyslogd -n` PAM path.
