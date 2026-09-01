@@ -1,5 +1,5 @@
 {
-  "commit": "f365dfeb977f8e4c7863e38eae2465f90f4709c9",
+  "commit": "38246424def7616497cae30cf5a9b2a4416bee9e",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -3073,6 +3073,63 @@
         "vm"
       ],
       "compose_hash": "sha256:112bb36f962ee53869c9923db1c03963799d557e495c1f016b923faf4273931a"
+    },
+    {
+      "path": "docker/v29.7.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/docker-v29.7.1:v0.1.0",
+      "env_image": "docker-v29.7.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "29710:22"
+      ],
+      "ssh_port": "29710",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "docker-29-7-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:a2b9e962a283f063e8fa34a952f88ffc4cc1eed948b303a37fc0f43e5bf77e71"
+    },
+    {
+      "path": "docker/v29.7.2",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/docker-v29.7.2:v0.1.0",
+      "env_image": "docker-v29.7.2",
+      "env_version": "v0.1.0",
+      "ports": [
+        "29720:22"
+      ],
+      "ssh_port": "29720",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "docker-29-7-2",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:2ce004a132e5bc3c1416f4920fd34b1466ed862a0dba9968200dee03b2563977"
+    },
+    {
+      "path": "docker/v29.8.0-rc.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/docker-v29.8.0-rc.1:v0.1.0",
+      "env_image": "docker-v29.8.0-rc.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "29801:22"
+      ],
+      "ssh_port": "29801",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "docker-29-8-0-rc-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:a36c129090b3f3750c327ef63dbd810491f18ac571ceaa2d158b9f71c22be3e3"
     },
     {
       "path": "dqd/cgroup-v1-builder",

@@ -130,6 +130,7 @@ func Execute(id Identity) int {
 		app.upCmd(),
 		app.readyCmd(),
 		app.sshCmd(),
+		app.scpCmd(),
 		app.psCmd(),
 		app.downCmd(),
 		app.updateCmd(),
