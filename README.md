@@ -67,8 +67,8 @@ dqd up ubuntu/24.04            # materialize config -> docker compose up -d
 dqd ready ubuntu/24.04         # wait for the VM's SSH endpoint
 dqd ssh ubuntu/24.04           # interactive shell (no sshpass needed)
 dqd ssh ubuntu/24.04 -- uname -a
-dqd scp ubuntu/24.04 ./file :/root/file    # upload (':' prefix marks the VM side)
-dqd scp ubuntu/24.04 :/root/file ./file    # download (-r for directories)
+dqd scp ./file ubuntu/24.04:/root/file    # upload (env:path marks the VM side, like scp)
+dqd scp ubuntu/24.04:/root/file ./file    # download (-r for directories)
 dqd ps
 dqd down ubuntu/24.04
 ```

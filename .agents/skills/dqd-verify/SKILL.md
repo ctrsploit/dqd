@@ -88,7 +88,7 @@ After the migrated environment is running:
 
 1. Pull the generated admin kubeconfig from the environment:
    ```bash
-   scp dqd-<image-name>:/etc/kubernetes/admin.conf <ENV>/kubeconfig
+   dqd scp dqd-<image-name>:/etc/kubernetes/admin.conf <ENV>/kubeconfig
    ```
 2. Rewrite the cluster server to the host API port from `<ENV>/docker-compose.yml`'s `:6443` mapping:
    ```bash

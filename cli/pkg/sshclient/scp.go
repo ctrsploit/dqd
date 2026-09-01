@@ -10,7 +10,6 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"strings"
 
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
@@ -187,11 +186,4 @@ func mkdirRemote(s *sftp.Client, dir string, perm fs.FileMode) error {
 		return err
 	}
 	return nil
-}
-
-// TrimRemotePrefix strips the leading ':' the scp command uses to mark
-// remote paths. A relative remainder resolves against the login user's
-// home directory on the VM (the sftp server's start directory).
-func TrimRemotePrefix(p string) string {
-	return strings.TrimPrefix(p, ":")
 }

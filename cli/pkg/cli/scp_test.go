@@ -2,34 +2,26 @@ package cli
 
 import "testing"
 
-func TestScpSide(t *testing.T) {
+func TestSplitRemote(t *testing.T) {
 	cases := []struct {
-		name             string
-		src, dst         string
-		wantSrc, wantDst bool
-		wantErr          bool
+		name            string
+		token           string
+		wantEnv         string
+		wantRemotePath  string
+		wantOk          bool
 	}{
-		{"upload", "./file", ":/root/file", false, true, false},
-		{"download", ":/root/file", "./file", true, false, false},
-		{"relative remote", "file.txt", ":file.txt", false, true, false},
-		{"both remote errors", ":/a", ":/b", false, false, true},
-		{"both local errors", "./a", "./b", false, false, true},
-		{"colon mid-path is local", "./weird:name", ":/root/x", false, true, false},
+		{"absolute remote", "ubuntu/24.04:/root/file", "ubuntu/24.04", "/root/file", true},
+		{"relative remote", "ubuntu/24.04:file", "ubuntu/24.04", "file", true},
+		{"empty remote path", "ubuntu/24.04:", "ubuntu/24.04", "", true},
+		{"local path no colon", "./file", "", "", false},
+		{"local path with colon in name", "./weird:name", "./weird", "name", true},
+		{"windows drive local", "C:/foo", "C", "/foo", true},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			srcRemote, dstRemote, err := scpSide("dqd", tc.src, tc.dst)
-			if tc.wantErr {
-				if err == nil {
-					t.Fatalf("expected error for %q %q", tc.src, tc.dst)
-				}
-				return
-			}
-			if err != nil {
-				t.Fatalf("unexpected error: %v", err)
-			}
-			if srcRemote != tc.wantSrc || dstRemote != tc.wantDst {
-				t.Fatalf("got (%v,%v), want (%v,%v)", srcRemote, dstRemote, tc.wantSrc, tc.wantDst)
+			env, remotePath, ok := splitRemote(tc.token)
+			if env != tc.wantEnv || remotePath != tc.wantRemotePath || ok != tc.wantOk {
+				t.Fatalf("got (%q,%q,%v), want (%q,%q,%v)", env, remotePath, ok, tc.wantEnv, tc.wantRemotePath, tc.wantOk)
 			}
 		})
 	}

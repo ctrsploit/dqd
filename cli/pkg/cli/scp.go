@@ -11,49 +11,65 @@ import (
 	"github.com/ctrsploit/dqd/cli/pkg/sshclient"
 )
 
-// scpSide reports which of the two paths refers to the environment.
-// Remote paths carry a leading ':' (docker-cp style); exactly one side
-// must be remote, otherwise the copy direction is ambiguous.
-func scpSide(binName, src, dst string) (srcRemote, dstRemote bool, err error) {
-	srcRemote = strings.HasPrefix(src, ":")
-	dstRemote = strings.HasPrefix(dst, ":")
-	if srcRemote == dstRemote {
-		return false, false, fmt.Errorf("exactly one of <src> <dst> must be a remote path with a ':' prefix (e.g. %s scp <env> ./file :/root/file)", binName)
+// splitRemote splits a scp-style <env>:<path> token. ok is true when
+// token carries an environment spec (contains a ':'), matching scp's
+// host:path convention — the environment id is everything before the
+// first ':' and the remote path is everything after it. A token without
+// a ':' is a local path.
+func splitRemote(token string) (env, remotePath string, ok bool) {
+	i := strings.IndexByte(token, ':')
+	if i < 0 {
+		return "", "", false
 	}
-	return srcRemote, dstRemote, nil
+	return token[:i], token[i+1:], true
 }
 
 // scpCmd copies files between the host and a running environment over
-// the same native SSH connection `ssh` uses (SFTP subsystem).
+// the same native SSH connection `ssh` uses (SFTP subsystem). The
+// interface mirrors scp: exactly one of <src> <dst> is written as
+// <env>:<path>.
 func (a *App) scpCmd() *cobra.Command {
 	var recursive bool
 	cmd := &cobra.Command{
-		Use:   "scp <env> <src> <dst>",
-		Short: "Copy files to/from a running environment (remote path starts with ':')",
+		Use:   "scp <src> <dst>",
+		Short: "Copy files to/from a running environment (remote side written as <env>:<path>)",
 		Long: "Copy files between the host and a running environment over the same\n" +
-			"native SSH connection `ssh` uses. Mark the environment side with a\n" +
-			"leading ':' — exactly one of <src> <dst> is remote:\n" +
+			"native SSH connection `ssh` uses. Mark the environment side as\n" +
+			"<env>:<path> — exactly one of <src> <dst> is remote, matching scp:\n" +
 			"\n" +
-			"  dqd scp ubuntu/24.04 ./file.txt :/root/file.txt      (upload)\n" +
-			"  dqd scp ubuntu/24.04 :/root/file.txt ./file.txt      (download)\n" +
-			"  dqd scp -r ubuntu/24.04 ./dir :/root/dir             (directories)\n" +
+			"  dqd scp ./file.txt ubuntu/24.04:/root/file.txt      (upload)\n" +
+			"  dqd scp ubuntu/24.04:/root/file.txt ./file.txt      (download)\n" +
+			"  dqd scp -r ./dir ubuntu/24.04:/root/dir             (directories)\n" +
 			"\n" +
-			"A relative remote path (no slash, e.g. :file) resolves against the\n" +
-			"login user's home directory on the VM. Modes are preserved.",
-		Args:              cobra.ExactArgs(3),
-		ValidArgsFunction: a.envCompletion,
+			"A relative remote path (no slash, e.g. ubuntu/24.04:file) resolves\n" +
+			"against the login user's home directory on the VM. An empty remote\n" +
+			"path (ubuntu/24.04:) is the home directory. Modes are preserved.",
+		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			_, dstRemote, err := scpSide(a.Identity.Name, args[1], args[2])
-			if err != nil {
-				return err
+			srcEnv, srcPath, srcRemote := splitRemote(args[0])
+			dstEnv, dstPath, dstRemote := splitRemote(args[1])
+			if srcRemote == dstRemote {
+				return fmt.Errorf("exactly one of <src> <dst> must be remote, written as <env>:<path> (e.g. %s scp ./file ubuntu/24.04:/root/file)", a.Identity.Name)
 			}
-			res, err := a.Resolver.Resolve(args[0])
+
+			var envArg, remotePath, localPath string
+			var upload bool
+			if dstRemote {
+				envArg, remotePath, localPath, upload = dstEnv, dstPath, args[0], true
+			} else {
+				envArg, remotePath, localPath, upload = srcEnv, srcPath, args[1], false
+			}
+			if remotePath == "" {
+				remotePath = "." // <env>: with no path → home directory
+			}
+
+			res, err := a.Resolver.Resolve(envArg)
 			if err != nil {
 				return err
 			}
 			e := res.Env
 
-			port, err := a.liveSSHPort(args[0], e)
+			port, err := a.liveSSHPort(envArg, e)
 			if err != nil {
 				return err
 			}
@@ -66,20 +82,20 @@ func (a *App) scpCmd() *cobra.Command {
 			client, err := sshclient.Dial(cfg)
 			if err != nil {
 				return fmt.Errorf("%w (user %s, port %s; try `%s ready %s` if the VM is still booting)",
-					err, e.SSHUser, port, a.Identity.Name, args[0])
+					err, e.SSHUser, port, a.Identity.Name, envArg)
 			}
 			defer client.Close()
 
 			sftpClient, err := sshclient.SFTP(client)
 			if err != nil {
-				return fmt.Errorf("sftp subsystem unavailable on %s: %w", args[0], err)
+				return fmt.Errorf("sftp subsystem unavailable on %s: %w", envArg, err)
 			}
 			defer sftpClient.Close()
 
-			if dstRemote {
-				return sshclient.Upload(sftpClient, args[1], sshclient.TrimRemotePrefix(args[2]), recursive)
+			if upload {
+				return sshclient.Upload(sftpClient, localPath, remotePath, recursive)
 			}
-			return sshclient.Download(sftpClient, sshclient.TrimRemotePrefix(args[1]), args[2], recursive)
+			return sshclient.Download(sftpClient, remotePath, localPath, recursive)
 		},
 	}
 	cmd.Flags().BoolVarP(&recursive, "recursive", "r", false, "copy directories recursively")

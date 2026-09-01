@@ -1,5 +1,5 @@
 {
-  "commit": "9908c27d1add36ad6e195bd2f1be222c600b8e9c",
+  "commit": "e7a578e82f6b6ebad72a84dc04fb4bf31a879341",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
