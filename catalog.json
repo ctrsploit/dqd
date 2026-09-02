@@ -5047,6 +5047,26 @@
       "compose_hash": "sha256:db9c54c515bb9da026d4c1fae47f778c93c9238548f3a0cb897424e0cbfe71a9"
     },
     {
+      "path": "kubernetes/v1.36.4/containerd/v2.3.1/calico/default",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.1_calico:v0.1.0",
+      "env_image": "kubernetes-v1.36.4_containerd-v2.3.1_calico",
+      "env_version": "v0.1.0",
+      "ports": [
+        "13642:22",
+        "13643:6443"
+      ],
+      "ssh_port": "13642",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "kubernetes-1-36-4-containerd-2-3-1-calico",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:7711f1f5c0093298aefc5c3bea6379f3afaee9c27a493e9ff4887f543eedef67"
+    },
+    {
       "path": "kubernetes/v1.36.4/containerd/v2.3.1/init",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.1_init:v0.1.0",
@@ -8610,6 +8630,26 @@
         "vm"
       ],
       "compose_hash": "sha256:439d91aed0f687ad9f961557233c4badd57939e9d33e3eb77ff50103375abd85"
+    },
+    {
+      "path": "vul/cve-2026-53488",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-53488:v0.1.1",
+      "env_image": "cve-2026-53488",
+      "env_version": "v0.1.1",
+      "ports": [
+        "53488:22",
+        "53489:6443"
+      ],
+      "ssh_port": "53488",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-53488",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:dc3a9dd35f34457b521ea33adb9930d289b262f782a0e0e1dc931c65efccb39f"
     },
     {
       "path": "vul/fork-bomb",
