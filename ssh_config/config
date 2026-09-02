@@ -1297,6 +1297,10 @@ Host dqd-cve-2019-14271
 Host dqd-cve-2019-14271-fix
     Port 14272
 
+Host dqd-ctf-cve-2026-53488
+    Port 53490
+    User ctf
+
 Host dqd-ctf-cve-2026-41567
     Port 41568
     User ctf
