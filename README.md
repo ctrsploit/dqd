@@ -502,6 +502,12 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 ### kubenertes
 
+#### v1.36.4
+
+| image | note |
+|-----|------|
+| [kubernetes-v1.36.4_containerd-v2.3.1_base](./kubernetes/v1.36.4/containerd/v2.3.1/base) | k8s components installed |
+
 #### v1.36.2
 
 | image | note |
