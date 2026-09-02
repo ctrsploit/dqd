@@ -1630,6 +1630,25 @@
       "compose_hash": "sha256:f7d48ab8afc3d694711c3901013b0473285fbb09162f04b2d65b79e574003883"
     },
     {
+      "path": "containerd/v2.3.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/containerd-v2.3.1:v0.1.0",
+      "env_image": "containerd-v2.3.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "23310:22"
+      ],
+      "ssh_port": "23310",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "containerd-2-3-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:3f29548cacef9eb064f635cf2bc13a6139f1f61b8691305f3ca4f103ac815078"
+    },
+    {
       "path": "ctf/Be-a-Docker-Escaper",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/be-a-docker-escaper:v0.1.0",
@@ -5015,6 +5034,37 @@
         "vm"
       ],
       "compose_hash": "sha256:164ea1a15ee6ae3b97e5fda63b8842f51e2ea7074bb13b7a0000d8bdd2ee92f6"
+    },
+    {
+      "path": "kubernetes/v1.36.4/containerd/v2.3.1/base",
+      "has_compose": false,
+      "env_image": "kubernetes-v1.36.4_containerd-v2.3.1_base",
+      "env_version": "v0.1.0",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "base",
+      "skip_ssh_config": true,
+      "compose_hash": "sha256:db9c54c515bb9da026d4c1fae47f778c93c9238548f3a0cb897424e0cbfe71a9"
+    },
+    {
+      "path": "kubernetes/v1.36.4/containerd/v2.3.1/init",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.1_init:v0.1.0",
+      "env_image": "kubernetes-v1.36.4_containerd-v2.3.1_init",
+      "env_version": "v0.1.0",
+      "ports": [
+        "13640:22",
+        "13641:6443"
+      ],
+      "ssh_port": "13640",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "kubernetes-1-36-4-containerd-2-3-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:76b3f7e953c878f9229af1364ebbd02f2a480a2da15b71708caca5c36f3de89e"
     },
     {
       "path": "nerdctl/v0.10.0",
