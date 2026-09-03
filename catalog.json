@@ -1706,6 +1706,26 @@
       "compose_hash": "sha256:730fbad485010e3f25af08d707b362522fe31424be540f352176bef7f7fcb784"
     },
     {
+      "path": "ctf/cve-2026-53488",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/ctf-cve-2026-53488:v0.1.2",
+      "env_image": "ctf-cve-2026-53488",
+      "env_version": "v0.1.2",
+      "ports": [
+        "53490:22",
+        "53491:6443"
+      ],
+      "ssh_port": "53490",
+      "ssh_user": "ctf",
+      "ssh_password": "ctf",
+      "project": "ctf-cve-2026-53488",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:9fa0e4f7222fe200a5f3ee8db49f415ff1a7aa436e8f92e800b3a79ff7718a0d"
+    },
+    {
       "path": "ctf/your-gpu-my-shell",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/your-gpu-my-shell:v0.1.1",
@@ -8575,6 +8595,25 @@
       "compose_hash": "sha256:221547e3e468e997d600149dfc5d1b5603d3265c60f26c58a2152e41c4438dc2"
     },
     {
+      "path": "vul/cve-2026-41579",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-41579:v0.1.0",
+      "env_image": "cve-2026-41579",
+      "env_version": "v0.1.0",
+      "ports": [
+        "41579:22"
+      ],
+      "ssh_port": "41579",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-41579",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:b062721543e90f50c454ccd4116f9d97530ba047230dda4990a92ab1477e0549"
+    },
+    {
       "path": "vul/cve-2026-43284",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/cve-2026-43284:v0.3.0",
@@ -8630,6 +8669,26 @@
         "vm"
       ],
       "compose_hash": "sha256:439d91aed0f687ad9f961557233c4badd57939e9d33e3eb77ff50103375abd85"
+    },
+    {
+      "path": "vul/cve-2026-53488-fix",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-53488-fix:v0.1.0",
+      "env_image": "cve-2026-53488-fix",
+      "env_version": "v0.1.0",
+      "ports": [
+        "53492:22",
+        "53493:6443"
+      ],
+      "ssh_port": "53492",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-53488-fix",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:be72ecf1f285db02bf64a8e86ae5755c4fba7f8ff3b16b88e7fdadb8d14be3b1"
     },
     {
       "path": "vul/cve-2026-53488",
