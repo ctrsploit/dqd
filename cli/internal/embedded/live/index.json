@@ -1,5 +1,5 @@
 {
-  "commit": "015008ae1322f7ead6d27bf55316505e737c57d5",
+  "commit": "d3a63b6ee04a53779f3bf42ee561024ab8237b8b",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -8594,6 +8594,25 @@
         "vm"
       ],
       "compose_hash": "sha256:221547e3e468e997d600149dfc5d1b5603d3265c60f26c58a2152e41c4438dc2"
+    },
+    {
+      "path": "vul/cve-2026-41579-fix",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-41579-fix:v0.1.0",
+      "env_image": "cve-2026-41579-fix",
+      "env_version": "v0.1.0",
+      "ports": [
+        "41580:22"
+      ],
+      "ssh_port": "41580",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-41579-fix",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:7ac3e4e7cf70b7cc9af04a671cfa64bd9b7d17bc2d53af7ea938c13bab2cee37"
     },
     {
       "path": "vul/cve-2026-41579",

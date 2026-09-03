@@ -1291,6 +1291,9 @@ Host dqd-docker-v19.03.1
 Host dqd-cve-2026-41579
     Port 41579
 
+Host dqd-cve-2026-41579-fix
+    Port 41580
+
 Host dqd-cve-2026-41567
     Port 41567
 
