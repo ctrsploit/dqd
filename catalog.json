@@ -5139,9 +5139,9 @@
     {
       "path": "kubernetes/v1.36.4/containerd/v2.3.2/calico/default",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:v0.1.1",
+      "image": "ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:v0.1.2",
       "env_image": "kubernetes-v1.36.4_containerd-v2.3.2_calico",
-      "env_version": "v0.1.1",
+      "env_version": "v0.1.2",
       "ports": [
         "62728:22",
         "62729:6443"
@@ -5154,7 +5154,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:f6ffb2f6807484a07e3c988d50ac72479c4457279623437f43b50b92a2b0231e"
+      "compose_hash": "sha256:f58da6fa406ca669a84ea5de0e9a0fe95be41786fadfe742b34dbb1b7bc5d6fc"
     },
     {
       "path": "kubernetes/v1.36.4/containerd/v2.3.2/init",

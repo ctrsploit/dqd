@@ -2,9 +2,9 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:latest | point to v0.1.1 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:v0.1.1 | calico v3.32.2, CRDs from crd.projectcalico.org.v1 applied before tigera-operator |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:ctr_v0.1.1 | - |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:latest | point to v0.1.2 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:v0.1.2 | calico v3.32.2, CRDs from crd.projectcalico.org.v1 applied before tigera-operator |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:ctr_v0.1.2 | - |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:v0.1.0 | CI failed: missing ssh_config entry |
 
 ## usage
@@ -70,7 +70,7 @@ make all ENV=kubernetes/v1.36.4/containerd/v2.3.2/calico/default
 
 ```dockerfile
 # syntax=docker/dockerfile:1-labs
-FROM ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:ctr_v0.1.1
+FROM ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:ctr_v0.1.2
 ...
 RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 ```
