@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:v0.1.1
+    image: ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_calico:v0.1.2
     # Use host cpu to fix calico: "This program can only be run on AMD64 processors with v2 microarchitecture support."
     command: /start.sh -cpu host
     environment:
