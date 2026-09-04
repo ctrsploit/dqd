@@ -5126,6 +5126,16 @@
       "compose_hash": "sha256:76b3f7e953c878f9229af1364ebbd02f2a480a2da15b71708caca5c36f3de89e"
     },
     {
+      "path": "kubernetes/v1.36.4/containerd/v2.3.2/base",
+      "has_compose": false,
+      "env_image": "kubernetes-1-36-4-containerd-2-3-2-base",
+      "env_version": "v0.1.0",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "kubernetes-1-36-4-containerd-2-3-2-base",
+      "compose_hash": "sha256:d3f4fa47c920d11f224cdc2d6cb22344ebc0f6dcc1e6131c8f4774bdedce52ce"
+    },
+    {
       "path": "nerdctl/v0.10.0",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/nerdctl-v0.10.0:v0.1.0",
