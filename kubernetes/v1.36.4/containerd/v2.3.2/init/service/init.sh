@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOSTNAME="kubernetes-1-36-4-containerd-2-3-1"
+HOSTNAME="kubernetes-1-36-4-containerd-2-3-2"
 
 log() {
   echo "[dqd] $1" > /dev/kmsg
