@@ -2,9 +2,10 @@
 
 | type | image | note |
 | ---- | ----- | ---- |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:latest | point to v0.1.1 |
-| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:v0.1.1 | - |
-| ctr | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:ctr_v0.1.1 | - |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:latest | point to v0.1.2 |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:v0.1.2 | - |
+| ctr | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:ctr_v0.1.2 | - |
+| dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:v0.1.1 | CI failed: service/init.sh + kubeadm.conf still pinned the 2-3-1 hostname |
 | dqd | ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:v0.1.0 | CI failed: base image was published under a wrong name |
 
 ## usage
@@ -61,7 +62,7 @@ make all ENV=kubernetes/v1.36.4/containerd/v2.3.2/init
 
 ```dockerfile
 # syntax=docker/dockerfile:1-labs
-FROM ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:ctr_v0.1.1
+FROM ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:ctr_v0.1.2
 ...
 RUN --security=insecure ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 ```

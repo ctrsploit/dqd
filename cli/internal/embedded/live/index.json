@@ -1,5 +1,5 @@
 {
-  "commit": "770c211300cae282e594350f43befdfb008b75d0",
+  "commit": "27cb2421b59f92791b83dc079b95bd5730b39f87",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -5142,7 +5142,7 @@
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:v0.1.0",
       "env_image": "kubernetes-v1.36.4_containerd-v2.3.2_init",
-      "env_version": "v0.1.1",
+      "env_version": "v0.1.2",
       "ports": [
         "62726:22",
         "62727:6443"
@@ -5155,7 +5155,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:8af5099b44e9c9a4d5c7c6d776d7c7da796ed85d8c3251b662819151e83a271c"
+      "compose_hash": "sha256:7592e4e2e84528ae979c09672788caba29401ebd95708b58f75242f2fad00191"
     },
     {
       "path": "nerdctl/v0.10.0",

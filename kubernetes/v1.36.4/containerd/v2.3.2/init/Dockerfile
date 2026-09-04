@@ -34,16 +34,16 @@ ENV KUBECONFIG=/etc/kubernetes/admin.conf
 ARG CACHE_BUST
 RUN echo "No cache from here, value: $CACHE_BUST"
 # copy image snapshots
-RUN --mount=type=cache,id=kubernetes-v1.36.4-containerd-v2.3.1-snapshots,target=/trick \
+RUN --mount=type=cache,id=kubernetes-v1.36.4-containerd-v2.3.2-snapshots,target=/trick \
     cp -a /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/* /trick/
 # kubeadm init under ext4 fs
-RUN --mount=type=cache,id=kubernetes-v1.36.4-containerd-v2.3.1-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
+RUN --mount=type=cache,id=kubernetes-v1.36.4-containerd-v2.3.2-snapshots,target=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs \
     # fix kube-proxy `Failed to load kernel module`
     --mount=type=bind,src=/modules,target=/lib/modules \
     --security=insecure \
     ["/bin/sh", "-c", "cat /dev/kmsg 2>/dev/null & exec /sbin/init --log-target=kmsg"]
 # skip overlayfs whiteout files (c 0,0)
-RUN --mount=type=cache,id=kubernetes-v1.36.4-containerd-v2.3.1-snapshots,target=/trick \
+RUN --mount=type=cache,id=kubernetes-v1.36.4-containerd-v2.3.2-snapshots,target=/trick \
     # all these files are safe to delete, list each file path here for more clear
     rm /trick/snapshots/*/work/work/#* && \
     # use tar to preserve file capabilities
