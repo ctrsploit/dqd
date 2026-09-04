@@ -1343,5 +1343,5 @@ Host dqd-docker-v29.8.0-rc.1
     Port 29801
 
 
-Host dqd-kubernetes-v1.36.4_containerd-v2.3.2_calico
-    Port 62728
+Host dqd-kubernetes-v1.36.4_containerd-v2.3.2_init
+    Port 62726
