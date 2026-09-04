@@ -7922,6 +7922,25 @@
       "compose_hash": "sha256:323e49ae1fe0fb70d3dce2c6a7c148082f9a69c8ca34d00810c92bce70475d72"
     },
     {
+      "path": "runc/v1.4.3",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/runc-v1.4.3:v0.1.0",
+      "env_image": "runc-v1.4.3",
+      "env_version": "v0.1.0",
+      "ports": [
+        "14022:22"
+      ],
+      "ssh_port": "14022",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "runc-1-4-3",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:73ae3e265092ab369bcfd4fcdbacac308d612ece86e4061a94a809ea810ed848"
+    },
+    {
       "path": "ubuntu/12.04",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/ubuntu-12.04:v0.2.0",
@@ -8707,7 +8726,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:be72ecf1f285db02bf64a8e86ae5755c4fba7f8ff3b16b88e7fdadb8d14be3b1"
+      "compose_hash": "sha256:6f0196756798828c3016cae9d23383ca88e53ea68575e4257d3315a53d615d2e"
     },
     {
       "path": "vul/cve-2026-53488",
