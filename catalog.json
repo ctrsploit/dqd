@@ -1649,6 +1649,25 @@
       "compose_hash": "sha256:3f29548cacef9eb064f635cf2bc13a6139f1f61b8691305f3ca4f103ac815078"
     },
     {
+      "path": "containerd/v2.3.2",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/containerd-v2.3.2:v0.1.0",
+      "env_image": "containerd-v2.3.2",
+      "env_version": "v0.1.0",
+      "ports": [
+        "23320:22"
+      ],
+      "ssh_port": "23320",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "containerd-2-3-2",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:0048994effdcf120b9afe8695cd059747869dd5a66f3c9d7c145d09be956a5fa"
+    },
+    {
       "path": "ctf/Be-a-Docker-Escaper",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/be-a-docker-escaper:v0.1.0",

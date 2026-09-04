@@ -691,6 +691,9 @@ Host dqd-containerd-v2.2.3
 Host dqd-containerd-v2.3.0
     Port 23300
 
+Host dqd-containerd-v2.3.2
+    Port 23320
+
 Host dqd-containerd-v2.3.1
     Port 23310
 
