@@ -184,6 +184,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [runc-v1.4.3](./runc/v1.4.3/) |
 | [runc-v1.4.2](./runc/v1.4.2/) |
 | [runc-v1.4.2-kernel-v4.15](./runc/v1.4.2-kernel-v4.15/) |
 | [runc-v1.3.5](./runc/v1.3.5/) |
