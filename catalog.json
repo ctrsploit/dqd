@@ -5141,7 +5141,7 @@
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/kubernetes-v1.36.4_containerd-v2.3.2_init:v0.1.0",
       "env_image": "kubernetes-v1.36.4_containerd-v2.3.2_init",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "62726:22",
         "62727:6443"
@@ -5154,7 +5154,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:0ceaf33b55f01c00188a5d64739e2bdf3899f34ec46916e7954e4e2a442fe585"
+      "compose_hash": "sha256:8af5099b44e9c9a4d5c7c6d776d7c7da796ed85d8c3251b662819151e83a271c"
     },
     {
       "path": "nerdctl/v0.10.0",
