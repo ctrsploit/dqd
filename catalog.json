@@ -8781,9 +8781,9 @@
     {
       "path": "vul/cve-2026-53488-fix",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/cve-2026-53488-fix:v0.1.0",
+      "image": "ghcr.io/ctrsploit/cve-2026-53488-fix:v0.1.1",
       "env_image": "cve-2026-53488-fix",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "53492:22",
         "53493:6443"
@@ -8796,7 +8796,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:6f0196756798828c3016cae9d23383ca88e53ea68575e4257d3315a53d615d2e"
+      "compose_hash": "sha256:6850b7e77b5f2d7f7a4d662c720a45f77d9ac005496052fdd141c68844d94b62"
     },
     {
       "path": "vul/cve-2026-53488",
