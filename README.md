@@ -125,6 +125,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [cve-2024-23650](./vul/cve-2024-23650/) |
 | [cve-2024-40635](./vul/cve-2024-40635/) |
 | [cve-2025-47290](./vul/cve-2025-47290/) |
+| [cve-2025-47290-fix](./vul/cve-2025-47290-fix/) |
 | [cve-2025-62725](./vul/cve-2025-62725/) |
 | [fork-bomb](./vul/fork-bomb/) |
 | [shocker-v0.7.1](./vul/shocker/v0.7.1/) |

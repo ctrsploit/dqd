@@ -950,6 +950,9 @@ Host dqd-cve-2025-62725
 Host dqd-cve-2025-47290
     Port 47290
 
+Host dqd-cve-2025-47290-fix
+    Port 47291
+
 Host dqd-cve-2024-23650
     Port 23650
 
