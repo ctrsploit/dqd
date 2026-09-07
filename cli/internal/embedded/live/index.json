@@ -1,5 +1,5 @@
 {
-  "commit": "199835e9c1a2b7dda232f9cfc6a8aa34781a87db",
+  "commit": "72f37a3f360b81866464a97f2cb80f85f8f8491f",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -1705,6 +1705,25 @@
         "vm"
       ],
       "compose_hash": "sha256:7ae9b5e1fc66ca75bc0ea08f9cb1e4e3e75e448e1242220d27e43ee8764871a8"
+    },
+    {
+      "path": "ctf/cve-2025-47290",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/ctf-cve-2025-47290:v0.1.0",
+      "env_image": "ctf-cve-2025-47290",
+      "env_version": "v0.1.0",
+      "ports": [
+        "47292:22"
+      ],
+      "ssh_port": "47292",
+      "ssh_user": "ctf",
+      "ssh_password": "ctf",
+      "project": "ctf-cve-2025-47290",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:64a1970d27321a6e3ffe351bfc368b41fb889f4a61031fedfd73a732dd101e4c"
     },
     {
       "path": "ctf/cve-2026-41567",
@@ -8455,6 +8474,25 @@
         "vm"
       ],
       "compose_hash": "sha256:158e20f869ae0e2f28a75e7e700b19ff37a40b905fa124bd2748faae2c2822c6"
+    },
+    {
+      "path": "vul/cve-2025-47290-fix",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2025-47290-fix:v0.1.0",
+      "env_image": "cve-2025-47290-fix",
+      "env_version": "v0.1.0",
+      "ports": [
+        "47291:22"
+      ],
+      "ssh_port": "47291",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2025-47290-fix",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:52c90b843d752d01af91456df8a0633b92332e2be9cb0489e3de1647249d109b"
     },
     {
       "path": "vul/cve-2025-47290",
