@@ -1358,3 +1358,7 @@ Host dqd-ctf-cve-2025-47290
 
 Host dqd-cve-2026-50195
     Port 50195
+
+Host dqd-ctf-cve-2026-50195
+    Port 50197
+    User ctf
