@@ -8817,6 +8817,26 @@
       "compose_hash": "sha256:439d91aed0f687ad9f961557233c4badd57939e9d33e3eb77ff50103375abd85"
     },
     {
+      "path": "vul/cve-2026-50195",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-50195:v0.1.0",
+      "env_image": "cve-2026-50195",
+      "env_version": "v0.1.0",
+      "ports": [
+        "50195:22",
+        "50196:6443"
+      ],
+      "ssh_port": "50195",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-50195",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:cf37213e6ce187a4679a0e17fe71d01b1fa13f83ee5ab281ea951c7a9cb79727"
+    },
+    {
       "path": "vul/cve-2026-53488-fix",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/cve-2026-53488-fix:v0.1.1",
