@@ -308,6 +308,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [containerd-v2.3.5](./containerd/v2.3.5/) |
 | [containerd-v2.3.2](./containerd/v2.3.2/) |
 | [containerd-v2.3.1](./containerd/v2.3.1/) |
 | [containerd-v2.3.0](./containerd/v2.3.0/) |
