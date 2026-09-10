@@ -8050,6 +8050,25 @@
       "compose_hash": "sha256:73ae3e265092ab369bcfd4fcdbacac308d612ece86e4061a94a809ea810ed848"
     },
     {
+      "path": "runc/v1.5.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/runc-v1.5.1:v0.1.0",
+      "env_image": "runc-v1.5.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "15101:22"
+      ],
+      "ssh_port": "15101",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "runc-1-5-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:a2dfc148a84a1682e841a374eee44b77478ac2ddd3ce9c1e2a0add8b9b8cd2d5"
+    },
+    {
       "path": "ubuntu/12.04",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/ubuntu-12.04:v0.2.0",
