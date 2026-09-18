@@ -345,6 +345,25 @@
       "compose_hash": "sha256:6fe6f41809c507b57136fd0df02a90439ac4974ce4781eb98df9faaffaa9fa30"
     },
     {
+      "path": "buildkit/v0.33.0",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/buildkit-v0.33.0:v0.1.0",
+      "env_image": "buildkit-v0.33.0",
+      "env_version": "v0.1.0",
+      "ports": [
+        "33000:22"
+      ],
+      "ssh_port": "33000",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "buildkit-0-33-0",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:70f1ca8c431fdcce91756d9df285f114c7578124d5f67ed5fe1f709ec917f3c6"
+    },
+    {
       "path": "buildkit/v0.4.0",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/buildkit-v0.4.0:v0.1.0",
