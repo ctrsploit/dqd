@@ -286,6 +286,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [buildkit-v0.5.0](./buildkit/v0.5.0/) |
 | [buildkit-v0.4.0](./buildkit/v0.4.0/) |
 | [buildkit-v0.3.0](./buildkit/v0.3.0/) |
+| [buildkit-v0.33.0](./buildkit/v0.33.0/) |
 | [buildkit-v0.21.1](./buildkit/v0.21.1/) |
 | [buildkit-v0.21.0](./buildkit/v0.21.0/) |
 | [buildkit-v0.21.0-rc2](./buildkit/v0.21.0-rc2/) |

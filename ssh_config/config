@@ -202,6 +202,9 @@ Host dqd-buildkit-v0.4.0
 Host dqd-buildkit-v0.3.0
     Port 3001
 
+Host dqd-buildkit-v0.33.0
+    Port 33000
+
 Host dqd-buildkit-v0.21.1
     Port 21109
 
