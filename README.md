@@ -181,6 +181,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [ctf-cve-2026-50195](./ctf/cve-2026-50195/) |
 | [cve-2026-41567](./ctf/cve-2026-41567/) |
 | [cve-2025-47290](./ctf/cve-2025-47290/) |
+| [cve-2024-0132](./ctf/cve-2024-0132/) |
 | [cve-2019-14271](./ctf/cve-2019-14271/) |
 | [Be-a-Docker-Escaper](./ctf/Be-a-Docker-Escaper/) |
 | [your-gpu-my-shell](./ctf/your-gpu-my-shell/) |
