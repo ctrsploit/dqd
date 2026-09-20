@@ -1,5 +1,5 @@
 {
-  "commit": "21ca64207c595bf428bf3a52858917364c8fd7d7",
+  "commit": "a1616f4cddbb43c4aa73fa98ddef520e2cb5c143",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -8454,6 +8454,25 @@
         "vm"
       ],
       "compose_hash": "sha256:a94d9bedf0d4922e120461794560a17821e7ae7db29bddd495db8c4c4b24f139"
+    },
+    {
+      "path": "vul/cve-2024-0132-fix",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2024-0132-fix:v0.1.0",
+      "env_image": "cve-2024-0132-fix",
+      "env_version": "v0.1.0",
+      "ports": [
+        "40134:22"
+      ],
+      "ssh_port": "40134",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2024-0132-fix",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:43badbfc07c642669efbb90808d08f18d4bf3e8085607c6dfd40323e7ef55960"
     },
     {
       "path": "vul/cve-2024-0132",
