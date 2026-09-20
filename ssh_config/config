@@ -1374,3 +1374,7 @@ Host dqd-ctf-cve-2026-50195
 
 Host dqd-containerd-v2.3.5
     Port 23350
+
+Host dqd-ctf-cve-2024-0132
+    Port 40133
+    User ctf
