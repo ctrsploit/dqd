@@ -125,6 +125,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [cve-2024-40635](./vul/cve-2024-40635/) |
 | [cve-2024-23650](./vul/cve-2024-23650/) |
 | [cve-2024-0132](./vul/cve-2024-0132/) |
+| [cve-2024-0132-fix](./vul/cve-2024-0132-fix/) |
 | [cve-2022-39253](./vul/cve-2022-39253/) |
 | [cve-2022-0847](./vul/cve-2022-0847/) |
 | [cve-2022-0492](./vul/cve-2022-0492/) |

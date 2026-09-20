@@ -1378,3 +1378,6 @@ Host dqd-containerd-v2.3.5
 Host dqd-ctf-cve-2024-0132
     Port 40133
     User ctf
+
+Host dqd-cve-2024-0132-fix
+    Port 40134
