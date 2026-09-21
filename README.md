@@ -758,6 +758,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [kubernetes-v1.35.1_containerd-v2.2.1_base](./kubernetes/v1.35.1/containerd/v2.2.1/base) | k8s components installed |
 | [kubernetes-v1.35.1_containerd-v2.2.1_calico](./kubernetes/v1.35.1/containerd/v2.2.1/calico/default) | calico installed |
 | [kubernetes-v1.35.1_containerd-v2.2.1_init](./kubernetes/v1.35.1/containerd/v2.2.1/init) | kubeadm init, without CNI |
+| [nvidia-container-toolkit-v1.20.1](./nvidia-container-toolkit/v1.20.1/) |
 | [nvidia-container-toolkit-v1.19.0](./nvidia-container-toolkit/v1.19.0/) |
 | [nvidia-container-toolkit-v1.17.8](./nvidia-container-toolkit/v1.17.8/) |
 | [nvidia-container-toolkit-v1.17.7](./nvidia-container-toolkit/v1.17.7/) |

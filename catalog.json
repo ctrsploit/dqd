@@ -6399,6 +6399,25 @@
       "compose_hash": "sha256:fc6e720a670f09bc18e76cb61e6faabf2a89928192b3688409928ab11b591bb8"
     },
     {
+      "path": "nvidia-container-toolkit/v1.20.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.1:v0.1.0",
+      "env_image": "nvidia-container-toolkit-v1.20.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "12011:22"
+      ],
+      "ssh_port": "12011",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "nvidia-container-toolkit-1-20-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:42fcf1dc4c85f5f20ae945bd7275c22ccd59a1ff673b785c37b723e76e4aeb60"
+    },
+    {
       "path": "podman/v5.4.0",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/podman-v5.4.0:v0.1.0",
