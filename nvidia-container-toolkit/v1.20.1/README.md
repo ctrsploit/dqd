@@ -534,6 +534,248 @@ root@nvidia-container-toolkit-1-20-1:~# cat /run/containerd/io.containerd.runtim
 }
 ```
 
+```shell
+root@nvidia-container-toolkit-1-20-1:~# docker run -tid --runtime=nvidia --device nvidia.com/gpu=all busybox
+5650654a314a07f9660b06aa73aa3f229572398d0e2d17bcf067eb23cbc74843
+root@nvidia-container-toolkit-1-20-1:~# docker exec 5650654a314a ls -l /dev/nvidia*
+crw-rw-rw-    1 root     root      195, 254 Sep 22 02:51 /dev/nvidia-modeset
+crw-rw-rw-    1 root     root      195,   0 Sep 22 02:51 /dev/nvidia0
+crw-rw-rw-    1 root     root      195,   1 Sep 22 02:51 /dev/nvidia1
+crw-rw-rw-    1 root     root      195,   2 Sep 22 02:51 /dev/nvidia2
+crw-rw-rw-    1 root     root      195,   3 Sep 22 02:51 /dev/nvidia3
+crw-rw-rw-    1 root     root      195, 255 Sep 22 02:51 /dev/nvidiactl
+root@nvidia-container-toolkit-1-20-1:~# cat /run/containerd/io.containerd.runtime.v2.task/moby/5650654a314a07f9660b06aa73aa3f229572398d0e2d17bcf067eb23cbc74843/config.json | jq .hooks
+{
+  "createRuntime": [
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "apply-cuda-memory-limits",
+        "--driver-root",
+        "",
+        "--gpu-id",
+        "GPU-0-FAKE-UUID"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "apply-cuda-memory-limits",
+        "--driver-root",
+        "",
+        "--gpu-id",
+        "GPU-1-FAKE-UUID"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "apply-cuda-memory-limits",
+        "--driver-root",
+        "",
+        "--gpu-id",
+        "GPU-2-FAKE-UUID"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "apply-cuda-memory-limits",
+        "--driver-root",
+        "",
+        "--gpu-id",
+        "GPU-3-FAKE-UUID"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    }
+  ],
+  "createContainer": [
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "create-symlinks",
+        "--link",
+        "../libnvidia-allocator.so.1::/usr/lib/x86_64-linux-gnu/gbm/nvidia-drm_gbm.so",
+        "--link",
+        "libglxserver_nvidia.so.575.57.08::/usr/lib64/xorg/modules/extensions/libglxserver_nvidia.so"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "create-symlinks",
+        "--link",
+        "libEGL_nvidia.so.575.57.08::/usr/lib/x86_64-linux-gnu/libEGL_nvidia.so.0",
+        "--link",
+        "libGLESv1_CM_nvidia.so.575.57.08::/usr/lib/x86_64-linux-gnu/libGLESv1_CM_nvidia.so.1",
+        "--link",
+        "libGLESv2_nvidia.so.575.57.08::/usr/lib/x86_64-linux-gnu/libGLESv2_nvidia.so.2",
+        "--link",
+        "libGLX_nvidia.so.575.57.08::/usr/lib/x86_64-linux-gnu/libGLX_indirect.so.0",
+        "--link",
+        "libGLX_nvidia.so.575.57.08::/usr/lib/x86_64-linux-gnu/libGLX_nvidia.so.0",
+        "--link",
+        "libcuda.so.1::/usr/lib/x86_64-linux-gnu/libcuda.so",
+        "--link",
+        "libcuda.so.575.57.08::/usr/lib/x86_64-linux-gnu/libcuda.so.1",
+        "--link",
+        "libcudadebugger.so.575.57.08::/usr/lib/x86_64-linux-gnu/libcudadebugger.so.1",
+        "--link",
+        "libnvcuvid.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvcuvid.so.1",
+        "--link",
+        "libnvcuvid.so.1::/usr/lib/x86_64-linux-gnu/libnvcuvid.so",
+        "--link",
+        "libnvidia-allocator.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.1",
+        "--link",
+        "libnvidia-allocator.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-allocator.so",
+        "--link",
+        "libnvidia-cfg.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.1",
+        "--link",
+        "libnvidia-cfg.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-cfg.so",
+        "--link",
+        "libnvidia-encode.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1",
+        "--link",
+        "libnvidia-encode.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-encode.so",
+        "--link",
+        "libnvidia-fbc.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.1",
+        "--link",
+        "libnvidia-fbc.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-fbc.so",
+        "--link",
+        "libnvidia-ml.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-ml.so",
+        "--link",
+        "libnvidia-ngx.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-ngx.so.1",
+        "--link",
+        "libnvidia-nvvm.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-nvvm.so.4",
+        "--link",
+        "libnvidia-nvvm.so.4::/usr/lib/x86_64-linux-gnu/libnvidia-nvvm.so",
+        "--link",
+        "libnvidia-opencl.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-opencl.so.1",
+        "--link",
+        "libnvidia-opticalflow.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-opticalflow.so",
+        "--link",
+        "libnvidia-opticalflow.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-opticalflow.so.1",
+        "--link",
+        "libnvidia-ptxjitcompiler.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1",
+        "--link",
+        "libnvidia-ptxjitcompiler.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so",
+        "--link",
+        "libnvidia-sandboxutils.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-sandboxutils.so.1",
+        "--link",
+        "libnvidia-sandboxutils.so.1::/usr/lib/x86_64-linux-gnu/libnvidia-sandboxutils.so",
+        "--link",
+        "libnvidia-vksc-core.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvidia-vksc-core.so.1",
+        "--link",
+        "libnvoptix.so.575.57.08::/usr/lib/x86_64-linux-gnu/libnvoptix.so.1",
+        "--link",
+        "libvdpau_nvidia.so.575.57.08::/usr/lib/x86_64-linux-gnu/vdpau/libvdpau_nvidia.so.1"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "enable-cuda-compat",
+        "--host-driver-version=575.57.08"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "update-ldcache",
+        "--folder",
+        "/usr/lib/x86_64-linux-gnu",
+        "--folder",
+        "/usr/lib/x86_64-linux-gnu/vdpau"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "disable-device-node-modification"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    },
+    {
+      "path": "/usr/bin/nvidia-cdi-hook",
+      "args": [
+        "nvidia-cdi-hook",
+        "update-application-profile"
+      ],
+      "env": [
+        "NVIDIA_CTK_DEBUG=false"
+      ]
+    }
+  ]
+}
+```
+
+### Inspect the CDI auto-refresh mechanism
+
+```shell
+root@nvidia-container-toolkit-1-20-1:~# systemctl status nvidia-cdi-refresh.service
+○ nvidia-cdi-refresh.service - Refresh NVIDIA CDI specification file
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-cdi-refresh.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/nvidia-cdi-refresh.service.d
+             └─10-container-engines.conf
+     Active: inactive (dead) (Result: exec-condition) since Tue 2026-09-22 02:46:48 UTC; 29s ago
+TriggeredBy: ● nvidia-cdi-refresh.path
+  Condition: start condition unmet at Tue 2026-09-22 02:46:48 UTC; 29s ago
+             ├─ ConditionPathExists=|/usr/sbin/nvidia-smi was not met
+root@nvidia-container-toolkit-1-20-1:~# systemctl show -p ExecCondition nvidia-cdi-refresh.service
+ExecCondition={ path=/bin/sh ; argv[]=/bin/sh -c /usr/bin/grep -qE "/(nvidia|nvidia-current)[.]ko" /lib/modules/6.8.0-71-generic/modules.dep || [ -e /dev/dxg ] ; ignore_errors=no ; start_time=[Tue 2026-09-22 02:46:48 UTC] ; stop_time=[Tue 2026-09-22 02:46:48 UTC] ; pid=398 ; code=exited ; status=1 }
+root@nvidia-container-toolkit-1-20-1:~# grep -E "/(nvidia|nvidia-current)[.]ko" /lib/modules/$(uname -r)/modules.dep
+
+root@nvidia-container-toolkit-1-20-1:~# grep fake /lib/modules/$(uname -r)/modules.dep
+kernel/drivers/extra/fake_nvidia_driver.ko:
+root@nvidia-container-toolkit-1-20-1:~# systemctl show -p Environment nvidia-cdi-refresh.service
+Environment=NVIDIA_CTK_CDI_OUTPUT_FILE_PATH=/var/run/cdi/nvidia.yaml
+root@nvidia-container-toolkit-1-20-1:~# systemctl status nvidia-cdi-refresh.path
+● nvidia-cdi-refresh.path - Trigger CDI refresh on NVIDIA driver or toolkit install / upgrade events
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-cdi-refresh.path; enabled; preset: enabled)
+     Active: active (waiting) since Tue 2026-09-22 02:46:48 UTC; 29s ago
+   Triggers: ● nvidia-cdi-refresh.service
+
+Sep 22 02:46:48 nvidia-container-toolkit-1-20-1 systemd[1]: Started nvidia-cdi-refresh.path - Trigger CDI refresh on NVIDIA driver or toolkit install / upgrade events.
+root@nvidia-container-toolkit-1-20-1:~# grep ^ACTION /lib/udev/rules.d/99-nvidia-cdi-refresh.rules
+ACTION=="add", SUBSYSTEM=="module", KERNEL=="nvidia|nvidia_current", TAG+="systemd", ENV{SYSTEMD_WANTS}+="nvidia-cdi-refresh.service"
+root@nvidia-container-toolkit-1-20-1:~# ls /etc/cdi /var/run/cdi
+ls: cannot access '/etc/cdi': No such file or directory
+ls: cannot access '/var/run/cdi': No such file or directory
+```
+
 ### Inspect fake NVIDIA devices
 
 ```shell
