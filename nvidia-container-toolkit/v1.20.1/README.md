@@ -752,21 +752,59 @@ Since fake-nvidia v0.9.0-beta.1 the kernel module registers under the name `nvid
 
 ```shell
 root@nvidia-container-toolkit-1-20-1:~# systemctl status nvidia-cdi-refresh.service
-<!-- VERIFY -->
+○ nvidia-cdi-refresh.service - Refresh NVIDIA CDI specification file
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-cdi-refresh.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/nvidia-cdi-refresh.service.d
+             └─10-container-engines.conf
+     Active: inactive (dead) since Wed 2026-09-23 13:51:48 UTC; 51s ago
+TriggeredBy: ● nvidia-cdi-refresh.path
+    Process: 431 ExecCondition=/bin/sh -c /usr/bin/grep -qE "/(nvidia|nvidia-current)[.]ko" /lib/modules/6.8.0-71-generic/modules.dep || [ -e /dev/dxg ] (code=exited, status=0/SUCCESS)
+    Process: 433 ExecStart=/bin/sh -c /usr/bin/nvidia-smi -L || /usr/sbin/nvidia-smi -L || /usr/lib/wsl/lib/nvidia-smi -L (code=exited, status=0/SUCCESS)
+    Process: 442 ExecStart=/bin/sh -c [ -e /dev/dxg ] || /usr/bin/grep -q "^nvgpu " /proc/modules || /usr/bin/nvidia-ctk system create-device-nodes --control-devices --load-kernel-modules || /usr/bin/nvidia-ctk system create-device-nodes --control-devices (code=exited, status=1/FAILURE)
+    Process: 457 ExecStart=/usr/bin/nvidia-ctk cdi generate (code=exited, status=0/SUCCESS)
+   Main PID: 457 (code=exited, status=0/SUCCESS)
+        CPU: 75ms
+
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=info msg="Selecting /usr/bin/nvidia-smi as /usr/bin/nvidia-smi"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=info msg="Selecting /usr/bin/nvidia-debugdump as /usr/bin/nvidia-debugdump"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=info msg="Selecting /usr/bin/nvidia-persistenced as /usr/bin/nvidia-persistenced"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=info msg="Selecting /usr/bin/nvidia-cuda-mps-control as /usr/bin/nvidia-cuda-mps-control"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=info msg="Selecting /usr/bin/nvidia-cuda-mps-server as /usr/bin/nvidia-cuda-mps-server"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=warning msg="Could not locate nvidia-imex: nvidia-imex: not found"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=warning msg="Could not locate nvidia-imex-ctl: nvidia-imex-ctl: not found"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 nvidia-ctk[457]: time="2026-09-23T13:51:48Z" level=info msg="Generated CDI spec with version 0.5.0"
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 systemd[1]: nvidia-cdi-refresh.service: Deactivated successfully.
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 systemd[1]: Finished nvidia-cdi-refresh.service - Refresh NVIDIA CDI specification file.
 root@nvidia-container-toolkit-1-20-1:~# systemctl show -p ExecCondition nvidia-cdi-refresh.service
-<!-- VERIFY -->
+ExecCondition={ path=/bin/sh ; argv[]=/bin/sh -c /usr/bin/grep -qE "/(nvidia|nvidia-current)[.]ko" /lib/modules/6.8.0-71-generic/modules.dep || [ -e /dev/dxg ] ; ignore_errors=no ; start_time=[Wed 2026-09-23 13:51:48 UTC] ; stop_time=[Wed 2026-09-23 13:51:48 UTC] ; pid=431 ; code=exited ; status=0 }
 root@nvidia-container-toolkit-1-20-1:~# grep -E "/(nvidia|nvidia-current)[.]ko" /lib/modules/$(uname -r)/modules.dep
-<!-- VERIFY -->
+kernel/drivers/extra/nvidia.ko:
 root@nvidia-container-toolkit-1-20-1:~# modinfo nvidia
-<!-- VERIFY -->
+filename:       /lib/modules/6.8.0-71-generic/kernel/drivers/extra/nvidia.ko
+description:    fake-nvidia: a fake NVIDIA driver registered under the name 'nvidia' for nvidia-container-toolkit / CDI-refresh compatibility research. NOT the proprietary NVIDIA driver.
+version:        0.9.0-beta.1-fake
+author:         ssst0n3 with gemini-2.5-pro, patched for multi-kernel by ChatGPT
+license:        MIT
+srcversion:     872C76BBEA56162ED71F94B
+depends:        
+retpoline:      Y
+name:           nvidia
+vermagic:       6.8.0-71-generic SMP preempt mod_unload modversions 
 root@nvidia-container-toolkit-1-20-1:~# systemctl show -p Environment nvidia-cdi-refresh.service
 Environment=NVIDIA_CTK_CDI_OUTPUT_FILE_PATH=/var/run/cdi/nvidia.yaml
 root@nvidia-container-toolkit-1-20-1:~# systemctl status nvidia-cdi-refresh.path
-<!-- VERIFY -->
+● nvidia-cdi-refresh.path - Trigger CDI refresh on NVIDIA driver or toolkit install / upgrade events
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-cdi-refresh.path; enabled; preset: enabled)
+     Active: active (waiting) since Wed 2026-09-23 13:51:48 UTC; 1min 12s ago
+   Triggers: ● nvidia-cdi-refresh.service
+
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 systemd[1]: Started nvidia-cdi-refresh.path - Trigger CDI refresh on NVIDIA driver or toolkit install / upgrade events.
 root@nvidia-container-toolkit-1-20-1:~# grep ^ACTION /lib/udev/rules.d/99-nvidia-cdi-refresh.rules
 ACTION=="add", SUBSYSTEM=="module", KERNEL=="nvidia|nvidia_current", TAG+="systemd", ENV{SYSTEMD_WANTS}+="nvidia-cdi-refresh.service"
 root@nvidia-container-toolkit-1-20-1:~# ls /etc/cdi /var/run/cdi
-<!-- VERIFY -->
+/var/run/cdi:
+nvidia.yaml
+ls: cannot access '/etc/cdi': No such file or directory
 ```
 
 ### Inspect fake NVIDIA devices
@@ -808,13 +846,27 @@ GPU UUID:       GPU-3-FAKE-UUID
 Bus Location:   00000000:00:00.0
 Architecture:   7.5
 root@nvidia-container-toolkit-1-20-1:~# lsmod | grep nvidia
-<!-- VERIFY -->
+nvidia                 12288  0
 root@nvidia-container-toolkit-1-20-1:~# nvidia-smi -L
-<!-- VERIFY -->
+GPU 0: NVIDIA Tesla T4 (UUID: GPU-0-FAKE-UUID)
+GPU 1: NVIDIA Tesla T4 (UUID: GPU-1-FAKE-UUID)
+GPU 2: NVIDIA Tesla T4 (UUID: GPU-2-FAKE-UUID)
+GPU 3: NVIDIA Tesla T4 (UUID: GPU-3-FAKE-UUID)
 root@nvidia-container-toolkit-1-20-1:~# ls -lah /usr/lib/x86_64-linux-gnu/libnvidia-ml.so*
-<!-- VERIFY -->
+lrwxrwxrwx 1 root root  39 Sep 23 13:40 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so -> /lib/x86_64-linux-gnu/libnvidia-ml.so.1
+lrwxrwxrwx 1 root root  47 Sep 23 13:40 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1 -> /lib/x86_64-linux-gnu/libnvidia-ml.so.575.57.08
+-rwxr-xr-x 1 root root 35K Sep 23 13:40 /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.575.57.08
 root@nvidia-container-toolkit-1-20-1:~# systemctl status fake-nvidia-device
-<!-- VERIFY -->
+○ fake-nvidia-device.service - Create device nodes for fake nvidia driver
+     Loaded: loaded (/etc/systemd/system/fake-nvidia-device.service; enabled; preset: enabled)
+     Active: inactive (dead) since Wed 2026-09-23 13:51:48 UTC; 1min 13s ago
+    Process: 410 ExecStart=/usr/local/bin/fake-nvidia-device.sh (code=exited, status=0/SUCCESS)
+   Main PID: 410 (code=exited, status=0/SUCCESS)
+        CPU: 11ms
+
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 systemd[1]: Starting fake-nvidia-device.service - Create device nodes for fake nvidia driver...
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 systemd[1]: fake-nvidia-device.service: Deactivated successfully.
+Sep 23 13:51:48 nvidia-container-toolkit-1-20-1 systemd[1]: Finished fake-nvidia-device.service - Create device nodes for fake nvidia driver.
 ```
 
 ### versions
