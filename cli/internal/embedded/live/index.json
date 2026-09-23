@@ -1,5 +1,5 @@
 {
-  "commit": "844d1087bb5f0a584d9ac6058905a2d36c792d0c",
+  "commit": "369a34512c97d4af4efce84c5ad92ee334d13baa",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -6402,9 +6402,9 @@
     {
       "path": "nvidia-container-toolkit/v1.20.1",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.1:v0.1.0",
+      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.1:v0.1.1",
       "env_image": "nvidia-container-toolkit-v1.20.1",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "12011:22"
       ],
@@ -6416,7 +6416,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:42fcf1dc4c85f5f20ae945bd7275c22ccd59a1ff673b785c37b723e76e4aeb60"
+      "compose_hash": "sha256:06302e997727ee9d47cb50bf45441155d1650ce5012f6120793c483b59d54c64"
     },
     {
       "path": "podman/v5.4.0",

@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.1:v0.1.0
+    image: ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.1:v0.1.1
     ports:
         - "12011:22"
     tty: true
