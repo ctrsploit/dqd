@@ -507,6 +507,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [harbor-v2.15.3](./harbor/v2.15.3/) |
 | [harbor-v2.15.2](./harbor/v2.15.2/) |
 
 ### docker-compose

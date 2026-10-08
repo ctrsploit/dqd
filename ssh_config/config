@@ -1387,3 +1387,6 @@ Host dqd-cve-2024-0132-fix
 
 Host dqd-containerd-v2.4.1
     Port 24100
+
+Host dqd-harbor-v2.15.3
+    Port 21530

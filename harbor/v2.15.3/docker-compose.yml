@@ -1,0 +1,10 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/harbor-v2.15.3:v0.1.0
+    environment:
+      - "QEMU_HOSTFWD=hostfwd=tcp::80-:80"
+    ports:
+        - "21530:22"
+        - "21531:80"
+    tty: true
+    stdin_open: true

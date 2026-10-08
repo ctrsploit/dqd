@@ -1,5 +1,5 @@
 {
-  "commit": "eaa590d93d822b8fed89100248cf39e69439e0fc",
+  "commit": "5c9cbc97db3e078eacecf86280ec72fc7167f028",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -3354,6 +3354,27 @@
         "vm"
       ],
       "compose_hash": "sha256:49912d852e9d83886858674f4dd09a6dcab55280b574f0254af30319cfac1d74"
+    },
+    {
+      "path": "harbor/v2.15.3",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/harbor-v2.15.3:v0.1.0",
+      "env_image": "harbor-v2.15.3",
+      "env_version": "v0.1.0",
+      "ports": [
+        "21530:22",
+        "21531:80"
+      ],
+      "ssh_port": "21530",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "harbor-v2-15-3",
+      "has_kvm": true,
+      "kvm_command": "/start.sh -enable-kvm",
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:dcc546ba2254a6331def0c225ce626e652c3534c2c53ed8fd2d0b27ddb57f102"
     },
     {
       "path": "ingress-nginx/v1.11.3",
