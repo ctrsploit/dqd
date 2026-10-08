@@ -97,6 +97,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [ghsa-2phj-cp9f-qq6w](./vul/ghsa-2phj-cp9f-qq6w/) |
 | [cve-2026-53488](./vul/cve-2026-53488/) |
 | [cve-2026-53488-fix](./vul/cve-2026-53488-fix/) |
 | [cve-2026-50195](./vul/cve-2026-50195/) |

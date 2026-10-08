@@ -1,0 +1,10 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/ghsa-2phj-cp9f-qq6w:v0.1.0
+    environment:
+      - "QEMU_HOSTFWD=hostfwd=tcp::80-:80"
+    ports:
+        - "21522:22"
+        - "21523:80"
+    tty: true
+    stdin_open: true

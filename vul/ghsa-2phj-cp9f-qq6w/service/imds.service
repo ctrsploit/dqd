@@ -1,0 +1,21 @@
+[Unit]
+Description=Fake IMDS at 169.254.169.254 (GHSA-2phj-cp9f-qq6w SSRF victim)
+After=network.target
+
+[Service]
+Type=simple
+# 169.254.169.254:80 cannot be bound directly — harbor's nginx publishes
+# 0.0.0.0:80 in this VM. REDIRECT traffic to that address onto the fake
+# server's port 8169 instead: PREROUTING catches the harbor containers'
+# egress (jobservice webhook delivery), OUTPUT catches VM-local requests.
+# -C || -A keeps the rules idempotent across service restarts.
+ExecStartPre=/bin/sh -c '/usr/sbin/iptables -t nat -C PREROUTING -d 169.254.169.254 -p tcp --dport 80 -j REDIRECT --to-ports 8169 2>/dev/null || /usr/sbin/iptables -t nat -A PREROUTING -d 169.254.169.254 -p tcp --dport 80 -j REDIRECT --to-ports 8169'
+ExecStartPre=/bin/sh -c '/usr/sbin/iptables -t nat -C OUTPUT -d 169.254.169.254 -p tcp --dport 80 -j REDIRECT --to-ports 8169 2>/dev/null || /usr/sbin/iptables -t nat -A OUTPUT -d 169.254.169.254 -p tcp --dport 80 -j REDIRECT --to-ports 8169'
+ExecStart=/usr/bin/python3 /usr/local/bin/fake-imds.py
+User=root
+Restart=always
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

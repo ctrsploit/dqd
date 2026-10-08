@@ -9090,6 +9090,27 @@
       "compose_hash": "sha256:911944786e8b3273006e8a3b231f125eba35e56a161b5d047e673c953b51338b"
     },
     {
+      "path": "vul/ghsa-2phj-cp9f-qq6w",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/ghsa-2phj-cp9f-qq6w:v0.1.0",
+      "env_image": "ghsa-2phj-cp9f-qq6w",
+      "env_version": "v0.1.0",
+      "ports": [
+        "21522:22",
+        "21523:80"
+      ],
+      "ssh_port": "21522",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "ghsa-2phj-cp9f-qq6w",
+      "has_kvm": true,
+      "kvm_command": "/start.sh -enable-kvm",
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:8d947ef78c6d992bdba0b351e4addf5dfddee8d62d3f26cd5f74330480e02e78"
+    },
+    {
       "path": "vul/shocker/v0.11.1-lxc",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/shocker-v0.11.1-lxc:v0.1.0",
