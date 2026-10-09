@@ -1,5 +1,14 @@
 [Unit]
 Description=CTF GHSA-2phj-cp9f-qq6w challenge setup
+# Ordered after start.service (the base env's harbor-container starter), which
+# itself is After=multi-user.target: a boot-time "run after everything else"
+# hack. Pulling this unit in via multi-user.target (the usual WantedBy) would
+# close the ring multi-user -> setup-challenge -> start -> multi-user, and
+# systemd silently drops the job from the boot transaction (the unit never
+# starts — exactly the v0.1.0/v0.1.1 bug). WantedBy=start.service attaches to
+# start's own job graph instead; After=start.service orders execution once the
+# starter script exits, and the script's health loop waits for harbor to be
+# ready from there.
 After=network-online.target docker.service start.service
 Wants=network-online.target
 
@@ -9,4 +18,4 @@ ExecStart=/usr/local/bin/setup-challenge.sh
 RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=start.service
