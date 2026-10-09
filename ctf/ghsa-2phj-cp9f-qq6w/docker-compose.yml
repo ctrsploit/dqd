@@ -1,6 +1,6 @@
 services:
   vm:
-    image: ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.0
+    image: ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.1
     environment:
       - "QEMU_HOSTFWD=hostfwd=tcp::80-:80"
     ports:
