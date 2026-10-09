@@ -2,9 +2,11 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:latest | points to `v0.1.1` |
-| dqd | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.1 | stock Harbor v2.15.2 (vulnerable) + flag-bearing fake IMDS + `ctf` player account |
+| dqd | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:latest | points to `v0.1.2` |
+| dqd | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.2 | stock Harbor v2.15.2 (vulnerable) + flag-bearing fake IMDS + `ctf` player account |
+| dqd | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.1 | setup-challenge.service never ran: WantedBy=multi-user.target closed an ordering ring with the base's `After=multi-user.target` start.service and systemd silently dropped the job; superseded |
 | dqd | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.0 | setup raced ahead of harbor readiness: `attacker` account not created, admin password not rotated; superseded |
+| ctr | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:ctr_v0.1.2 | - |
 | ctr | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:ctr_v0.1.1 | - |
 | ctr | ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:ctr_v0.1.0 | - |
 
@@ -92,7 +94,7 @@ FROM ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:ctr_v0.1.0
 * `FROM` the stock `harbor/v2.15.2` ctr image (published as `ctr_v0.1.21`) directly — a sibling of `vul/ghsa-2phj-cp9f-qq6w`, not a child: the vul env's `imds.service` redirects VM-local traffic to `169.254.169.254` too, which would be a direct-access bypass here. Harbor itself is untouched.
 * The flag carrier is `flag-imds.service`, enabled at build time. It serves the flag (read from `/root/flag`, `chmod 400 root:root`) as the `SecretAccessKey` of fake instance-role credentials and answers **every** request with `404` + that body — error-status response bodies are what jobservice writes into the project-readable webhook execution log, so the 404 body is the only channel through which the flag can leave.
 * Trust boundary, enforced by three idempotent iptables rules in `flag-imds.service`: nat `PREROUTING` REDIRECT `169.254.169.254:80 → :8169` (container egress only — no `OUTPUT` redirect), filter `OUTPUT REJECT` for `169.254.169.254` (VM-local curl and dockerd fetches), filter `INPUT REJECT` on `lo` for `:8169` (direct connects to the listener; redirected container traffic arrives on the bridge interface and passes). The rules reference no docker-network addresses, so they survive docker subnet renumbering.
-* `setup-challenge.sh` (boot, after `start.service` has brought up the Harbor containers): waits for `/api/v2.0/health` to report the **overall** status healthy (the per-component statuses go healthy one by one; jobservice is last), then creates the `attacker` player account via the admin API (v2.15 rejects API-triggered self-registration) and rotates the stock `admin` password — both retried until a login probe confirms the intended end state.
+* `setup-challenge.sh` (boot, ordered after `start.service` — the base env's harbor-container starter; its unit is `WantedBy=start.service`, because the starter is itself `After=multi-user.target` and attaching there would close an ordering ring whose job systemd silently drops): waits for `/api/v2.0/health` to report the **overall** status healthy (the per-component statuses go healthy one by one; jobservice is last), then creates the `attacker` player account via the admin API (v2.15 rejects API-triggered self-registration) and rotates the stock `admin` password — both retried until a login probe confirms the intended end state.
 * `ctf` user hardening follows `ctf/cve-2026-50195`: root password locked, `PermitRootLogin no`, sudoers whitelist `sudoers.ctf` (`chmod 440`), no docker-group membership.
 * `SIZE=20G`, inherited from the base (Harbor's 9 containers plus PostgreSQL/Redis data).
 * Root is unreachable by design (password locked, `PermitRootLogin no` — console included; the journal and `iptables` state are likewise root-only). To debug the env itself, rebuild locally with the two locking `RUN` layers removed from the Dockerfile.
