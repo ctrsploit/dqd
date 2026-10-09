@@ -72,4 +72,4 @@ The `SecretAccessKey` is the flag. Submit it.
 - `curl http://127.0.0.1:8169/` or the bridge IP: filter `INPUT REJECT` on `lo` for `:8169`; redirected container traffic arrives on the bridge interface and passes.
 - `sudo docker run/exec/inspect`: not in the whitelist; `docker push` is pinned to `127.0.0.1/*`.
 - `/root/flag`: `chmod 400 root:root`, root password locked.
-- Stock `admin` / `Harbor12345`: rotated to a random value at boot by `setup-challenge.sh` (and admin would still need this same SSRF to reach the flag).
+- Stock `admin` / `Harbor12345`: still present — Harbor v2.15.2's API cannot rotate or delete the built-in admin (`PUT /users/1` → 200 without effect, `DELETE /users/1` → 403). This changes nothing about the solve: an admin session can create projects and webhooks just like the `attacker` account, and still has no way to reach `169.254.169.254` except through a webhook delivery — the flag's boundary is the network firewall, not Harbor authentication.
