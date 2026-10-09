@@ -1,0 +1,33 @@
+[Unit]
+Description=Fake IMDS at 169.254.169.254 carrying the CTF flag (GHSA-2phj-cp9f-qq6w)
+After=network.target
+
+[Service]
+Type=simple
+# Trust boundary of the challenge: 169.254.169.254:80 must be reachable ONLY
+# from the Harbor deployment's egress (jobservice webhook delivery), never
+# from the VM itself (where the player's shell lives).
+#
+# 1. nat PREROUTING REDIRECT: container-origin traffic to 169.254.169.254:80
+#    lands on this server's port 8169 (169.254.169.254:80 cannot be bound
+#    directly — harbor's nginx publishes 0.0.0.0:80). Conntrack NATs the
+#    replies, so clients see a plain http://169.254.169.254/... endpoint.
+#    Unlike the vul env there is deliberately NO OUTPUT redirect.
+# 2. filter OUTPUT REJECT: VM-local clients (curl, dockerd image fetches)
+#    cannot reach 169.254.169.254 at all.
+# 3. filter INPUT REJECT on lo for :8169: VM-local direct connects to the
+#    listener (127.0.0.1:8169, or the bridge gateway IP — local delivery
+#    always traverses lo) are refused. Redirected container traffic arrives
+#    on the bridge interface and passes.
+# -C || -A keeps the rules idempotent across service restarts.
+ExecStartPre=/bin/sh -c '/usr/sbin/iptables -t nat -C PREROUTING -d 169.254.169.254 -p tcp --dport 80 -j REDIRECT --to-ports 8169 2>/dev/null || /usr/sbin/iptables -t nat -A PREROUTING -d 169.254.169.254 -p tcp --dport 80 -j REDIRECT --to-ports 8169'
+ExecStartPre=/bin/sh -c '/usr/sbin/iptables -C OUTPUT -d 169.254.169.254 -j REJECT 2>/dev/null || /usr/sbin/iptables -A OUTPUT -d 169.254.169.254 -j REJECT'
+ExecStartPre=/bin/sh -c '/usr/sbin/iptables -C INPUT -i lo -p tcp --dport 8169 -j REJECT 2>/dev/null || /usr/sbin/iptables -A INPUT -i lo -p tcp --dport 8169 -j REJECT'
+ExecStart=/usr/bin/python3 /usr/local/bin/flag-imds.py
+User=root
+Restart=always
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

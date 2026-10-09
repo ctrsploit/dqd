@@ -1,0 +1,12 @@
+[Unit]
+Description=CTF GHSA-2phj-cp9f-qq6w challenge setup
+After=network-online.target docker.service start.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/setup-challenge.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

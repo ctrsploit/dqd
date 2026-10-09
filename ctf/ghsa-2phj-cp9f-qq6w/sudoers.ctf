@@ -1,0 +1,1 @@
+ctf ALL=(root) NOPASSWD: /usr/bin/docker login *, /usr/bin/docker pull *, /usr/bin/docker tag *, /usr/bin/docker push 127.0.0.1/*
