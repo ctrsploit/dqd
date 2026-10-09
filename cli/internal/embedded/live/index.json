@@ -1,5 +1,5 @@
 {
-  "commit": "3a4eaef21f8a3575a651a0a5cfcf5a59d239e42d",
+  "commit": "81c6b00dce82cb305e9eab6779703d5e6f1d8164",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -1863,9 +1863,9 @@
     {
       "path": "ctf/ghsa-2phj-cp9f-qq6w",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.0",
+      "image": "ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.1",
       "env_image": "ctf-ghsa-2phj-cp9f-qq6w",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "21524:22",
         "21525:80"
@@ -1879,7 +1879,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:38a607d6834691572541a14eb99bef31f93e779a2578704b3f8c31cb859eca1e"
+      "compose_hash": "sha256:a2aef11c5db4b6b493762703c41dcc121f8e3ca9bb3edc8999241d8c0f3551f6"
     },
     {
       "path": "ctf/your-gpu-my-shell",

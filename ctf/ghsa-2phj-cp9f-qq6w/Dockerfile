@@ -35,6 +35,10 @@ RUN useradd -m -s /bin/bash ctf && \
 RUN usermod -p '!' root && \
     sed -i 's/^#*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
 
+# pin the VM hostname: the base chain inherited docker-28-2-2 from the
+# docker-v28.2.2 base's /etc/hostname; name the box for what runs on it.
+RUN echo harbor-v2-15-2 > /etc/hostname
+
 # sudoers whitelist: ctf may run exactly four non-executing docker commands,
 # passwordless. push is pinned to the Harbor registry on 127.0.0.1.
 COPY sudoers.ctf /etc/sudoers.d/ctf
