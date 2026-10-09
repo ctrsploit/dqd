@@ -25,6 +25,8 @@ $ dqd up ctf/ghsa-2phj-cp9f-qq6w
 $ ssh dqd-ctf-ghsa-2phj-cp9f-qq6w
 ```
 
+Connect as the player account `ctf` (password `ctf`) — root is intentionally locked in this challenge. Note on `dqd ssh` / `dqd ready`: they take the SSH user from the environment catalog, and binaries whose embedded snapshot predates this environment fall back to `root` (which is locked) when run from outside the repository root. Either run `dqd ssh` from the repository root, use the `ssh dqd-ctf-...` alias above, or update the CLI (`make cli`).
+
 Fallback without dqd CLI or SSH config:
 
 ```shell
