@@ -1860,6 +1860,27 @@
       "compose_hash": "sha256:9fa0e4f7222fe200a5f3ee8db49f415ff1a7aa436e8f92e800b3a79ff7718a0d"
     },
     {
+      "path": "ctf/ghsa-2phj-cp9f-qq6w",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/ctf-ghsa-2phj-cp9f-qq6w:v0.1.0",
+      "env_image": "ctf-ghsa-2phj-cp9f-qq6w",
+      "env_version": "v0.1.0",
+      "ports": [
+        "21524:22",
+        "21525:80"
+      ],
+      "ssh_port": "21524",
+      "ssh_user": "ctf",
+      "ssh_password": "ctf",
+      "project": "ctf-ghsa-2phj-cp9f-qq6w",
+      "has_kvm": true,
+      "kvm_command": "/start.sh -enable-kvm",
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:38a607d6834691572541a14eb99bef31f93e779a2578704b3f8c31cb859eca1e"
+    },
+    {
       "path": "ctf/your-gpu-my-shell",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/your-gpu-my-shell:v0.1.1",

@@ -1393,3 +1393,7 @@ Host dqd-harbor-v2.15.3
 
 Host dqd-ghsa-2phj-cp9f-qq6w
     Port 21522
+
+Host dqd-ctf-ghsa-2phj-cp9f-qq6w
+    Port 21524
+    User ctf
