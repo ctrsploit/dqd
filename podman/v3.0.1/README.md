@@ -2,9 +2,11 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/podman-v3.0.1:latest | points to `v0.1.0` |
+| dqd | ghcr.io/ctrsploit/podman-v3.0.1:latest | points to `v0.1.1` |
+| dqd | ghcr.io/ctrsploit/podman-v3.0.1:v0.1.1 | pin era-correct containers/common v0.33.4 seccomp profile (Debian deb's refreshed embedded profile breaks runc < 1.0.1, see opencontainers/runc#3109) |
 | dqd | ghcr.io/ctrsploit/podman-v3.0.1:v0.1.0 | - |
-| ctr | ghcr.io/ctrsploit/podman-v3.0.1:ctr_v0.1.0 | podman 3.0.1 stack from Debian bullseye on Ubuntu 20.04 |
+| ctr | ghcr.io/ctrsploit/podman-v3.0.1:ctr_v0.1.1 | podman 3.0.1 stack from Debian bullseye on Ubuntu 20.04 |
+| ctr | ghcr.io/ctrsploit/podman-v3.0.1:ctr_v0.1.0 | - |
 
 ## usage
 
