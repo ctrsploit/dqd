@@ -1,5 +1,5 @@
 {
-  "commit": "214d86c10295bbc59d943b41e6a2aae1c4f768aa",
+  "commit": "553c320b275e6c8f3b6e35fb1de6f739b8d9b337",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -8496,6 +8496,25 @@
       ],
       "skip_ssh_config": true,
       "compose_hash": "sha256:2ed0df3157d38898f55c425891ece590c36cde60495ea69ce116686ffcd3e136"
+    },
+    {
+      "path": "vul/cve-2021-30465",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2021-30465:v0.1.0",
+      "env_image": "cve-2021-30465",
+      "env_version": "v0.1.0",
+      "ports": [
+        "30465:22"
+      ],
+      "ssh_port": "30465",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2021-30465",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:432e61700dd6658d92118e2b76d917f172ec7d1cfb1c2136eb06152cd5c63f77"
     },
     {
       "path": "vul/cve-2022-0492",
