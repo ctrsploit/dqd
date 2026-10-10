@@ -130,7 +130,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [cve-2022-39253](./vul/cve-2022-39253/) |
 | [cve-2022-0847](./vul/cve-2022-0847/) |
 | [cve-2022-0492](./vul/cve-2022-0492/) |
-| [cve-2021-30465](./vul/cve-2021-30465/) |
+| [cve-2021-30465/podman-v3.0.1](./vul/cve-2021-30465/podman-v3.0.1/) |
 | [cve-2020-15257](./vul/cve-2020-15257/) |
 | [cve-2020-8558](./vul/cve-2020-8558/) |
 | [cve-2019-14271](./vul/cve-2019-14271/) |
