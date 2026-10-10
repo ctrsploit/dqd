@@ -1397,3 +1397,6 @@ Host dqd-ghsa-2phj-cp9f-qq6w
 Host dqd-ctf-ghsa-2phj-cp9f-qq6w
     Port 21524
     User ctf
+
+Host dqd-podman-v3.4.2
+    Port 34200
