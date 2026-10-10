@@ -8516,10 +8516,10 @@
       "compose_hash": "sha256:2ed0df3157d38898f55c425891ece590c36cde60495ea69ce116686ffcd3e136"
     },
     {
-      "path": "vul/cve-2021-30465",
+      "path": "vul/cve-2021-30465/podman-v3.0.1",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/cve-2021-30465:v0.1.0",
-      "env_image": "cve-2021-30465",
+      "image": "ghcr.io/ctrsploit/cve-2021-30465_podman-v3.0.1:v0.1.0",
+      "env_image": "cve-2021-30465_podman-v3.0.1",
       "env_version": "v0.1.0",
       "ports": [
         "30465:22"
@@ -8527,12 +8527,12 @@
       "ssh_port": "30465",
       "ssh_user": "root",
       "ssh_password": "root",
-      "project": "cve-2021-30465",
+      "project": "cve-2021-30465-podman-v3-0-1",
       "has_kvm": true,
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:432e61700dd6658d92118e2b76d917f172ec7d1cfb1c2136eb06152cd5c63f77"
+      "compose_hash": "sha256:83561f8ff234c8d4eb912665b070299137aa023ad9a6611014ff0e34114f87fd"
     },
     {
       "path": "vul/cve-2022-0492",
