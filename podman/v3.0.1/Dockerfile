@@ -21,6 +21,15 @@ ARG URL_DEB_CNI_PLUGINS=http://deb.debian.org/debian/pool/main/g/golang-github-c
 ARG URL_DEB_CONTAINERS_COMMON=http://deb.debian.org/debian/pool/main/g/golang-github-containers-common/golang-github-containers-common_0.33.4+ds1-1+deb11u2_all.deb
 ARG URL_DEB_CONTAINERS_IMAGE=http://deb.debian.org/debian/pool/main/g/golang-github-containers-image/golang-github-containers-image_5.10.3-1_all.deb
 ARG URL_DEB_CRUN=http://deb.debian.org/debian/pool/main/c/crun/crun_0.17+dfsg-1+deb11u2_amd64.deb
+# The podman 3.0.1 release vendors containers/common v0.33.4, whose seccomp
+# profile is compatible with runc < 1.0.1. Debian's bullseye podman binary
+# (3.0.1+dfsg1-3+deb11u5, rebuilt 2022) embeds a refreshed profile with
+# defaultErrnoRet=38 and unconditional SCMP_ACT_ERRNO entries; libseccomp >= 2.5
+# rejects those rules and runc < 1.0.1 fails every container start with
+# "error adding seccomp filter rule for syscall bdflush: permission denied"
+# (opencontainers/runc#3109). Pin the era-correct v0.33.4 profile as an
+# external file so runc-based derivative images work unmodified.
+ARG URL_SECCOMP_PROFILE=https://raw.githubusercontent.com/containers/common/v0.33.4/pkg/seccomp/seccomp.json
 
 # ================================
 # Build Stages
@@ -34,6 +43,7 @@ ARG URL_DEB_CNI_PLUGINS
 ARG URL_DEB_CONTAINERS_COMMON
 ARG URL_DEB_CONTAINERS_IMAGE
 ARG URL_DEB_CRUN
+ARG URL_SECCOMP_PROFILE
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       libseccomp2 libgpgme11 libdevmapper1.02.1 libglib2.0-0 libcap2 libyajl2 \
@@ -46,5 +56,7 @@ ADD ${URL_DEB_CNI_PLUGINS} /tmp/debs/
 ADD ${URL_DEB_CONTAINERS_COMMON} /tmp/debs/
 ADD ${URL_DEB_CONTAINERS_IMAGE} /tmp/debs/
 ADD ${URL_DEB_CRUN} /tmp/debs/
-RUN dpkg -i /tmp/debs/*.deb && rm -rf /tmp/debs && \
+RUN dpkg -i /tmp/debs/*.deb && rm -rf /tmp/debs
+ADD ${URL_SECCOMP_PROFILE} /etc/containers/seccomp.json
+RUN printf '[engine]\nseccomp_profile = "/etc/containers/seccomp.json"\n' > /etc/containers/containers.conf && \
     echo "${HOSTNAME}" > /etc/hostname
