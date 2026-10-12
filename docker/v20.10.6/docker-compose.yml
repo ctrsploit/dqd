@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/docker-v20.10.6:v0.1.0
+    ports:
+        - "21006:22"
+    tty: true
+    stdin_open: true

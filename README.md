@@ -464,6 +464,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [docker-v20.10.19](./docker/v20.10.19/) |
 | [docker-v20.10.17](./docker/v20.10.17/) |
 | [docker-v20.10.12](./docker/v20.10.12/) |
+| [docker-v20.10.6](./docker/v20.10.6/) |
 | [docker-v19.03.13](./docker/v19.03.13/) |
 | [docker-v19.03.13-debug](./docker/v19.03.13-debug/) |
 | [docker-v19.03.1](./docker/v19.03.1/) |
