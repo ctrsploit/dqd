@@ -8554,6 +8554,25 @@
       "compose_hash": "sha256:2ed0df3157d38898f55c425891ece590c36cde60495ea69ce116686ffcd3e136"
     },
     {
+      "path": "vul/cve-2021-30465/cri-o-v1.20.9",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2021-30465_cri-o-v1.20.9:v0.1.0",
+      "env_image": "cve-2021-30465_cri-o-v1.20.9",
+      "env_version": "v0.1.0",
+      "ports": [
+        "30467:22"
+      ],
+      "ssh_port": "30467",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2021-30465-cri-o-v1-20-9",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:5d67d1e2c7ed1ea2eadf61be7206073fbafa00ef5694143e96df7f10c713b6ce"
+    },
+    {
       "path": "vul/cve-2021-30465/docker-v20.10.6",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/cve-2021-30465_docker-v20.10.6:v0.1.0",
