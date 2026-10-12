@@ -1412,3 +1412,6 @@ Host dqd-docker-v20.10.6
 
 Host dqd-cve-2021-30465_docker-v20.10.6
     Port 30466
+
+Host dqd-cri-o-v1.20.9
+    Port 12009

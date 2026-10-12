@@ -1725,6 +1725,25 @@
       "compose_hash": "sha256:8c447db7ae19c4ae71a7ef4055642882ca20db9c1268b6d548b53c9951ec6c0a"
     },
     {
+      "path": "cri-o/v1.20.9",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cri-o-v1.20.9:v0.1.0",
+      "env_image": "cri-o-v1.20.9",
+      "env_version": "v0.1.0",
+      "ports": [
+        "12009:22"
+      ],
+      "ssh_port": "12009",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cri-o-1-20-9",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:bcb2b946efa74fe5298cae0d65735967ea78599eebe1f16f5fd4c2502fa25eed"
+    },
+    {
       "path": "ctf/Be-a-Docker-Escaper",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/be-a-docker-escaper:v0.1.0",
