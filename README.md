@@ -502,6 +502,12 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [podman-v5.4.0](./podman/v5.4.0/) |
 | [podman-v3.4.2](./podman/v3.4.2/) |
 
+### cri-o
+
+| image |
+|-----|
+| [cri-o-v1.20.9](./cri-o/v1.20.9/) |
+
 ### ingress-nginx
 
 | image |
