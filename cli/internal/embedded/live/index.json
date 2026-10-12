@@ -1,5 +1,5 @@
 {
-  "commit": "17d9f84e05fcca95f16d80fee080c6321f25c747",
+  "commit": "cbe99e7b7e7fae52486cab35d27a61cacd08a4d6",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -8534,6 +8534,25 @@
       ],
       "skip_ssh_config": true,
       "compose_hash": "sha256:2ed0df3157d38898f55c425891ece590c36cde60495ea69ce116686ffcd3e136"
+    },
+    {
+      "path": "vul/cve-2021-30465/docker-v20.10.6",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2021-30465_docker-v20.10.6:v0.1.0",
+      "env_image": "cve-2021-30465_docker-v20.10.6",
+      "env_version": "v0.1.0",
+      "ports": [
+        "30466:22"
+      ],
+      "ssh_port": "30466",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2021-30465-docker-v20-10-6",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:e66909a2681bc2c975a18dd96b8f8076102587dab9b32f78a463cb9b62fd0af0"
     },
     {
       "path": "vul/cve-2021-30465/podman-v3.0.1",
