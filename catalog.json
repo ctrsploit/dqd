@@ -3738,6 +3738,17 @@
       "compose_hash": "sha256:e8dc9c750a119e785faec9e4b885ed01bf28bb08029482ada65e142a545baed0"
     },
     {
+      "path": "kubernetes/v1.21.1/containerd/v1.5.2/base",
+      "has_compose": false,
+      "env_image": "kubernetes-v1.21.1_containerd-v1.5.2_base",
+      "env_version": "v0.1.0",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "base",
+      "skip_ssh_config": true,
+      "compose_hash": "sha256:44a243d89967b6f11c06214b3f65b3767a05325fd7c170f8436c5d04dfc06800"
+    },
+    {
       "path": "kubernetes/v1.22.0/containerd/v1.5.2/base",
       "has_compose": false,
       "env_image": "kubernetes-v1.22.0_containerd-v1.5.2_base",
