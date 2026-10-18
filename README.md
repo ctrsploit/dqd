@@ -737,6 +737,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.21.1_containerd-v1.5.2_base](./kubernetes/v1.21.1/containerd/v1.5.2/base/) | k8s v1.21.1 + containerd v1.5.2 components installed (runc 1.0.0-rc95) |
 | [kubernetes-v1.21.1_containerd-v1.5.1_calico](./kubernetes/v1.21.1/containerd/v1.5.1/calico/default/) | calico installed, requires cgroup v1 |
 | [kubernetes-v1.21.1_containerd-v1.5.1_init](./kubernetes/v1.21.1/containerd/v1.5.1/init/) | kubeadm init, requires cgroup v1 |
 | [kubernetes-v1.21.1_containerd-v1.5.1_base](./kubernetes/v1.21.1/containerd/v1.5.1/base/) | k8s v1.21.1 components installed |
