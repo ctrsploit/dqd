@@ -1,5 +1,5 @@
 {
-  "commit": "499747054b8dd5cbad479c7807407e8e49e81b09",
+  "commit": "c7f669752e512a30824c46e94ba78a0fbd03412a",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -8604,6 +8604,25 @@
       ],
       "skip_ssh_config": true,
       "compose_hash": "sha256:2ed0df3157d38898f55c425891ece590c36cde60495ea69ce116686ffcd3e136"
+    },
+    {
+      "path": "vul/cve-2021-30465-fix/docker-v20.10.6",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2021-30465-fix_docker-v20.10.6:v0.1.0",
+      "env_image": "cve-2021-30465-fix_docker-v20.10.6",
+      "env_version": "v0.1.0",
+      "ports": [
+        "30471:22"
+      ],
+      "ssh_port": "30471",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2021-30465-fix-docker-v20-10-6",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:63d2aed3020f6b90cfc0ab6125c0519d2cdb95b43562b9cb3f90a20c03512fa7"
     },
     {
       "path": "vul/cve-2021-30465/cri-o-v1.20.9",
