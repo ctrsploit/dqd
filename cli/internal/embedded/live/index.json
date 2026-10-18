@@ -1,5 +1,5 @@
 {
-  "commit": "0598f56445604714036e21d22bb4c43862e3adca",
+  "commit": "499747054b8dd5cbad479c7807407e8e49e81b09",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -8642,6 +8642,26 @@
         "vm"
       ],
       "compose_hash": "sha256:e66909a2681bc2c975a18dd96b8f8076102587dab9b32f78a463cb9b62fd0af0"
+    },
+    {
+      "path": "vul/cve-2021-30465/kubernetes-v1.21.1-containerd-v1.5.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2021-30465_kubernetes-v1.21.1-containerd-v1.5.1:v0.1.0",
+      "env_image": "cve-2021-30465_kubernetes-v1.21.1-containerd-v1.5.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "30468:22",
+        "30469:6443"
+      ],
+      "ssh_port": "30468",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2021-30465-kubernetes-v1-21-1-containerd-v1-5-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:063f90fd030930632d2eb656cae4922eaf0f00e769f45de454dcdb31990de4d2"
     },
     {
       "path": "vul/cve-2021-30465/podman-v3.0.1",
