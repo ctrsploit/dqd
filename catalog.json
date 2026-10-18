@@ -3749,6 +3749,26 @@
       "compose_hash": "sha256:44a243d89967b6f11c06214b3f65b3767a05325fd7c170f8436c5d04dfc06800"
     },
     {
+      "path": "kubernetes/v1.21.1/containerd/v1.5.2/init",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.2_init:v0.1.0",
+      "env_image": "kubernetes-v1.21.1_containerd-v1.5.2_init",
+      "env_version": "v0.1.0",
+      "ports": [
+        "12114:22",
+        "12115:6443"
+      ],
+      "ssh_port": "12114",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "kubernetes-1-21-1-containerd-1-5-2",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:aa3fa9e2eab30e1f19e95d234961be01e35dcbc4c65b744bf5a1ad4dd549f7c2"
+    },
+    {
       "path": "kubernetes/v1.22.0/containerd/v1.5.2/base",
       "has_compose": false,
       "env_image": "kubernetes-v1.22.0_containerd-v1.5.2_base",
