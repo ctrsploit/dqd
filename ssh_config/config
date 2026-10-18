@@ -1421,3 +1421,6 @@ Host dqd-cve-2021-30465_cri-o-v1.20.9
 
 Host dqd-kubernetes-v1.21.1_containerd-v1.5.2_init
     Port 12114
+
+Host dqd-kubernetes-v1.21.1_containerd-v1.5.2_calico
+    Port 12116

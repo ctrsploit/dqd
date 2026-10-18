@@ -1,5 +1,5 @@
 {
-  "commit": "46661712dea0a579217132119828da8770bbff1a",
+  "commit": "0598f56445604714036e21d22bb4c43862e3adca",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -3748,6 +3748,26 @@
       "project": "base",
       "skip_ssh_config": true,
       "compose_hash": "sha256:44a243d89967b6f11c06214b3f65b3767a05325fd7c170f8436c5d04dfc06800"
+    },
+    {
+      "path": "kubernetes/v1.21.1/containerd/v1.5.2/calico/default",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/kubernetes-v1.21.1_containerd-v1.5.2_calico:v0.1.0",
+      "env_image": "kubernetes-v1.21.1_containerd-v1.5.2_calico",
+      "env_version": "v0.1.0",
+      "ports": [
+        "12116:22",
+        "12117:6443"
+      ],
+      "ssh_port": "12116",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "kubernetes-1-21-1-containerd-1-5-2-calico",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:d38eb09ee219176b8da7bb634e5d1a679d0cca46be8d9b54ca48f7fe7d31fe02"
     },
     {
       "path": "kubernetes/v1.21.1/containerd/v1.5.2/init",
