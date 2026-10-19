@@ -1436,3 +1436,6 @@ Host dqd-cve-2021-30465-fix_podman-v3.0.1
 
 Host dqd-cve-2021-30465-fix_cri-o-v1.20.9
     Port 30472
+
+Host dqd-cve-2021-30465-fix_kubernetes-v1.21.1-containerd-v1.5.2
+    Port 30473

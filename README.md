@@ -136,6 +136,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [cve-2021-30465/kubernetes-v1.21.1-containerd-v1.5.1](./vul/cve-2021-30465/kubernetes-v1.21.1-containerd-v1.5.1/) |
 | [cve-2021-30465-fix/podman-v3.0.1](./vul/cve-2021-30465-fix/podman-v3.0.1/) |
 | [cve-2021-30465-fix/cri-o-v1.20.9](./vul/cve-2021-30465-fix/cri-o-v1.20.9/) |
+| [cve-2021-30465-fix/kubernetes-v1.21.1-containerd-v1.5.2](./vul/cve-2021-30465-fix/kubernetes-v1.21.1-containerd-v1.5.2/) |
 | [cve-2021-30465-fix/docker-v20.10.6](./vul/cve-2021-30465-fix/docker-v20.10.6/) |
 | [cve-2020-15257](./vul/cve-2020-15257/) |
 | [cve-2020-8558](./vul/cve-2020-8558/) |
