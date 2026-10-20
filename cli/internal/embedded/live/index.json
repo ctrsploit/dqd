@@ -1,5 +1,5 @@
 {
-  "commit": "5939fe58a832b4aaba4cd2d9bc200caa5dd2a991",
+  "commit": "d8d13c56463c69fb611e402d005f45e2eb6e3cb1",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -1781,6 +1781,25 @@
         "vm"
       ],
       "compose_hash": "sha256:7ae9b5e1fc66ca75bc0ea08f9cb1e4e3e75e448e1242220d27e43ee8764871a8"
+    },
+    {
+      "path": "ctf/cve-2021-30465/docker-v20.10.6",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/ctf-cve-2021-30465_docker-v20.10.6:v0.1.0",
+      "env_image": "ctf-cve-2021-30465_docker-v20.10.6",
+      "env_version": "v0.1.0",
+      "ports": [
+        "30469:22"
+      ],
+      "ssh_port": "30469",
+      "ssh_user": "ctf",
+      "ssh_password": "ctf",
+      "project": "ctf-cve-2021-30465-docker-v20-10-6",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:874e0d23191e23bb05befb89e425ab9f9c8ae5fa055b833b4cc6ea479dc73700"
     },
     {
       "path": "ctf/cve-2024-0132",
