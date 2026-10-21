@@ -187,6 +187,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [cve-2021-30465/docker-v20.10.6](./ctf/cve-2021-30465/docker-v20.10.6/) |
 | [ctf-ghsa-2phj-cp9f-qq6w](./ctf/ghsa-2phj-cp9f-qq6w/) |
 | [ctf-cve-2026-53488](./ctf/cve-2026-53488/) |
 | [ctf-cve-2026-50195](./ctf/cve-2026-50195/) |
