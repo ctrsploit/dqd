@@ -1443,3 +1443,6 @@ Host dqd-cve-2021-30465-fix_cri-o-v1.20.9
 
 Host dqd-cve-2021-30465-fix_kubernetes-v1.21.1-containerd-v1.5.2
     Port 30473
+
+Host dqd-docker-v20.10.7
+    Port 21007
