@@ -1,5 +1,5 @@
 {
-  "commit": "d8d13c56463c69fb611e402d005f45e2eb6e3cb1",
+  "commit": "50cb0adbe622a749b80e6a9b731e13d487abccb7",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -1785,9 +1785,9 @@
     {
       "path": "ctf/cve-2021-30465/docker-v20.10.6",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/ctf-cve-2021-30465_docker-v20.10.6:v0.1.0",
+      "image": "ghcr.io/ctrsploit/ctf-cve-2021-30465_docker-v20.10.6:v0.1.1",
       "env_image": "ctf-cve-2021-30465_docker-v20.10.6",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "30469:22"
       ],
@@ -1799,7 +1799,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:874e0d23191e23bb05befb89e425ab9f9c8ae5fa055b833b4cc6ea479dc73700"
+      "compose_hash": "sha256:c91af445d77af8f025982d190593961b29dfa460e845863d2ae526793c95995f"
     },
     {
       "path": "ctf/cve-2024-0132",
@@ -2669,6 +2669,25 @@
         "vm"
       ],
       "compose_hash": "sha256:9ca63e1acf40f4bb9013a6d634c62482330dca13bfe08b0b39b68beddc038a97"
+    },
+    {
+      "path": "docker/v20.10.7",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/docker-v20.10.7:v0.1.0",
+      "env_image": "docker-v20.10.7",
+      "env_version": "v0.1.0",
+      "ports": [
+        "21007:22"
+      ],
+      "ssh_port": "21007",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "docker-20-10-7",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:528fd1595f988df71aa7591ef48842b77295b458854ec72ddf90afbcd4f6ea7a"
     },
     {
       "path": "docker/v23.0.0-devicemapper",
