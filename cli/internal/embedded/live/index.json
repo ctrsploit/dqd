@@ -1,5 +1,5 @@
 {
-  "commit": "a8fb1b485fa896c92243d74b8d6b3d53ca9b9e3d",
+  "commit": "26059721f46497b7fff32767d7522f62459d2eb7",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -1995,6 +1995,25 @@
         "vm"
       ],
       "compose_hash": "sha256:7e51c2b4446bee9bf9f3bb6263052e4747587919a5d1ae3dbeb236f05104c7eb"
+    },
+    {
+      "path": "debian/13.7",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/debian-13.7:v0.1.0",
+      "env_image": "debian-13.7",
+      "env_version": "v0.1.0",
+      "ports": [
+        "13002:22"
+      ],
+      "ssh_port": "13002",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "debian-13-7",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:a8cec4f10b5b270c256958d4ef95fd217e395342c287c53648e54a0955bf7a94"
     },
     {
       "path": "docker-compose/v2.39.4",
