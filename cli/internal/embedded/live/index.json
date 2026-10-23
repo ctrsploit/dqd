@@ -1,5 +1,5 @@
 {
-  "commit": "26059721f46497b7fff32767d7522f62459d2eb7",
+  "commit": "07fc1b89733de59eab4a9e1391edcc434e4120e1",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -3438,6 +3438,25 @@
         "vm"
       ],
       "compose_hash": "sha256:a36c129090b3f3750c327ef63dbd810491f18ac571ceaa2d158b9f71c22be3e3"
+    },
+    {
+      "path": "docker/v29.9.2-debian-13.7",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/docker-v29.9.2-debian-13.7:v0.1.0",
+      "env_image": "docker-v29.9.2-debian-13.7",
+      "env_version": "v0.1.0",
+      "ports": [
+        "29412:22"
+      ],
+      "ssh_port": "29412",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "docker-29-9-2-debian-13-7",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:3852f5f4ba82ee9e16fdd1d26bd17645d4a4c4c85de9df8139d4b702deae0341"
     },
     {
       "path": "dqd/cgroup-v1-builder",

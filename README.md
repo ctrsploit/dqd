@@ -434,6 +434,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [docker-v29.9.2-debian-13.7](./docker/v29.9.2-debian-13.7/) |
 | [docker-v29.8.0-rc.1](./docker/v29.8.0-rc.1/) |
 | [docker-v29.7.2](./docker/v29.7.2/) |
 | [docker-v29.7.1](./docker/v29.7.1/) |

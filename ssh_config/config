@@ -1453,3 +1453,6 @@ Host dqd-docker-v20.10.7
 
 Host dqd-debian-13.7
     Port 13002
+
+Host dqd-docker-v29.9.2-debian-13.7
+    Port 29412
