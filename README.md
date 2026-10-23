@@ -173,6 +173,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [debian-13.7](./debian/13.7/) |
 | [debian-12.0](./debian/12.0/) |
 | [debian-11.0](./debian/11.0/) |
 
