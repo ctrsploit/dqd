@@ -31,11 +31,35 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL "${URL_KATA}" -o /tmp/kata.tar.zst && \
-    tar --zstd -xf /tmp/kata.tar.zst -C / && \
-    rm -f /tmp/kata.tar.zst && \
-    test -x "${KATA_SHIM}" && \
-    test -f "${KATA_CONFIG}"
+RUN set -eux; \
+    curl -fsSL "${URL_KATA}" -o /tmp/kata.tar.zst; \
+    tar --zstd -xf /tmp/kata.tar.zst -C /; \
+    rm -f /tmp/kata.tar.zst; \
+    mkdir -p /opt/kata-keep/bin \
+             /opt/kata-keep/runtime-rs/bin \
+             /opt/kata-keep/libexec \
+             /opt/kata-keep/lib \
+             /opt/kata-keep/share/kata-containers \
+             /opt/kata-keep/share/kata-qemu \
+             /opt/kata-keep/share/defaults/kata-containers/runtime-rs; \
+    cp -a /opt/kata/bin/qemu-system-x86_64 /opt/kata-keep/bin/; \
+    cp -a /opt/kata/runtime-rs/bin/containerd-shim-kata-v2 /opt/kata-keep/runtime-rs/bin/; \
+    cp -a /opt/kata/libexec/virtiofsd /opt/kata-keep/libexec/; \
+    cp -a /opt/kata/lib/. /opt/kata-keep/lib/; \
+    cp -a /opt/kata/share/kata-qemu/. /opt/kata-keep/share/kata-qemu/; \
+    cp -a /opt/kata/share/kata-containers/vmlinux.container /opt/kata-keep/share/kata-containers/; \
+    cp -a "$(readlink -f /opt/kata/share/kata-containers/vmlinux.container)" /opt/kata-keep/share/kata-containers/; \
+    cp -a /opt/kata/share/kata-containers/kata-containers.img /opt/kata-keep/share/kata-containers/; \
+    cp -a "$(readlink -f /opt/kata/share/kata-containers/kata-containers.img)" /opt/kata-keep/share/kata-containers/; \
+    cp -a /opt/kata/share/kata-containers/root_hash_base.txt /opt/kata-keep/share/kata-containers/; \
+    cp -a /opt/kata/share/defaults/kata-containers/runtime-rs/configuration-qemu-runtime-rs.toml /opt/kata-keep/share/defaults/kata-containers/runtime-rs/; \
+    rm -rf /opt/kata; \
+    mv /opt/kata-keep /opt/kata; \
+    test -x "${KATA_SHIM}"; \
+    test -f "${KATA_CONFIG}"; \
+    test -x /opt/kata/libexec/virtiofsd; \
+    test -e /opt/kata/share/kata-containers/vmlinux.container; \
+    test -e /opt/kata/share/kata-containers/kata-containers.img
 
 # Keep the Kata guest small enough for the 2 GiB dqd lab VM.
 RUN CFG="${KATA_CONFIG}" && \
