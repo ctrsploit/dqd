@@ -31,6 +31,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# The official install extracts the full kata-static bundle. Keep only the
+# QEMU runtime-rs pieces this lab uses (drops openvmm, debug/nvidia/mariner
+# kernels and images, and the extra VMM builds).
 RUN set -eux; \
     curl -fsSL "${URL_KATA}" -o /tmp/kata.tar.zst; \
     tar --zstd -xf /tmp/kata.tar.zst -C /; \
@@ -61,11 +64,14 @@ RUN set -eux; \
     test -e /opt/kata/share/kata-containers/vmlinux.container; \
     test -e /opt/kata/share/kata-containers/kata-containers.img
 
-# Keep the Kata guest small enough for the 2 GiB dqd lab VM.
-RUN CFG="${KATA_CONFIG}" && \
-    sed -i -E 's/^([[:space:]]*default_memory[[:space:]]*=).*/\1 512/' "$CFG" && \
-    sed -i -E 's/^([[:space:]]*default_vcpus[[:space:]]*=).*/\1 1/' "$CFG" && \
-    grep -qE '^[[:space:]]*default_memory[[:space:]]*=' "$CFG"
+# Use the documented per-host override; /etc/kata-containers/configuration.toml
+# takes precedence over the packaged defaults. Keep the guest small enough for
+# the 2 GiB dqd lab VM.
+RUN mkdir -p /etc/kata-containers && \
+    cp "${KATA_CONFIG}" /etc/kata-containers/configuration.toml && \
+    sed -i -E 's/^([[:space:]]*default_memory[[:space:]]*=).*/\1 512/' /etc/kata-containers/configuration.toml && \
+    sed -i -E 's/^([[:space:]]*default_vcpus[[:space:]]*=).*/\1 1/' /etc/kata-containers/configuration.toml && \
+    grep -qE '^[[:space:]]*default_memory[[:space:]]*=' /etc/kata-containers/configuration.toml
 
 # Register the Kata runtime-rs shim as a Docker runtime.
 RUN mkdir -p /etc/docker && \
@@ -75,42 +81,43 @@ RUN mkdir -p /etc/docker && \
       '    "kata": {' \
       '      "runtimeType": "/opt/kata/runtime-rs/bin/containerd-shim-kata-v2",' \
       '      "options": {' \
-      '        "ConfigPath": "/opt/kata/share/defaults/kata-containers/runtime-rs/configuration-qemu-runtime-rs.toml"' \
+      '        "ConfigPath": "/etc/kata-containers/configuration.toml"' \
       '      }' \
       '    }' \
       '  }' \
       '}' > /etc/docker/daemon.json
 
-# Kata needs vhost-vsock/vhost-net and a usable nested KVM module.
-RUN cat > /usr/local/bin/kata-modules.sh <<'EOF'
+# Official host prerequisite: persist the vhost modules via modules-load.d.
+RUN printf '%s\n' vhost_vsock vhost_net > /etc/modules-load.d/kata-containers.conf
+
+# dqd starts the lab VM with -cpu host; load the matching KVM vendor module.
+RUN cat > /usr/local/bin/kata-kvm-module.sh <<'EOF'
 #!/bin/sh
 set -u
-modprobe vhost_vsock || true
-modprobe vhost_net || true
 if grep -q vmx /proc/cpuinfo; then
     modprobe kvm_intel || true
 elif grep -q svm /proc/cpuinfo; then
     modprobe kvm_amd || true
 fi
 EOF
-RUN chmod +x /usr/local/bin/kata-modules.sh
+RUN chmod +x /usr/local/bin/kata-kvm-module.sh
 
 RUN printf '%s\n' \
       '[Unit]' \
-      'Description=Load modules required by Kata Containers' \
+      'Description=Load the KVM vendor module for Kata Containers' \
       'After=systemd-modules-load.service' \
       'Before=docker.service' \
       '' \
       '[Service]' \
       'Type=oneshot' \
       'Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' \
-      'ExecStart=/usr/local/bin/kata-modules.sh' \
+      'ExecStart=/usr/local/bin/kata-kvm-module.sh' \
       'RemainAfterExit=yes' \
       '' \
       '[Install]' \
       'WantedBy=multi-user.target' \
-      > /etc/systemd/system/kata-modules.service && \
+      > /etc/systemd/system/kata-kvm-module.service && \
     mkdir -p /etc/systemd/system/multi-user.target.wants && \
-    ln -sf /etc/systemd/system/kata-modules.service /etc/systemd/system/multi-user.target.wants/kata-modules.service
+    ln -sf /etc/systemd/system/kata-kvm-module.service /etc/systemd/system/multi-user.target.wants/kata-kvm-module.service
 
 RUN echo "${HOSTNAME}" > /etc/hostname
