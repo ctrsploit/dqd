@@ -1,5 +1,5 @@
 {
-  "commit": "07fc1b89733de59eab4a9e1391edcc434e4120e1",
+  "commit": "ea779590f7968575cdcca1bd2f9b48688098e755",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -3569,6 +3569,25 @@
         "vm"
       ],
       "compose_hash": "sha256:0318c82a7a025b32bc4e9404644d3e2887bb08839222c1b9281c2cf2919d8bd4"
+    },
+    {
+      "path": "kata/v4.3.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/kata-v4.3.1:v0.1.0",
+      "env_image": "kata-v4.3.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "29413:22"
+      ],
+      "ssh_port": "29413",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "kata-v4-3-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:aa2955b7e85b2c009366716786a1df1b37f30806636ef028a6c134dccb89886b"
     },
     {
       "path": "kubernetes/v1.18.2/containerd/v1.3.3/base",

@@ -504,6 +504,12 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [docker-v0.7.2](./docker/v0.7.2/) |
 | [docker-v0.7.1](./docker/v0.7.1/) |
 
+### kata
+
+| image |
+|-----|
+| [kata-v4.3.1](./kata/v4.3.1/) |
+
 ### podman
 
 | image |
