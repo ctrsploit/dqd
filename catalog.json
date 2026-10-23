@@ -1803,9 +1803,9 @@
     {
       "path": "ctf/cve-2021-30465/podman-v3.0.1",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/ctf-cve-2021-30465_podman-v3.0.1:v0.1.0",
+      "image": "ghcr.io/ctrsploit/ctf-cve-2021-30465_podman-v3.0.1:v0.1.1",
       "env_image": "ctf-cve-2021-30465_podman-v3.0.1",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "30475:22"
       ],
@@ -1817,7 +1817,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:bd4c0a59c7d0750d0e28e48658e81f3383e8642a7372b008d49487a2fad4b346"
+      "compose_hash": "sha256:8c1bfcb9cc4c867b94c842613691695cb593aa84c24d6443d4a1ef41c5717e8b"
     },
     {
       "path": "ctf/cve-2024-0132",
