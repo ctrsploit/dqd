@@ -1459,3 +1459,6 @@ Host dqd-docker-v29.9.2-debian-13.7
 
 Host dqd-kata-v4.3.1
     Port 29413
+
+Host dqd-cve-2026-99999_6.12.107-debian
+    Port 26999

@@ -1,5 +1,5 @@
 {
-  "commit": "ea779590f7968575cdcca1bd2f9b48688098e755",
+  "commit": "eb207f02b6ccc4ff5ad6acbdbee79e8031a80379",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -9486,6 +9486,25 @@
         "vm"
       ],
       "compose_hash": "sha256:dc3a9dd35f34457b521ea33adb9930d289b262f782a0e0e1dc931c65efccb39f"
+    },
+    {
+      "path": "vul/cve-2026-99999/kernel-6.12.107-debian",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-99999_6.12.107-debian:v0.1.0",
+      "env_image": "cve-2026-99999_6.12.107-debian",
+      "env_version": "v0.1.0",
+      "ports": [
+        "26999:22"
+      ],
+      "ssh_port": "26999",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-99999-6-12-107-debian",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:16ab7613cf474a55999fce47c183782b53d17f0897bafe3de0125f91e0fe5cd5"
     },
     {
       "path": "vul/fork-bomb",
