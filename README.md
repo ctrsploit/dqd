@@ -294,6 +294,12 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [runc-v0.0.2.1](./runc/v0.0.2.1/) |
 | [runc-v0.0.1](./runc/v0.0.1/) |
 
+### buildx
+
+| image |
+|-----|
+| [buildx-v0.38.1](./buildx/v0.38.1/) |
+
 ### buildkit
 
 | image |

@@ -1,0 +1,7 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/buildx-v0.38.1:v0.1.0
+    ports:
+        - "38100:22"
+    tty: true
+    stdin_open: true
