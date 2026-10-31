@@ -1,5 +1,5 @@
 {
-  "commit": "716ab9f3eee7c9e51345bf80bef256c49e3c27a9",
+  "commit": "6d172a522b6ed9d015734b4e869daefe6d77d8f4",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -458,6 +458,25 @@
         "vm"
       ],
       "compose_hash": "sha256:92be0b81debdaafeeb15984a05071acf30dc90c8136baa2677ad2d89dfec592a"
+    },
+    {
+      "path": "buildx/v0.38.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/buildx-v0.38.1:v0.1.0",
+      "env_image": "buildx-v0.38.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "38100:22"
+      ],
+      "ssh_port": "38100",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "buildx-0-38-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:2471062c759a897e476d49ee10d07700a24d29cba8b71f15ef88b4f60974d38b"
     },
     {
       "path": "centos/8",
