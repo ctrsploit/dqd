@@ -844,6 +844,9 @@ Host dqd-runc-v1.0.0-rc94
 Host dqd-runc-v1.0.0-rc95
     Port 10095
 
+Host dqd-runc-v1.5.2
+    Port 15102
+
 Host dqd-runc-v1.5.1
     Port 15101
 
