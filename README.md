@@ -185,6 +185,12 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [centos-stream9](./centos/stream9/) |
 | [centos-8](./centos/8/) |
 
+### fedora
+
+| image |
+|-----|
+| [fedora-45](./fedora/45/) |
+
 ### ctf
 
 | image |

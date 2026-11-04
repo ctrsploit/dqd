@@ -1471,3 +1471,6 @@ Host dqd-kata-v4.3.1
 
 Host dqd-cve-2026-99999_6.12.107-debian
     Port 26999
+
+Host dqd-fedora-45
+    Port 45000

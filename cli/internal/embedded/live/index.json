@@ -1,5 +1,5 @@
 {
-  "commit": "6d172a522b6ed9d015734b4e869daefe6d77d8f4",
+  "commit": "34103104bdb855ec87d487a31797e6d07bc95980",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -3525,6 +3525,25 @@
       "project": "v040",
       "skip_ssh_config": true,
       "compose_hash": "sha256:792a228bd385a3f5198d5e6346a2a97783526bf64539707dfcb879558ab21c92"
+    },
+    {
+      "path": "fedora/45",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/fedora-45:v0.1.0",
+      "env_image": "fedora-45",
+      "env_version": "v0.1.0",
+      "ports": [
+        "45000:22"
+      ],
+      "ssh_port": "45000",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "fedora-45",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:f5bcc01ea9d056f72a959d33bd3d9daccc4d4a6b69ff035631772e3429bb2496"
     },
     {
       "path": "harbor/v2.15.2",
