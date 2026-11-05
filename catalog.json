@@ -6835,6 +6835,25 @@
       "compose_hash": "sha256:ae0fb08f4671f5cebc50fecf1d342ca9be2cb9fdca044ec30142be878442cbdb"
     },
     {
+      "path": "podman/v6.1.4-runc-v1.5.2",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:v0.1.0",
+      "env_image": "podman-v6.1.4-runc-v1.5.2",
+      "env_version": "v0.1.0",
+      "ports": [
+        "61401:22"
+      ],
+      "ssh_port": "61401",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "podman-6-1-4-runc-v1-5-2",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:876c8d70a84be93aa27834719cf54c6f54e8316e0578882450e97247988930f5"
+    },
+    {
       "path": "podman/v6.1.4",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/podman-v6.1.4:v0.1.0",
