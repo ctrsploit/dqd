@@ -31,7 +31,7 @@ TOOLCHAIN_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 # ------------------------------------------------------------------------------
 # Command helpers
 # ------------------------------------------------------------------------------
-D2VM := docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.7
+D2VM := docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock --privileged -v $(PWD):/d2vm -w /d2vm ssst0n3/d2vm:v0.3.8-beta.0
 LIBGUESTFS_IMAGE ?= ghcr.io/ssst0n3/libguestfs:latest
 
 # ------------------------------------------------------------------------------
