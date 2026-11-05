@@ -529,6 +529,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image |
 |-----|
+| [podman-v6.1.4](./podman/v6.1.4/) |
 | [podman-v5.5.1](./podman/v5.5.1/) |
 | [podman-v5.5.1-debug](./podman/v5.5.1-debug/) |
 | [podman-v5.4.0](./podman/v5.4.0/) |

@@ -6835,6 +6835,25 @@
       "compose_hash": "sha256:ae0fb08f4671f5cebc50fecf1d342ca9be2cb9fdca044ec30142be878442cbdb"
     },
     {
+      "path": "podman/v6.1.4",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/podman-v6.1.4:v0.1.0",
+      "env_image": "podman-v6.1.4",
+      "env_version": "v0.1.0",
+      "ports": [
+        "61400:22"
+      ],
+      "ssh_port": "61400",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "podman-6-1-4",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:79efff41091a9e1d83c00705677b7a6fc7e02abd8c6906928d440ddbc2bcc637"
+    },
+    {
       "path": "runc/centos-stream9-v1.2.0-selinux",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/centos-stream9-runc-v1.2.0-selinux:v0.1.0",
