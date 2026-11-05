@@ -2,9 +2,11 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:latest | points to `v0.1.0` |
-| dqd | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:v0.1.0 | `podman/v6.1.4` with runc v1.5.2 as the OCI runtime |
-| ctr | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:ctr_v0.1.0 | replace crun with upstream runc v1.5.2, `[engine] runtime = "runc"` |
+| dqd | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:latest | points to `v0.1.1` |
+| dqd | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:v0.1.1 | v0.1.0 with the runtime set through `/etc/containers/containers.conf.d/10-runtime.conf`: Fedora's vendor drop-in `00-vendor.conf` sets `[engine] runtime = "crun"` and is loaded after `/etc/containers/containers.conf`, so the bare config file was silently overridden (engine still resolved crun) |
+| dqd | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:v0.1.0 | superseded: `[engine] runtime = "runc"` in `/etc/containers/containers.conf` had no effect |
+| ctr | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:ctr_v0.1.1 | - |
+| ctr | ghcr.io/ctrsploit/podman-v6.1.4-runc-v1.5.2:ctr_v0.1.0 | - |
 
 ## usage
 
