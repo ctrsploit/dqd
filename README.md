@@ -834,3 +834,9 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 | [nvidia-container-toolkit-v1.13.0](./nvidia-container-toolkit/v1.13.0/) |
 | [nvidia-container-toolkit-v1.12.0](./nvidia-container-toolkit/v1.12.0/) |
 | [nvidia-container-toolkit-v1.10.0](./nvidia-container-toolkit/v1.10.0/) |
+
+### nvidia-driver
+
+| image | note |
+|-----|-----|
+| [nvidia-driver-580.105.08](./nvidia-driver/580.105.08/) | unmodified open kernel modules for kernel 6.8.0-101-generic |
