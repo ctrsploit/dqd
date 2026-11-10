@@ -5605,6 +5605,26 @@
       "compose_hash": "sha256:0583d0f961fe508b9a33669efb67a512caaf5225a4fd02355c69191f96ed7e98"
     },
     {
+      "path": "kubernetes/v1.37.2/containerd/v2.4.1/init",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/kubernetes-v1.37.2_containerd-v2.4.1_init:v0.1.0",
+      "env_image": "kubernetes-v1.37.2_containerd-v2.4.1_init",
+      "env_version": "v0.1.0",
+      "ports": [
+        "13720:22",
+        "13721:6443"
+      ],
+      "ssh_port": "13720",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "kubernetes-1-37-2-containerd-2-4-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:a35412a0b67afddf287bf1b4e795a82bc3c3d4e3d4b3969eabde3d9bdbc91d9c"
+    },
+    {
       "path": "nerdctl/v0.10.0",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/nerdctl-v0.10.0:v0.1.0",
