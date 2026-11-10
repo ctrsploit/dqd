@@ -1,5 +1,5 @@
 {
-  "commit": "d996464ed2f598f3b7dac3522d97387c593e5644",
+  "commit": "2e718ffcef121a1738e50ced70996ba7828ff682",
   "envs": [
     {
       "path": "buildkit/v0.10.0",
@@ -5593,6 +5593,17 @@
         "vm"
       ],
       "compose_hash": "sha256:bf7ff9b71870622d4b4ebc1bd299edfde78a6f650ef2dad938bffeceb1cb7498"
+    },
+    {
+      "path": "kubernetes/v1.37.2/containerd/v2.4.1/base",
+      "has_compose": false,
+      "env_image": "kubernetes-v1.37.2_containerd-v2.4.1_base",
+      "env_version": "v0.1.0",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "base",
+      "skip_ssh_config": true,
+      "compose_hash": "sha256:0583d0f961fe508b9a33669efb67a512caaf5225a4fd02355c69191f96ed7e98"
     },
     {
       "path": "nerdctl/v0.10.0",
