@@ -1483,3 +1483,6 @@ Host dqd-podman-v6.1.4-runc-v1.5.2
 
 Host dqd-kubernetes-v1.37.2_containerd-v2.4.1_init
     Port 13720
+
+Host dqd-kubernetes-v1.37.2_containerd-v2.4.1_calico
+    Port 13722
