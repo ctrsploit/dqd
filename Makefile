@@ -218,11 +218,6 @@ ctr: env
 
 vm: env
 	$(time_begin)
-	# Free the buildkit cache left by the ctr build before the disk-hungry
-	# d2vm convert + sparsify steps (the cache alone is often several GB, and
-	# GitHub-hosted runners only have ~10-20G free). CI only: local builds
-	# keep their cache for incremental rebuilds.
-	$(if $(filter true,$(CI)),docker builder prune -af,)
 	# Add -v to show verbose info.
 	# --append-to-cmdline is only passed when APPEND_TO_CMDLINE is non-empty,
 	# so the default flow is unchanged.
