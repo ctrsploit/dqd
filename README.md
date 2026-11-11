@@ -571,6 +571,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 
 | image | note |
 |-----|------|
+| [kubernetes-v1.37.2_containerd-v2.4.1_calico](./kubernetes/v1.37.2/containerd/v2.4.1/calico/default) | calico installed |
 | [kubernetes-v1.37.2_containerd-v2.4.1_init](./kubernetes/v1.37.2/containerd/v2.4.1/init) | kubeadm init, without CNI |
 | [kubernetes-v1.37.2_containerd-v2.4.1_base](./kubernetes/v1.37.2/containerd/v2.4.1/base) | k8s components installed |
 
