@@ -1365,6 +1365,9 @@ Host dqd-harbor-v2.15.2
 Host dqd-docker-v29.7.2
     Port 29720
 
+Host dqd-docker-v29.10.0
+    Port 29100
+
 Host dqd-docker-v29.7.1
     Port 29710
 
