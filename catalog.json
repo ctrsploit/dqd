@@ -3268,6 +3268,25 @@
       "compose_hash": "sha256:349dcbcc47c16fa9fcc443d7e495b743e500a466d1142528da3ca4a96ef5e73e"
     },
     {
+      "path": "docker/v29.10.0",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/docker-v29.10.0:v0.1.0",
+      "env_image": "docker-v29.10.0",
+      "env_version": "v0.1.0",
+      "ports": [
+        "29100:22"
+      ],
+      "ssh_port": "29100",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "docker-29-10-0",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:40d2612912a5dbef1144aee16d0168a016d4ab3da980d21398f5ae5f68bc0791"
+    },
+    {
       "path": "docker/v29.4.1-debian",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/docker-v29.4.1-debian:v0.1.0",
@@ -3543,6 +3562,25 @@
         "vm"
       ],
       "compose_hash": "sha256:f5bcc01ea9d056f72a959d33bd3d9daccc4d4a6b69ff035631772e3429bb2496"
+    },
+    {
+      "path": "firecracker/v1.16.1",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/firecracker-v1.16.1:v0.1.0",
+      "env_image": "firecracker-v1.16.1",
+      "env_version": "v0.1.0",
+      "ports": [
+        "16110:22"
+      ],
+      "ssh_port": "16110",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "firecracker-v1-16-1",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:0a9911edd1c0ff0a524b5db956e0218ea317545c01c6d367fb2e09f95841e867"
     },
     {
       "path": "harbor/v2.15.2",
@@ -6788,6 +6826,25 @@
         "vm"
       ],
       "compose_hash": "sha256:06302e997727ee9d47cb50bf45441155d1650ce5012f6120793c483b59d54c64"
+    },
+    {
+      "path": "nvidia-container-toolkit/v1.20.2",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.0",
+      "env_image": "nvidia-container-toolkit-v1.20.2",
+      "env_version": "v0.1.0",
+      "ports": [
+        "12012:22"
+      ],
+      "ssh_port": "12012",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "nvidia-container-toolkit-1-20-2",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:f81e16f3ad5fc600046cbc5605fe604f9cc100750a9f86cac83d1066fd6d1170"
     },
     {
       "path": "nvidia-driver/580.105.08",
