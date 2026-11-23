@@ -2,9 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:latest | points to `v0.1.0` |
-| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.0 | fake-nvidia v0.9.0-beta.1 (module registers as `nvidia`, CDI spec auto-generated at boot); nvidia-container-toolkit 1.20.2 |
-| ctr | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:ctr_v0.1.0 | install real nvidia driver without kernel module; install i386 libs; fake-nvidia v0.9.0-beta.1; nvidia-container-toolkit 1.20.2; docker 29.10.0 |
+| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:latest | points to `v0.1.1` |
+| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.1 | fake-nvidia v0.9.1-beta.1 (adds NVML symbols required by jit-cdi/CDI per-device enumeration); nvidia-container-toolkit 1.20.2 |
+| dqd | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.0 | superseded: fake-nvidia v0.9.0-beta.1 lacks `nvmlDeviceIsMigDeviceHandle`/`nvmlDeviceGetIndex`, jit-cdi containers fail with exit 127 |
+| ctr | ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:ctr_v0.1.1 | install real nvidia driver without kernel module; install i386 libs; fake-nvidia v0.9.1-beta.1; nvidia-container-toolkit 1.20.2; docker 29.10.0 |
 
 ## usage
 
