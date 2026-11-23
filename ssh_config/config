@@ -1472,6 +1472,9 @@ Host dqd-debian-13.7
 Host dqd-docker-v29.9.2-debian-13.7
     Port 29412
 
+Host dqd-firecracker-v1.16.1
+    Port 16110
+
 Host dqd-kata-v4.3.1
     Port 29413
 

@@ -1,0 +1,10 @@
+services:
+  vm:
+    image: ghcr.io/ctrsploit/firecracker-v1.16.1:v0.1.0
+    # `-cpu host` exposes vmx/svm to the lab VM so firecracker can use KVM
+    # for the nested microVM (host must have nested virtualization enabled).
+    command: /start.sh -cpu host
+    ports:
+        - "16110:22"
+    tty: true
+    stdin_open: true
