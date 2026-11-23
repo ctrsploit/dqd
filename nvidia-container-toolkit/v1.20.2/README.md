@@ -575,10 +575,10 @@ kernel/drivers/extra/nvidia.ko:
 root@nvidia-container-toolkit-1-20-2:~# modinfo nvidia
 filename:       /lib/modules/6.8.0-71-generic/kernel/drivers/extra/nvidia.ko
 description:    fake-nvidia: a fake NVIDIA driver registered under the name 'nvidia' for nvidia-container-toolkit / CDI-refresh compatibility research. NOT the proprietary NVIDIA driver.
-version:        0.9.0-beta.1-fake
+version:        0.9.1-beta.1-fake
 author:         ssst0n3 with gemini-2.5-pro, patched for multi-kernel by ChatGPT
 license:        MIT
-srcversion:     872C76BBEA56162ED71F94B
+srcversion:     E51965D3FF5F0F9FADA17C5
 depends:
 retpoline:      Y
 name:           nvidia
