@@ -11,6 +11,11 @@ ARG VERSION_IMAGE=0.4.0
 ARG BASE_IMAGE=ghcr.io/ctrsploit/ubuntu-24.04:ctr_v${VERSION_IMAGE}
 ARG URL_FC=https://github.com/firecracker-microvm/firecracker/releases/download/v${VERSION_FC}/firecracker-v${VERSION_FC}-x86_64.tgz
 ARG URL_FC_SHA=https://github.com/firecracker-microvm/firecracker/releases/download/v${VERSION_FC}/firecracker-v${VERSION_FC}-x86_64.tgz.sha256.txt
+# firectl is the firecracker-microvm CLI wrapper; the project was archived
+# upstream in Nov 2026 and v0.2.0 is the final release.
+ARG VERSION_FIRECTL=0.2.0
+ARG URL_FIRECTL=https://github.com/firecracker-microvm/firectl/releases/download/v${VERSION_FIRECTL}/firectl-v${VERSION_FIRECTL}
+ARG URL_FIRECTL_SHA=https://github.com/firecracker-microvm/firectl/releases/download/v${VERSION_FIRECTL}/firectl-v${VERSION_FIRECTL}.sha256
 # Guest assets are the firecracker CI artifacts (spec.ccfc.min bucket stops at
 # v1.10); they stay compatible with newer firecracker releases (virtio-mmio
 # microvm ABI is unchanged).
@@ -25,6 +30,9 @@ ARG HOSTNAME
 ARG VERSION_FC
 ARG URL_FC
 ARG URL_FC_SHA
+ARG VERSION_FIRECTL
+ARG URL_FIRECTL
+ARG URL_FIRECTL_SHA
 ARG URL_CI
 ARG ASSETS_DIR
 
@@ -53,6 +61,16 @@ RUN set -eux; \
     ln -s "/usr/local/bin/rebase-snap-v${VERSION_FC}-x86_64" /usr/local/bin/rebase-snap; \
     rm -rf /tmp/firecracker.tgz /tmp/firecracker.tgz.sha256.txt /tmp/fc-release; \
     firecracker --version
+
+# Install firectl, verified against the release's sha256.
+RUN set -eux; \
+    curl -fsSL "${URL_FIRECTL}" -o "/tmp/firectl-v${VERSION_FIRECTL}"; \
+    curl -fsSL "${URL_FIRECTL_SHA}" -o "/tmp/firectl-v${VERSION_FIRECTL}.sha256"; \
+    cd /tmp; \
+    echo "$(awk '{print $1}' "/tmp/firectl-v${VERSION_FIRECTL}.sha256")  firectl-v${VERSION_FIRECTL}" | sha256sum -c -; \
+    install -m 755 "/tmp/firectl-v${VERSION_FIRECTL}" /usr/local/bin/firectl; \
+    rm -rf "/tmp/firectl-v${VERSION_FIRECTL}" "/tmp/firectl-v${VERSION_FIRECTL}.sha256"; \
+    firectl --version
 
 # Guest kernel and rootfs for booting a microVM. The rootfs ships root SSH
 # access via its paired id_rsa key.

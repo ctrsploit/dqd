@@ -3566,9 +3566,9 @@
     {
       "path": "firecracker/v1.16.1",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/firecracker-v1.16.1:v0.1.0",
+      "image": "ghcr.io/ctrsploit/firecracker-v1.16.1:v0.1.1",
       "env_image": "firecracker-v1.16.1",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "16110:22"
       ],
@@ -3580,7 +3580,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:0a9911edd1c0ff0a524b5db956e0218ea317545c01c6d367fb2e09f95841e867"
+      "compose_hash": "sha256:21d82f6429a67cdbfd6599222b02c2d4a414485c0c86a6ae190049ab31cf59b6"
     },
     {
       "path": "harbor/v2.15.2",
@@ -6830,9 +6830,9 @@
     {
       "path": "nvidia-container-toolkit/v1.20.2",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.0",
+      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.1",
       "env_image": "nvidia-container-toolkit-v1.20.2",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "12012:22"
       ],
@@ -6844,7 +6844,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:f81e16f3ad5fc600046cbc5605fe604f9cc100750a9f86cac83d1066fd6d1170"
+      "compose_hash": "sha256:7e6ca59f2e26b12eac166e215dd4d7477d041f83e975587eec434b07322bf1eb"
     },
     {
       "path": "nvidia-driver/580.105.08",

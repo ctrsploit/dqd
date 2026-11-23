@@ -2,9 +2,10 @@
 
 | Type | Image | Notes |
 | ---- | ----- | ----- |
-| dqd | ghcr.io/ctrsploit/firecracker-v1.16.1:latest | points to `v0.1.0` |
-| dqd | ghcr.io/ctrsploit/firecracker-v1.16.1:v0.1.0 | Firecracker 1.16.1 (+ jailer) on Ubuntu 24.04 |
-| ctr | ghcr.io/ctrsploit/firecracker-v1.16.1:ctr_v0.1.0 | - |
+| dqd | ghcr.io/ctrsploit/firecracker-v1.16.1:latest | points to `v0.1.1` |
+| dqd | ghcr.io/ctrsploit/firecracker-v1.16.1:v0.1.1 | Firecracker 1.16.1 (+ jailer, firectl) on Ubuntu 24.04 |
+| dqd | ghcr.io/ctrsploit/firecracker-v1.16.1:v0.1.0 | superseded by v0.1.1: adds firectl |
+| ctr | ghcr.io/ctrsploit/firecracker-v1.16.1:ctr_v0.1.1 | - |
 
 ## usage
 
@@ -64,6 +65,20 @@ root@firecracker-1-16-1:~# curl -s -o /dev/null -w "%{http_code}\n" --unix-socke
 
 The microVM console shares the firecracker process's stdin/stdout.
 
+### Boot a microVM with firectl
+
+[firectl](https://github.com/firecracker-microvm/firectl) wraps the same API flow
+behind a single command: it drives the firecracker process from `PATH` and
+attaches the guest's serial console to the terminal (the CI rootfs auto-logs-in
+as root).
+
+```shell
+root@firecracker-1-16-1:~# firectl --kernel=/opt/firecracker/vmlinux-6.1.102 \
+    --root-drive=/opt/firecracker/ubuntu-22.04.ext4 \
+    --kernel-opts="console=ttyS0 reboot=k panic=1 pci=off root=/dev/vda rw"
+<!-- VERIFY -->
+```
+
 ### versions
 
 ```shell
@@ -74,6 +89,8 @@ Firecracker v1.16.1
 root@firecracker-1-16-1:~# jailer --version
 Jailer v1.16.1
 
+root@firecracker-1-16-1:~# firectl --version
+<!-- VERIFY -->
 root@firecracker-1-16-1:~# ls -la /opt/firecracker/
 total 347032
 drwxr-xr-x 2 root root      4096 Nov 23 06:53 .
@@ -108,5 +125,5 @@ make all ENV=firecracker/v1.16.1
 for developers:
 
 ```dockerfile
-FROM ghcr.io/ctrsploit/firecracker-v1.16.1:ctr_v0.1.0
+FROM ghcr.io/ctrsploit/firecracker-v1.16.1:ctr_v0.1.1
 ```
