@@ -99,6 +99,7 @@ remote config differs for ubuntu/24.04 (embedded f365dfeb, remote a1994be)
 |-----|
 | [cve-2026-122192](./vul/cve-2026-122192/) |
 | [cve-2026-99999/kernel-6.12.107-debian](./vul/cve-2026-99999/kernel-6.12.107-debian/) |
+| [cve-2026-64564](./vul/cve-2026-64564/) |
 | [ghsa-2phj-cp9f-qq6w](./vul/ghsa-2phj-cp9f-qq6w/) |
 | [cve-2026-53488](./vul/cve-2026-53488/) |
 | [cve-2026-53488-fix](./vul/cve-2026-53488-fix/) |

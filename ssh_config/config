@@ -1498,3 +1498,6 @@ Host dqd-kubernetes-v1.37.2_containerd-v2.4.1_calico
 
 Host dqd-cve-2026-122192
     Port 22192
+
+Host dqd-cve-2026-64564
+    Port 64564
