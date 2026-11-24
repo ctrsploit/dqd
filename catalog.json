@@ -6830,9 +6830,9 @@
     {
       "path": "nvidia-container-toolkit/v1.20.2",
       "has_compose": true,
-      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.0",
+      "image": "ghcr.io/ctrsploit/nvidia-container-toolkit-v1.20.2:v0.1.1",
       "env_image": "nvidia-container-toolkit-v1.20.2",
-      "env_version": "v0.1.0",
+      "env_version": "v0.1.1",
       "ports": [
         "12012:22"
       ],
@@ -6844,7 +6844,7 @@
       "services": [
         "vm"
       ],
-      "compose_hash": "sha256:f81e16f3ad5fc600046cbc5605fe604f9cc100750a9f86cac83d1066fd6d1170"
+      "compose_hash": "sha256:7e6ca59f2e26b12eac166e215dd4d7477d041f83e975587eec434b07322bf1eb"
     },
     {
       "path": "nvidia-driver/580.105.08",
@@ -9353,6 +9353,25 @@
         "vm"
       ],
       "compose_hash": "sha256:4738ca89ec80946e2100446a43eb61ac494379a240d087011b9ee8683ec689c3"
+    },
+    {
+      "path": "vul/cve-2026-122192",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-122192:v0.1.0",
+      "env_image": "cve-2026-122192",
+      "env_version": "v0.1.0",
+      "ports": [
+        "22192:22"
+      ],
+      "ssh_port": "22192",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-122192",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:c86bdb9df669f7e6f7b467a4467afdc284ca352a73fdc2815a50adae0f3adf6a"
     },
     {
       "path": "vul/cve-2026-23111/kernel-5.15.0-173",
