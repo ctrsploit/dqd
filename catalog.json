@@ -9739,6 +9739,25 @@
       "compose_hash": "sha256:dc3a9dd35f34457b521ea33adb9930d289b262f782a0e0e1dc931c65efccb39f"
     },
     {
+      "path": "vul/cve-2026-64564",
+      "has_compose": true,
+      "image": "ghcr.io/ctrsploit/cve-2026-64564:v0.1.0",
+      "env_image": "cve-2026-64564",
+      "env_version": "v0.1.0",
+      "ports": [
+        "64564:22"
+      ],
+      "ssh_port": "64564",
+      "ssh_user": "root",
+      "ssh_password": "root",
+      "project": "cve-2026-64564",
+      "has_kvm": true,
+      "services": [
+        "vm"
+      ],
+      "compose_hash": "sha256:db45e96119c6ca78be4dcdb9202c9fe3ededfb4967e25b649c612d059705bd0b"
+    },
+    {
       "path": "vul/cve-2026-99999/kernel-6.12.107-debian",
       "has_compose": true,
       "image": "ghcr.io/ctrsploit/cve-2026-99999_6.12.107-debian:v0.1.0",
