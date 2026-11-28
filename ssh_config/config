@@ -1501,3 +1501,6 @@ Host dqd-cve-2026-122192
 
 Host dqd-cve-2026-64564
     Port 64564
+
+Host dqd-cve-2026-64564-fix
+    Port 64565
